@@ -2,7 +2,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     'use strict'
     console.log('holaaaaaaaa');
 
-
+    console.log('gfkjsdgfkjgs');
     var core = require('web.core');
     var config = require('web.config');
     var publicWidget = require('web.public.widget');
