@@ -2,12 +2,11 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     'use strict'
     console.log('holaaaaaaaa');
 
-    console.log('gfkjsdgfkjgs');
     var core = require('web.core');
     var config = require('web.config');
     var publicWidget = require('web.public.widget');
     var VariantMixin = require('website_sale.VariantMixin');
-/*
+
    publicWidget.registry.WebsiteSale = publicWidget.Widget.extend(VariantMixin, {
     selector: '.oe_website_sale',
     events: _.extend({}, VariantMixin.events || {}, {
@@ -25,5 +24,4 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
 
     }
 });
-*/
 });
