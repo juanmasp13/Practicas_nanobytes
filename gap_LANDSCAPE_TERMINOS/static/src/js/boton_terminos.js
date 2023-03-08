@@ -14,7 +14,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
         'change #checkbox_terminos': '_onChangeNext',
     },
 
-    _onChangeNext: function () {
+    _onChangeNext: function (ev) {
         console.log("CHECKBOX: "+$(ev.currentTarget).is(":checked"));
         if ($(ev.currentTarget).is(":checked")){
             $(ev.currentTarget).hasClass('.a-submit').addClass('disabled').attr('disabled', 'disabled');
