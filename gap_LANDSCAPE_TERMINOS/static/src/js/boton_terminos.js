@@ -10,7 +10,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
 
    publicWidget.registry.WebsiteSale = publicWidget.Widget.extend(VariantMixin, {
     selector: '.oe_website_sale',
-    events: _.extend({}, VariantMixin.events || {}, {
+    events: {
         'change #checkbox_terminos': '_onChangeNext',
     }),
 
