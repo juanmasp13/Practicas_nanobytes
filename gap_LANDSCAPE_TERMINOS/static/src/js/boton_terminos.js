@@ -6,17 +6,17 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     var config = require('web.config');
     var publicWidget = require('web.public.widget');
     var VariantMixin = require('website_sale.VariantMixin');
-    publicWidget.registry.websiteSaleCart = publicWidget.Widget.extend({
-    selector: '.oe_website_sale',
-     start: function () {
+    publicWidget.registry.WebsiteSaleLayout = publicWidget.Widget.extend({
+        selector: '.oe_website_sale',
+        start: function () {
+            console.log('entro');
+            this.$el.find('#checkbox_terminos').on('change', function (ev) {
 
-        this.$el.find('#checkbox_terminos').on('change', function (ev) {
+                console.log('asdasdasdasd');
 
-            console.log('asdasdasdasd');
-            return this._super.apply(this, arguments)
 
-        });
-
+            });
+            return this._super.apply(this, arguments);
      }
     });
 
