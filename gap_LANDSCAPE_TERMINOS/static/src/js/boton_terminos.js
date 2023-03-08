@@ -6,7 +6,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     var config = require('web.config');
     var publicWidget = require('web.public.widget');
     var VariantMixin = require('website_sale.VariantMixin');
-    var checkbox = $('#checkbox_terminos');
+
     console.log('CHECKBOX: '+ checkbox.checked);
 
 
@@ -17,8 +17,9 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     }),
 
     _onChangeNext: function () {
-        if ($("#checkbox_terminos").checked){
-            $('.a-submit').addClass('disabled').attr('disabled', 'disabled');
+
+        if ($(ev.currentTarget).is(":checked")){
+            $(ev.currentTarget).hasClass('.a-submit').addClass('disabled').attr('disabled', 'disabled');
             console.log('CHECKEADO');
         }else{
             $('.a-submit').removeClass('disabled').removeAttr('disabled');
