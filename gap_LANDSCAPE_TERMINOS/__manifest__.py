@@ -9,6 +9,7 @@
     'assets': {
         'web.assets_frontend': [
             'gap_LANDSCAPE_TERMINOS/static/src/js/boton_terminos.js',
+            'gap_LANDSCAPE_TERMINOS/static/src/css/clase_disabled.css',
         ],
     },
     'application': True
