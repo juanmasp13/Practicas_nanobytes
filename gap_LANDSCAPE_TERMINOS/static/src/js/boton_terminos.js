@@ -15,7 +15,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     },
 
     _onChangeNext: function (ev) {
-        console.log("CHECKBOX: "+$(ev.currentTarget).is(":checked"));
+    /*    console.log("CHECKBOX: "+$(ev.currentTarget).is(":checked"));
         if ($(ev.currentTarget).is(":checked")){
             $(ev.currentTarget).hasClass('.a-submit').addClass('disabled').attr('disabled', 'disabled');
             console.log('CHECKEADO');
@@ -23,7 +23,8 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
             $('.a-submit').removeClass('disabled').removeAttr('disabled');
             console.log('NO CHECKEADO');
         }
-
+    */
+    console.log('hjdgsjhf');
     }
 });
 });
