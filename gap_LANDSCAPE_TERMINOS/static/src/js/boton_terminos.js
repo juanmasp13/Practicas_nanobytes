@@ -7,15 +7,25 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     var publicWidget = require('web.public.widget');
     var VariantMixin = require('website_sale.VariantMixin');
 
+     start: function () {
 
-   publicWidget.registry.websiteSaleCart = publicWidget.Widget.extend({
+        this.$el.find('#checkbox_terminos').on('change', function (ev) {
+
+            console.log('asdasdasdasd');
+            return this._super.apply(this, arguments)
+
+        });
+
+     }
+
+   /*publicWidget.registry.websiteSaleCart = publicWidget.Widget.extend({
     selector: '.oe_website_sale',
     events: {
         'change #checkbox_terminos': '_onChangeNext',
-    },
+    },*/
 
-    _onChangeNext: function (ev) {
-    /*    console.log("CHECKBOX: "+$(ev.currentTarget).is(":checked"));
+    /*_onChangeNext: function (ev) {
+        console.log("CHECKBOX: "+$(ev.currentTarget).is(":checked"));
         if ($(ev.currentTarget).is(":checked")){
             $(ev.currentTarget).hasClass('.a-submit').addClass('disabled').attr('disabled', 'disabled');
             console.log('CHECKEADO');
@@ -23,8 +33,8 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
             $('.a-submit').removeClass('disabled').removeAttr('disabled');
             console.log('NO CHECKEADO');
         }
-    */
+
     console.log('hjdgsjhf');
-    }
+    }*/
 });
 });
