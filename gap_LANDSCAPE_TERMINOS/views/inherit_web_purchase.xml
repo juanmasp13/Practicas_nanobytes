@@ -4,8 +4,8 @@
     <template inherit_id="website_sale.address" id="address_inherit_terms">
         <xpath expr="//t/div/div/div/div/div/form/div" pos="after">
             <div>
-                <label t-attf-class="col-form-label" for="terminos">Términos y condiciones de uso</label>
-                <input type="checkbox" name="checkbox_terminos" id="checkbox_terminos"/>
+                <label t-attf-class="col-form-label">Términos y condiciones de uso</label>
+                <input type="checkbox" id='checkbox_terminos' class="mr8" name='checkbox_terminos' value="1"/>
             </div>
         </xpath>
     </template>
