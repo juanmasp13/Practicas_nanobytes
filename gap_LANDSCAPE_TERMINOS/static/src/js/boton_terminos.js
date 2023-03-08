@@ -7,7 +7,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     var publicWidget = require('web.public.widget');
     var VariantMixin = require('website_sale.VariantMixin');
     publicWidget.registry.terminos = publicWidget.Widget.extend({
-        selector: '.checkboxClass',
+        selector: '.checkout_autoformat',
         start: function () {
             console.log('entro');
             var self = this;
