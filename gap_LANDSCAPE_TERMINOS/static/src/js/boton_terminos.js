@@ -7,8 +7,6 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     var publicWidget = require('web.public.widget');
     var VariantMixin = require('website_sale.VariantMixin');
 
-    console.log('CHECKBOX: '+ checkbox.checked);
-
 
    publicWidget.registry.WebsiteSale = publicWidget.Widget.extend(VariantMixin, {
     selector: '.oe_website_sale',
