@@ -10,9 +10,15 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
         selector: '.checkboxClass',
         start: function () {
             console.log('entro');
+            var self = this;
             this.$el.find('#checkbox_terminos').on('change', function (ev) {
 
-                console.log('asdasdasdasd');
+                if(self.$el.find('#checkbox_terminos').checked == true){
+                    console.log('marcado');
+                }else{
+                    console.log('desmarcado');
+                }
+
 
 
             });
