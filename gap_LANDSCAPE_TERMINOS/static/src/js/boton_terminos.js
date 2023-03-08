@@ -12,7 +12,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
             console.log('entro');
             var self = this;
             this.$el.find('#checkbox_terminos').on('change', function (ev) {
-                var boton = self.$el.getElementByClass('btn btn-primary mb32 a-submit a-submit-disable a-submit-loading');
+                var boton = self.ev.getElementsByClassName('btn btn-primary mb32 a-submit a-submit-disable a-submit-loading');
                 if(self.$el.find('#checkbox_terminos').is(':checked')){
                     console.log('marcado');
                     console.log('MI BOTON: '+boton);
