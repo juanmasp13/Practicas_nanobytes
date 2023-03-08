@@ -6,7 +6,7 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
     var config = require('web.config');
     var publicWidget = require('web.public.widget');
     var VariantMixin = require('website_sale.VariantMixin');
-    publicWidget.registry.WebsiteSaleLayout = publicWidget.Widget.extend({
+    publicWidget.registry.WebsiteSale = publicWidget.Widget.extend({
         selector: '.oe_website_sale',
         start: function () {
             console.log('entro');
