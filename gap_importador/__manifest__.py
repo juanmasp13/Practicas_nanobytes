@@ -6,6 +6,7 @@
     'depends': ['stock'],
     'data': [
             'security/ir.model.access.csv',
+            'views/menu.xml',
             'wizard/import_products_view.xml',
             ],
     'auto_install': False,
