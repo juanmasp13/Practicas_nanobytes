@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="action_padresuarez_nueva_incidencia" model="ir.actions.act_window">
-        <field name="name">Ejemplo</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">product.template</field>
-        <field name="view_mode">tree</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                No hay ninguna incidencia, por ahora...
-            </p>
+    <record id="view_import_products_form" model="ir.ui.view">
+        <field name="name">import.products.wizard.form</field>
+        <field name="model">import.products.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importar productos">
+                <group>
+                    <field name="category_id"/>
+                    <field name="fichero"/>
+                </group>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
         </field>
+    </record>
+
+    <record id="action_import_products" model="ir.actions.act_window">
+        <field name="name">Importar productos</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">import.products.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_import_products_form"/>
+        <field name="target">new</field>
     </record>
 
     <menuitem id="menu_import_products" name="Importador de productos y tarifas" parent="stock.menu_stock_warehouse_mgmt"
