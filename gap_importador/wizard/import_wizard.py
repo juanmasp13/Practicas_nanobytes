@@ -1,4 +1,7 @@
 from odoo import models, fields, api
+from openpyxl import load_workbook as lw
+import logging
+logger = logging.getLogger(__name__)
 
 class importProductsWizard(models.TransientModel):
     _name = 'import.products.wizard'
@@ -6,3 +9,6 @@ class importProductsWizard(models.TransientModel):
 
     category_id = fields.Many2one('product.category', string="Categoría")
     fichero = fields.Binary(string="Documento")
+    
+    # excel = lw(fichero)
+    # logging.info(excel)
