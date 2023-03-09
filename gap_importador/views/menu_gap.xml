@@ -14,6 +14,6 @@
     </record>
 
     <menuitem id="menu_import_products" name="Importador de productos y tarifas" parent="stock.menu_stock_warehouse_mgmt"
-        sequence="100" action="action_padresuarez_nueva_incidencia"/>    
+        sequence="10000" action="action_padresuarez_nueva_incidencia"/>    
 
 </odoo>
