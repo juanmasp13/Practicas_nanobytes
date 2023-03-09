@@ -1,5 +1,7 @@
-.juanma{
 
-    color:#FF0000;
-
+.disabled {
+    background-color: dimgrey;
+    color: linen;
+    opacity: 1;
+    cursor: not-allowed;
 }
