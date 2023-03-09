@@ -17,13 +17,13 @@ odoo.define('gap_LANDSCAPE_TERMINOS.javascript', function(require) {
 //                    console.log('marcado');
 //                    console.log('MI BOTON: '+boton);
 //                    console.log(boton);
-                    boton.removeClass('disabled');
+                    boton.removeClass('disabledJm');
                     //boton.hide();
                 }else{
 //                    console.log('desmarcado');
 //                    console.log('MI BOTON: '+boton);
 //                    console.log(boton);
-                    boton.addClass('disabled');
+                    boton.addClass('disabledJm');
                     //boton.show();
                 }
 
