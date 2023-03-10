@@ -8,7 +8,8 @@
             <form string="Importar productos">
                 <group>
                     <field name="category_id"/>
-                    <field name="fichero"/>
+                    <field name="fichero" filename="nombre_fichero"/>
+                    <field name="nombre_fichero" invisible="1"/>
                 </group>
                 <footer>
                     <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
