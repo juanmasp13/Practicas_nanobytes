@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from openpyxl import load_workbook as lw
+from odoo import openpyxl as lw
 import logging
 logger = logging.getLogger(__name__)
 
