@@ -13,6 +13,7 @@
                 </group>
                 <footer>
                     <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    <button type="submit" class="btn btn-primary">Importar</button>
                 </footer>
             </form>
         </field>
