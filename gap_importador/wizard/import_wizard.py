@@ -10,5 +10,8 @@ class importProductsWizard(models.TransientModel):
     category_id = fields.Many2one('product.category', string="Categoría")
     fichero = fields.Binary(string="Documento")
     nombre_fichero = fields.Char(string="Nombre del fichero")
+
+    def import_products(self):
+        return
     
 
