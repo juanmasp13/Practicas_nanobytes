@@ -11,7 +11,19 @@ class importProductsWizard(models.TransientModel):
     fichero = fields.Binary(string="Documento")
     nombre_fichero = fields.Char(string="Nombre del fichero")
 
-    def import_products(self):
-        return
+    # def import_products(self):
+    #     excel = lw(self.ruta_fichero)
+    #     hojas = excel.active
+    #     filas = hojas.rows
+    #     next(filas)
+    #     filas_totales = []
+    #     for fila in filas:
+    #         datos = {'name': '', 'detailed_type': ''}
+    #         for titulo, celda in zip(datos.keys(), fila):
+    #             datos[titulo] = celda.value
+    #         filas_totales.append(datos)
+    #     return self.env['product.template'].create(filas_totales)
     
-
+    # def ruta_fichero(self):
+    #     file_path = self.fichero.gettempdir()+'/productos.xlsx'
+    #     return file_path
