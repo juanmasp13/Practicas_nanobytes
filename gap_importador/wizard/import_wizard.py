@@ -11,6 +11,10 @@ class importProductsWizard(models.TransientModel):
     fichero = fields.Binary(string="Documento")
     nombre_fichero = fields.Char(string="Nombre del fichero")
 
+
+    def mostrar_binario(self):
+        logger.info(self.fichero)
+
     # def import_products(self):
     #     excel = lw(self.ruta_fichero)
     #     hojas = excel.active
