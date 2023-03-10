@@ -13,7 +13,7 @@
                 </group>
                 <footer>
                     <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
-                    <button type="submit" class="btn btn-primary" name="mostrar_binario">Importar</button>
+                    <button type="object" class="btn btn-primary" name="mostrar_binario">Importar</button>
                 </footer>
             </form>
         </field>
