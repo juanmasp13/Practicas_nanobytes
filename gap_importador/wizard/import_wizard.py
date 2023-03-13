@@ -13,14 +13,14 @@ class importProductsWizard(models.TransientModel):
 
 
     def mostrar_binario(self):
+        logger.info('FICHERO BINARIO DEL FIELDS.BINARY')
         logger.info(self.fichero)
         for record in self:
             if record.fichero:
+                logger.info('FICHERO BINARIO DESPUES DE EL FOR')
+                logger.info(record.fichero)
                 
-                # Crea un objeto de bytes con el contenido del archivo cargado
-                mi_fichero = io.BytesIO(record.fichero.read())
-
-                excel = lw(filename=mi_fichero)
+                excel = lw(record.fichero)
                 logger.info('leo el archivo')
                 hojas = excel.active
 
