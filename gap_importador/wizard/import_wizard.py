@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 from openpyxl import load_workbook as lw
-import logging
+import logging, os
 import tempfile
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,9 @@ class importProductsWizard(models.TransientModel):
         for record in self:
             if record.fichero:
                 # Crea un archivo temporal
-                with tempfile.NamedTemporaryFile(delete=False, suffix='.xlsx') as tmp_file:
+                directorio_actual = os.getcwd()
+                directorio_temporal = os.path.join(directorio_actual, 'temp')
+                with tempfile.NamedTemporaryFile(dir=directorio_temporal, suffix='.xlsx') as tmp_file:
                     # Copia los datos del archivo cargado al archivo temporal
                     tmp_file.write(record.fichero)
                     tmp_file.flush()
