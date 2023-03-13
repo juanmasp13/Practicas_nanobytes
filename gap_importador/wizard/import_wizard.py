@@ -21,7 +21,7 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
                 doc = ODSReader(file=io.BytesIO(self.fichero or b''))
-                logger.info(doc)
+                logger.info(doc._read_ods)
                 
                 excel = lw(doc)
                 logger.info('leo el archivo')
