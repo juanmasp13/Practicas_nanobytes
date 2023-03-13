@@ -21,7 +21,7 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 logger.info('FICHERO BINARIO')
                 options = {}
-                logger.info(self._read_xls(options))
+                logger.info(self._read_xls(record.fichero))
     
     def _read_xls(self, options):
         book = xlrd.open_workbook(file_contents=self.fichero or b'')
