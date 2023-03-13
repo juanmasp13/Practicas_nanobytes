@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from openpyxl import load_workbook as lw
 import logging
+import tempfile
 logger = logging.getLogger(__name__)
 
 class importProductsWizard(models.TransientModel):
@@ -14,20 +15,31 @@ class importProductsWizard(models.TransientModel):
 
     def mostrar_binario(self):
         logger.info(self.fichero)
+        for record in self:
+            if record.fichero:
+                # Crea un archivo temporal
+                with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                    # Copia los datos del archivo cargado al archivo temporal
+                    tmp_file.write(record.my_binary_field)
+                    tmp_file.flush()
 
-    # def import_products(self):
-    #     excel = lw(self.ruta_fichero)
-    #     hojas = excel.active
-    #     filas = hojas.rows
-    #     next(filas)
-    #     filas_totales = []
-    #     for fila in filas:
-    #         datos = {'name': '', 'detailed_type': ''}
-    #         for titulo, celda in zip(datos.keys(), fila):
-    #             datos[titulo] = celda.value
-    #         filas_totales.append(datos)
-    #     return self.env['product.template'].create(filas_totales)
-    
-    # def ruta_fichero(self):
-    #     file_path = self.fichero.gettempdir()+'/productos.xlsx'
-    #     return file_path
+                    # Obtiene la ruta del archivo temporal
+                    file_path = tmp_file.name
+                    logger.info(file_path)
+        
+
+    # @api.multi
+    # def get_file_path(self):
+    #     for record in self:
+    #         if record.fichero:
+    #             # Crea un archivo temporal
+    #             with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+    #                 # Copia los datos del archivo cargado al archivo temporal
+    #                 tmp_file.write(record.my_binary_field)
+    #                 tmp_file.flush()
+
+    #                 # Obtiene la ruta del archivo temporal
+    #                 file_path = tmp_file.name
+
+    #                 # Retorna la ruta del archivo temporal
+    #                 return file_path
