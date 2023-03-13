@@ -20,7 +20,6 @@ class importProductsWizard(models.TransientModel):
         for record in self:
             if record.fichero:
                 logger.info('FICHERO BINARIO')
-                options = {}
                 logger.info(self._read_xls(record.fichero))
     
     def _read_xls(self, options):
