@@ -26,13 +26,14 @@ class importProductsWizard(models.TransientModel):
                 logger.info(sheet)
     
     def _read_xls(self, options):
+        logger.info('DENTRO DE _read_xls')
         book = xlrd.open_workbook(file_contents=self.fichero or b'')
-
         sheets = options['sheets'] = book.sheet_names()
         sheet = options['sheet'] = options.get('sheet') or sheets[0]
         return self._read_xls_book(book, sheet)
 
     def _read_xls_book(self, book, sheet_name):
+        logger.info('DENTRO DE _read_xls_book')
         sheet = book.sheet_by_name(sheet_name)
         rows = []
         # emulate Sheet.get_rows for pre-0.9.4
