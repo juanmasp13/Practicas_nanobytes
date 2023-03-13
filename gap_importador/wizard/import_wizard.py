@@ -22,6 +22,10 @@ class importProductsWizard(models.TransientModel):
                 logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
                 doc = ODSReader(file=io.BytesIO(self.fichero or b''))
                 logger.info(doc._read_ods)
+                logger.info('FICHERO BINARIO DESPUES DE REEMPLAZAR')
+                documento = self.fichero.replace('b\'','',1)
+                documentoBien = documento.replace('\'','',1)
+                logger.info(documentoBien)
                 
                 excel = lw(doc)
                 logger.info('leo el archivo')
