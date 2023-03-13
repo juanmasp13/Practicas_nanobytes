@@ -24,9 +24,10 @@ class importProductsWizard(models.TransientModel):
                     tmp_file.flush()
                     # Obtiene la ruta del archivo temporal
                     file_path = tmp_file.name
-                    logger.info(file_path)
+                    logger.info('MI RUTA:',file_path)
 
                     excel = lw(file_path)
+                    logger.info('leo el archivo')
                     hojas = excel.active
 
                     # filas = hojas.rows
