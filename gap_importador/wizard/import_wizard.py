@@ -112,6 +112,9 @@ class ODSReader(object):
 
         self.SHEETS[name] = arrRows
 
+    def getSheet(self, name):
+        return self.SHEETS[name]
+
     def _read_ods(self, options):
             doc = ODSReader(file=io.BytesIO(self.fichero or b''))
             sheets = options['sheets'] = list(doc.SHEETS.keys())
