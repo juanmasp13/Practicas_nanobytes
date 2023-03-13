@@ -25,7 +25,7 @@ class importProductsWizard(models.TransientModel):
                 opt = {}
                 num_filas, valores = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
                 valores.pop(0)
-                logger.info(valores) #Aquí estan todos los valores excluyendo la cabecera
+                #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
                 # name = 0
                 
@@ -36,7 +36,7 @@ class importProductsWizard(models.TransientModel):
                     vals['name'] = valor[0]
                     vals['detailed_type'] = valor[1]
                     registros.append(vals)
-                logger.info(registros)
+                self.env['product.template'].create(registros)
                 
     
     def _read_xls(self, options):
