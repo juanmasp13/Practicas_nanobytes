@@ -1,8 +1,9 @@
 from odoo import models, fields, api
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from openpyxl import load_workbook as lw
-from odf import opendocument
-from odf.table import Table, TableRow, TableCell
-from odf.text import P
+import datetime
+import xlrd
+from xlrd import xlsx
 import logging, io
 logger = logging.getLogger(__name__)
 
@@ -18,91 +19,53 @@ class importProductsWizard(models.TransientModel):
     def mostrar_binario(self):
         for record in self:
             if record.fichero:
-                logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
-                doc = ODSReader(file=io.BytesIO(record.fichero or b''))
-                logger.info(doc)
-                
+                logger.info('FICHERO BINARIO')
+                logger.info(self._read_xls)
 
-class ODSReader(object):
-    # loads the file
-    def __init__(self, file=None, content=None, clonespannedcolumns=None):
-        if not content:
-            self.clonespannedcolumns = clonespannedcolumns
-            self.doc = opendocument.load(file)
-        else:
-            self.clonespannedcolumns = clonespannedcolumns
-            self.doc = content
-        self.SHEETS = {}
-        for sheet in self.doc.spreadsheet.getElementsByType(Table):
-            self.readSheet(sheet)
+    def _read_xls(self, options):
+        book = xlrd.open_workbook(file_contents=self.fichero or b'')
+        sheets = options['sheets'] = book.sheet_names()
+        sheet = options['sheet'] = options.get('sheet') or sheets[0]
+        return self._read_xls_book(book, sheet)
 
-    def readSheet(self, sheet):
-        name = sheet.getAttribute("name")
-        rows = sheet.getElementsByType(TableRow)
-        arrRows = []
-
-        # for each row
-        for row in rows:
-            arrCells = []
-            cells = row.getElementsByType(TableCell)
-
-            # for each cell
-            for count, cell in enumerate(cells, start=1):
-                # repeated value?
-                repeat = 0
-                if count != len(cells):
-                    repeat = cell.getAttribute("numbercolumnsrepeated")
-                if not repeat:
-                    repeat = 1
-                    spanned = int(cell.getAttribute('numbercolumnsspanned') or 0)
-                    # clone spanned cells
-                    if self.clonespannedcolumns is not None and spanned > 1:
-                        repeat = spanned
-
-                ps = cell.getElementsByType(P)
-                textContent = u""
-
-                # for each text/text:span node
-                for p in ps:
-                    for n in p.childNodes:
-                        if n.nodeType == 1 and n.tagName == "text:span":
-                            for c in n.childNodes:
-                                if c.nodeType == 3:
-                                    textContent = u'{}{}'.format(textContent, n.data)
-
-                        if n.nodeType == 3:
-                            textContent = u'{}{}'.format(textContent, n.data)
-
-                if textContent:
-                    if not textContent.startswith("#"):  # ignore comments cells
-                        for rr in range(int(repeat)):  # repeated?
-                            arrCells.append(textContent)
+    def _read_xls_book(self, book, sheet_name):
+        sheet = book.sheet_by_name(sheet_name)
+        rows = []
+        # emulate Sheet.get_rows for pre-0.9.4
+        for rowx, row in enumerate(map(sheet.row, range(sheet.nrows)), 1):
+            values = []
+            for colx, cell in enumerate(row, 1):
+                if cell.ctype is xlrd.XL_CELL_NUMBER:
+                    is_float = cell.value % 1 != 0.0
+                    values.append(
+                        str(cell.value)
+                        if is_float
+                        else str(int(cell.value))
+                    )
+                elif cell.ctype is xlrd.XL_CELL_DATE:
+                    is_datetime = cell.value % 1 != 0.0
+                    # emulate xldate_as_datetime for pre-0.9.3
+                    dt = datetime.datetime(*xlrd.xldate.xldate_as_tuple(cell.value, book.datemode))
+                    values.append(
+                        dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+                        if is_datetime
+                        else dt.strftime(DEFAULT_SERVER_DATE_FORMAT)
+                    )
+                elif cell.ctype is xlrd.XL_CELL_BOOLEAN:
+                    values.append(u'True' if cell.value else u'False')
+                elif cell.ctype is xlrd.XL_CELL_ERROR:
+                    raise ValueError(
+                        _("Invalid cell value at row %(row)s, column %(col)s: %(cell_value)s") % {
+                            'row': rowx,
+                            'col': colx,
+                            'cell_value': xlrd.error_text_from_code.get(cell.value, _("unknown error code %s", cell.value))
+                        }
+                    )
                 else:
-                    for rr in range(int(repeat)):
-                        arrCells.append("")
+                    values.append(cell.value)
+            if any(x for x in values if x.strip()):
+                rows.append(values)
 
-            # if row contained something
-            if arrCells:
-                arrRows.append(arrCells)
-
-            #else:
-            #    print ("Empty or commented row (", row_comment, ")")
-
-        self.SHEETS[name] = arrRows
-
-    def getSheet(self, name):
-        return self.SHEETS[name]
-
-    def _read_ods(self, options):
-            doc = ODSReader(file=io.BytesIO(self.fichero or b''))
-            sheets = options['sheets'] = list(doc.SHEETS.keys())
-            sheet = options['sheet'] = options.get('sheet') or sheets[0]
-
-            content = [
-                row
-                for row in doc.getSheet(sheet)
-                if any(x for x in row if x.strip())
-            ]
-
-            # return the file length as first value
-            return content
+        # return the file length as first value
+        return sheet.nrows, rows
+                
