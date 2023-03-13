@@ -21,7 +21,7 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
                 doc = ODSReader(file=io.BytesIO(self.fichero or b''))
-                logger.info(doc)
+                logger.info(ODSReader._read_ods(self.fichero))
                 
                 excel = lw(doc)
                 logger.info('leo el archivo')
@@ -40,23 +40,6 @@ class importProductsWizard(models.TransientModel):
                     filas_totales.append(datos)
 
                 logger.info(filas_totales)
-        
-
-    # @api.multi
-    # def get_file_path(self):
-    #     for record in self:
-    #         if record.fichero:
-    #             # Crea un archivo temporal
-    #             with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-    #                 # Copia los datos del archivo cargado al archivo temporal
-    #                 tmp_file.write(record.my_binary_field)
-    #                 tmp_file.flush()
-
-    #                 # Obtiene la ruta del archivo temporal
-    #                 file_path = tmp_file.name
-
-    #                 # Retorna la ruta del archivo temporal
-    #                 return file_path
 
 class ODSReader(object):
     # loads the file
@@ -70,3 +53,17 @@ class ODSReader(object):
         self.SHEETS = {}
         for sheet in self.doc.spreadsheet.getElementsByType(Table):
             self.readSheet(sheet)
+
+    def _read_ods(self, options):
+            doc = ODSReader(file=io.BytesIO(self.fichero or b''))
+            sheets = options['sheets'] = list(doc.SHEETS.keys())
+            sheet = options['sheet'] = options.get('sheet') or sheets[0]
+
+            content = [
+                row
+                for row in doc.getSheet(sheet)
+                if any(x for x in row if x.strip())
+            ]
+
+            # return the file length as first value
+            return content
