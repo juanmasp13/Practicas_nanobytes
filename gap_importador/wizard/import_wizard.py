@@ -26,17 +26,22 @@ class importProductsWizard(models.TransientModel):
                 num_filas, valores = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
                 valores.pop(0)
                 logger.info(valores) #Aquí estan todos los valores excluyendo la cabecera
+                # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
+                # name = 0
+                vals = {'name': '', 'detailed_type':''}
+                for valor in valores:
+                    vals['name'] = valor[0]
+                    vals['detailed_type'] = valor[1]
+                logger.info(vals)
                 
     
     def _read_xls(self, options):
-        logger.info('DENTRO DE _read_xls')
         book = xlrd.open_workbook(file_contents=base64.b64decode(self.fichero) or b'') # IMPORTANTE EL base64.b64decode, es necesario hacerselo al campo para poder leerlo
         sheets = options['sheets'] = book.sheet_names()
         sheet = options['sheet'] = options.get('sheet') or sheets[0]
         return self._read_xls_book(book, sheet)
 
     def _read_xls_book(self, book, sheet_name):
-        logger.info('DENTRO DE _read_xls_book')
         sheet = book.sheet_by_name(sheet_name)
         rows = []
         # emulate Sheet.get_rows for pre-0.9.4
