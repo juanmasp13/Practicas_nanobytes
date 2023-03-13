@@ -23,11 +23,14 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 logger.info('FICHERO BINARIO')
                 opt = {}
-                book, sheet = self._read_xls(options=opt)
-                logger.info('INFO DE BOOK')
-                logger.info(book)
-                logger.info('INFO DE SHEET')
-                logger.info(sheet)
+                num_filas, valores = self._read_xls(options=opt)
+                logger.info('VALORES INCLUYENDO CABECERA')
+                logger.info(valores)
+                logger.info('VALORES EXCLUYENDO CABECERA')
+                for fila in valores:
+                    aux = 1
+                    logger.info(fila[aux])
+                    aux += 1
     
     def _read_xls(self, options):
         logger.info('DENTRO DE _read_xls')
