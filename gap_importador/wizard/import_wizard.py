@@ -18,9 +18,8 @@ class importProductsWizard(models.TransientModel):
         for record in self:
             if record.fichero:
                 # Crea un archivo temporal
-                directorio_actual = os.getcwd()
-                directorio_temporal = os.path.join(directorio_actual, 'temp')
-                with tempfile.NamedTemporaryFile(dir=directorio_temporal, suffix='.xlsx') as tmp_file:
+
+                with tempfile.NamedTemporaryFile(dir='.', suffix='.xlsx') as tmp_file:
                     # Copia los datos del archivo cargado al archivo temporal
                     tmp_file.write(record.fichero)
                     tmp_file.flush()
