@@ -28,11 +28,15 @@ class importProductsWizard(models.TransientModel):
                 logger.info(valores) #Aquí estan todos los valores excluyendo la cabecera
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
                 # name = 0
-                vals = {'name': '', 'detailed_type':''}
+                
+                registros = []
+
                 for valor in valores:
+                    vals = {'name': '', 'detailed_type':''}
                     vals['name'] = valor[0]
                     vals['detailed_type'] = valor[1]
-                logger.info(vals)
+                    registros.append(vals)
+                logger.info(registros)
                 
     
     def _read_xls(self, options):
