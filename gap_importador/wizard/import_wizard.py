@@ -28,6 +28,7 @@ class importProductsWizard(models.TransientModel):
     
     def _read_xls(self, options):
         logger.info('DENTRO DE _read_xls')
+        logger.info(self.fichero)
         book = xlrd.open_workbook(file_contents=self.fichero or b'')
         sheets = options['sheets'] = book.sheet_names()
         sheet = options['sheet'] = options.get('sheet') or sheets[0]
