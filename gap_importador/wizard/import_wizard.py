@@ -32,7 +32,7 @@ class importProductsWizard(models.TransientModel):
                 registros = []
 
                 for valor in valores:
-                    vals = {'name': '', 'detailed_type':''}
+                    vals = {'name': '', 'detailed_type':'', 'categ_id': record.category_id.id}
                     vals['name'] = valor[0]
                     vals['detailed_type'] = valor[1]
                     registros.append(vals)
