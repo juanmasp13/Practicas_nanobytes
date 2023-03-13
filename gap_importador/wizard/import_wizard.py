@@ -20,7 +20,7 @@ class importProductsWizard(models.TransientModel):
                 # Crea un archivo temporal
                 with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
                     # Copia los datos del archivo cargado al archivo temporal
-                    tmp_file.write(record.my_binary_field)
+                    tmp_file.write(record.fichero)
                     tmp_file.flush()
 
                     # Obtiene la ruta del archivo temporal
