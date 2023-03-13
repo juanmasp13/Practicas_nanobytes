@@ -23,12 +23,9 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 logger.info('FICHERO BINARIO')
                 opt = {}
-                num_filas, valores = self._read_xls(options=opt)
-                logger.info('VALORES INCLUYENDO CABECERA')
-                logger.info(valores)
+                num_filas, valores = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
                 valores.pop(0)
-                logger.info('VALORES EXCLUYENDO CABECERA')
-                logger.info(valores)
+                logger.info(valores) #Aquí estan todos los valores excluyendo la cabecera
                 
     
     def _read_xls(self, options):
