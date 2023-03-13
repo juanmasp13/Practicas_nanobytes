@@ -18,14 +18,9 @@ class importProductsWizard(models.TransientModel):
     def mostrar_binario(self):
         for record in self:
             if record.fichero:
-                # logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
-                # doc = ODSReader(file=io.BytesIO(record.fichero or b''))
-                # contenido = doc._read_ods
-                # logger.info(contenido)
-                logger.info('FICHERO BINARIO CON RECORD.FICHERO')
-                logger.info(record.fichero)
-                logger.info('FICHERO BINARIO CON SELF.FICHERO')
-                logger.info(self.fichero)
+                logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
+                doc = ODSReader(file=io.BytesIO(record.fichero or b''))
+                logger.info(doc)
                 
 
 class ODSReader(object):
