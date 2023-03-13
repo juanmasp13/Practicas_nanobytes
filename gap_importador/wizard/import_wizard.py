@@ -22,6 +22,8 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
                 doc = ODSReader(file=io.BytesIO(self.fichero or b''))
+                contenido = doc._read_ods
+                logger.info(contenido)
                 # logger.info(doc._read_ods)
                 # logger.info('FICHERO BINARIO DESPUES DE REEMPLAZAR')
                 # documento = self.fichero.replace('b\'','',1)
