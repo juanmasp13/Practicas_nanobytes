@@ -6,8 +6,8 @@
     'depends': ['stock'],
     'data': [
             'security/ir.model.access.csv',
-            'views/menu.xml',
             'wizard/import_products_view.xml',
+            'views/menu.xml',            
             ],
     'auto_install': False,
     'application': True
