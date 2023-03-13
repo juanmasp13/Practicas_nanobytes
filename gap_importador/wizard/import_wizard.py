@@ -17,8 +17,9 @@ class importProductsWizard(models.TransientModel):
         logger.info(self.fichero)
         for record in self:
             if record.fichero:
-                logger.info('FICHERO BINARIO DESPUES DE EL FOR')
-                logger.info(record.fichero)
+                logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
+                archivo = io.BytesIO(record.fichero)
+                logger.info(archivo)
                 
                 excel = lw(record.fichero)
                 logger.info('leo el archivo')
