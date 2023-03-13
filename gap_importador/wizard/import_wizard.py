@@ -29,17 +29,19 @@ class importProductsWizard(models.TransientModel):
                     excel = lw(file_path)
                     hojas = excel.active
 
-                    filas = hojas.rows
-                    next(filas)
+                    # filas = hojas.rows
+                    # next(filas)
 
                     filas_totales = []
 
-                    for fila in filas:
-                        datos = {'name': '', 'detailed_type': ''}
-                        for titulo, celda in zip(datos.keys(), fila):
-                            datos[titulo] = celda.value
+                    for fila in hojas.iter_rows(values_only=True):
+                        filas_totales.append(fila)
+                    # for fila in filas:
+                    #     datos = {'name': '', 'detailed_type': ''}
+                    #     for titulo, celda in zip(datos.keys(), fila):
+                    #         datos[titulo] = celda.value
                         
-                        filas_totales.append(datos)
+                    #     filas_totales.append(datos)
 
                     logger.info(filas_totales)
         
