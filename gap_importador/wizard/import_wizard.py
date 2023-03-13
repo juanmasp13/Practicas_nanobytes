@@ -18,9 +18,9 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 
                 # Crea un objeto de bytes con el contenido del archivo cargado
-                mi_fichero = io.BytesIO(record.fichero)
+                mi_fichero = io.BytesIO(record.fichero.read())
 
-                excel = lw(mi_fichero)
+                excel = lw(filename=mi_fichero)
                 logger.info('leo el archivo')
                 hojas = excel.active
 
