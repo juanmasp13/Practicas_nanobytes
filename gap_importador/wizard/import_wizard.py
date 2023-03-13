@@ -23,13 +23,15 @@ class importProductsWizard(models.TransientModel):
             if record.fichero:
                 logger.info('FICHERO BINARIO')
                 opt = {}
-                book, sheet = self._read_xls
+                book, sheet = self._read_xls(options=opt)
+                logger.info('INFO DE BOOK')
                 logger.info(book)
+                logger.info('INFO DE SHEET')
                 logger.info(sheet)
     
     def _read_xls(self, options):
         logger.info('DENTRO DE _read_xls')
-        book = xlrd.open_workbook(file_contents=base64.b64decode(self.fichero) or b'')
+        book = xlrd.open_workbook(file_contents=base64.b64decode(self.fichero) or b'') # IMPORTANTE EL base64.b64decode, es necesario hacerselo al campo para poder leerlo
         sheets = options['sheets'] = book.sheet_names()
         sheet = options['sheet'] = options.get('sheet') or sheets[0]
         return self._read_xls_book(book, sheet)
