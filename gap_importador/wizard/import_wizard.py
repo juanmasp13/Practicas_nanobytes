@@ -21,7 +21,7 @@ class importProductsWizard(models.TransientModel):
                 archivo = io.BytesIO(record.fichero)
                 logger.info(archivo)
                 
-                excel = lw(record.fichero)
+                excel = lw(archivo)
                 logger.info('leo el archivo')
                 hojas = excel.active
 
