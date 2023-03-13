@@ -3,6 +3,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMA
 from odoo.tools.translate import _
 from openpyxl import load_workbook as lw
 import datetime
+import base64
 import xlrd
 from xlrd import xlsx
 import logging, io
@@ -29,7 +30,7 @@ class importProductsWizard(models.TransientModel):
     def _read_xls(self, options):
         logger.info('DENTRO DE _read_xls')
         logger.info(self.fichero)
-        book = xlrd.open_workbook(file_contents=self.fichero or b'')
+        book = xlrd.open_workbook(file_contents=base64.b64decode(self.fichero) or b'')
         sheets = options['sheets'] = book.sheet_names()
         sheet = options['sheet'] = options.get('sheet') or sheets[0]
         return self._read_xls_book(book, sheet)
