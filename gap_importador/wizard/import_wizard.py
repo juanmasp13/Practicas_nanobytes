@@ -1,5 +1,7 @@
 from odoo import models, fields, api
 from openpyxl import load_workbook as lw
+from odf import opendocument
+from odf.table import Table
 import logging, io
 logger = logging.getLogger(__name__)
 
@@ -18,26 +20,24 @@ class importProductsWizard(models.TransientModel):
         for record in self:
             if record.fichero:
                 logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
-                archivo = io.BytesIO(record.fichero)
-                logger.info(archivo)
+                doc = ODSReader(file=io.BytesIO(self.fichero or b''))
+                logger.info(doc)
                 
-                excel = lw(archivo)
+                excel = lw(doc)
                 logger.info('leo el archivo')
                 hojas = excel.active
 
-                # filas = hojas.rows
-                # next(filas)
+                filas = hojas.rows
+                next(filas)
 
                 filas_totales = []
 
-                for fila in hojas.iter_rows(values_only=True):
-                    filas_totales.append(fila)
-                # for fila in filas:
-                #     datos = {'name': '', 'detailed_type': ''}
-                #     for titulo, celda in zip(datos.keys(), fila):
-                #         datos[titulo] = celda.value
+                for fila in filas:
+                    datos = {'name': '', 'detailed_type': ''}
+                    for titulo, celda in zip(datos.keys(), fila):
+                        datos[titulo] = celda.value
                     
-                #     filas_totales.append(datos)
+                    filas_totales.append(datos)
 
                 logger.info(filas_totales)
         
@@ -57,3 +57,16 @@ class importProductsWizard(models.TransientModel):
 
     #                 # Retorna la ruta del archivo temporal
     #                 return file_path
+
+class ODSReader(object):
+    # loads the file
+    def __init__(self, file=None, content=None, clonespannedcolumns=None):
+        if not content:
+            self.clonespannedcolumns = clonespannedcolumns
+            self.doc = opendocument.load(file)
+        else:
+            self.clonespannedcolumns = clonespannedcolumns
+            self.doc = content
+        self.SHEETS = {}
+        for sheet in self.doc.spreadsheet.getElementsByType(Table):
+            self.readSheet(sheet)
