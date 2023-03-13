@@ -16,37 +16,17 @@ class importProductsWizard(models.TransientModel):
 
 
     def mostrar_binario(self):
-        logger.info('FICHERO BINARIO DEL FIELDS.BINARY')
-        logger.info(self.fichero)
         for record in self:
             if record.fichero:
-                logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
-                doc = ODSReader(file=io.BytesIO(record.fichero or b''))
-                contenido = doc._read_ods
-                logger.info(contenido)
-                # logger.info(doc._read_ods)
-                # logger.info('FICHERO BINARIO DESPUES DE REEMPLAZAR')
-                # documento = self.fichero.replace('b\'','',1)
-                # documentoBien = documento.replace('\'','',1)
-                # logger.info(documentoBien)
+                # logger.info('FICHERO BINARIO DESPUES DE USAR IOBYTES')
+                # doc = ODSReader(file=io.BytesIO(record.fichero or b''))
+                # contenido = doc._read_ods
+                # logger.info(contenido)
+                logger.info('FICHERO BINARIO CON RECORD.FICHERO')
+                logger.info(record.fichero)
+                logger.info('FICHERO BINARIO CON SELF.FICHERO')
+                logger.info(self.fichero)
                 
-                # excel = lw(doc)
-                # logger.info('leo el archivo')
-                # hojas = excel.active
-
-                # filas = hojas.rows
-                # next(filas)
-
-                # filas_totales = []
-
-                # for fila in filas:
-                #     datos = {'name': '', 'detailed_type': ''}
-                #     for titulo, celda in zip(datos.keys(), fila):
-                #         datos[titulo] = celda.value
-                    
-                #     filas_totales.append(datos)
-
-                # logger.info(filas_totales)
 
 class ODSReader(object):
     # loads the file
