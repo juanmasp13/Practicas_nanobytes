@@ -12,7 +12,7 @@ class importProductsWizard(models.TransientModel):
     _description = 'Import Products Wizard'
 
     category_id = fields.Many2one('product.category', string="Categoría")
-    fichero = fields.Binary(string="Documento")
+    fichero = fields.Binary(string="Documento", attachment=False)
     nombre_fichero = fields.Char(string="Nombre del fichero")
 
 
