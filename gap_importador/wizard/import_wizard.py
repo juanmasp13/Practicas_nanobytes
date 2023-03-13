@@ -22,10 +22,26 @@ class importProductsWizard(models.TransientModel):
                     # Copia los datos del archivo cargado al archivo temporal
                     tmp_file.write(record.fichero)
                     tmp_file.flush()
-
                     # Obtiene la ruta del archivo temporal
                     file_path = tmp_file.name
                     logger.info(file_path)
+
+                    excel = lw(file_path)
+                    hojas = excel.active
+
+                    filas = hojas.rows
+                    next(filas)
+
+                    filas_totales = []
+
+                    for fila in filas:
+                        datos = {'name': '', 'detailed_type': ''}
+                        for titulo, celda in zip(datos.keys(), fila):
+                            datos[titulo] = celda.value
+                        
+                        filas_totales.append(datos)
+
+                    logger.info(filas_totales)
         
 
     # @api.multi
