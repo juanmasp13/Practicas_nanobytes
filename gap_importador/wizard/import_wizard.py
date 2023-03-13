@@ -26,11 +26,10 @@ class importProductsWizard(models.TransientModel):
                 num_filas, valores = self._read_xls(options=opt)
                 logger.info('VALORES INCLUYENDO CABECERA')
                 logger.info(valores)
+                valores.pop(0)
                 logger.info('VALORES EXCLUYENDO CABECERA')
-                for fila in valores:
-                    aux = 1
-                    logger.info(fila[aux])
-                    aux += 1
+                logger.info(valores)
+                
     
     def _read_xls(self, options):
         logger.info('DENTRO DE _read_xls')
