@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from openpyxl import load_workbook as lw
 from odf import opendocument
 from odf.table import Table, TableRow, TableCell
+from odf.text import P
 import logging, io
 logger = logging.getLogger(__name__)
 
