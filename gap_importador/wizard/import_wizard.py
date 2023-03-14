@@ -38,7 +38,8 @@ class importProductsWizard(models.TransientModel):
                         logger.info('ATRIBUTOS:')
                         logger.info(template.attribute_line_ids)
                         for atributo in template.attribute_line_ids:
-                            logger.info(atributo.name)
+                            logger.info('ID ATRIBUTO:')
+                            logger.info(atributo.attribute_id)
                     else:
                         logger.info('No existe el template: %s' % valor[3])
                         
