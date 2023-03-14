@@ -35,8 +35,7 @@ class importProductsWizard(models.TransientModel):
                     vals = {'name': '', 'detailed_type':'', 'categ_id': record.category_id.id}
                     if self.env['product.template'].search([('name', '=', valor[3])], limit=1):
                         template = self.env['product.template'].search([('name', '=', valor[3])])
-                        logger.info('Existe el template: %s' % template.name)
-                        logger.info('Su id es: %s' % template.id)
+                        logger.info(template.attribute_line_ids)
                     else:
                         logger.info('No existe el template: %s' % valor[3])
                         
