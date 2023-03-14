@@ -27,12 +27,11 @@ class importProductsWizard(models.TransientModel):
                 valores.pop(0)
                 #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
-                # name = 0
                 
                 registros = []
 
                 for valor in valores:
-                    vals_template = {'name': '', 'detailed_type':'', 'categ_id': record.category_id.id}
+                    vals_template = {'name': '', 'detailed_type':'', 'categ_id': record.category_id.id, 'CAMBIAR NOMBRE ATRIBUTO': ''}
                     if self.env['product.template'].search([('name', '=', valor[3])], limit=1):
                         template = self.env['product.template'].search([('name', '=', valor[3])])
                         #logger.info('ATRIBUTOS:')
@@ -42,8 +41,12 @@ class importProductsWizard(models.TransientModel):
                                 #logger.info('ID ATRIBUTO:')
                                 #logger.info(atributo.attribute_id)
                                 atributo = self.env['product.attribute'].search([('id', '=', atr.attribute_id.id)])
-                                logger.info('Nombre atributo:')
-                                logger.info(atributo.name)
+                                #logger.info('Nombre atributo:')
+                                #logger.info(atributo.name)
+                                if (atributo.name == valor[5]):
+                                    valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                                    logger.info('VALOR ATRIBUTO:')
+                                    logger.info(valor_atr.name)
 
                     else:
                         logger.info('No existe el template: %s' % valor[3])
