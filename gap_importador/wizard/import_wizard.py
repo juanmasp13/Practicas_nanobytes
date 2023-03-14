@@ -34,15 +34,15 @@ class importProductsWizard(models.TransientModel):
                     vals_template = {'name': '', 'detailed_type':'', 'categ_id': record.category_id.id, 'CAMBIAR NOMBRE ATRIBUTO': ''}
                     if self.env['product.template'].search([('name', '=', valor[3])], limit=1):
                         template = self.env['product.template'].search([('name', '=', valor[3])])
-                        #logger.info('ATRIBUTOS:')
-                        #logger.info(template.attribute_line_ids)
+                        logger.info('ATRIBUTOS:')
+                        logger.info(template.attribute_line_ids)
                         if template.attribute_line_ids:
                             for atr in template.attribute_line_ids:
-                                #logger.info('ID ATRIBUTO:')
-                                #logger.info(atributo.attribute_id)
+                                logger.info('ID ATRIBUTO:')
+                                logger.info(atributo.attribute_id)
                                 atributo = self.env['product.attribute'].search([('id', '=', atr.attribute_id.id)])
-                                #logger.info('Nombre atributo:')
-                                #logger.info(atributo.name)
+                                logger.info('Nombre atributo:')
+                                logger.info(atributo.name)
                                 if (atributo.name == valor[5]):
                                     valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                                     logger.info('VALOR ATRIBUTO:')
