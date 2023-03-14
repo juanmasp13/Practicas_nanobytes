@@ -18,7 +18,7 @@ class importProductsWizard(models.TransientModel):
     nombre_fichero = fields.Char(string="Nombre del fichero")
 
 
-    def mostrar_binario(self):
+    def registrar_productos(self):
         for record in self:
             if record.fichero:
                 logger.info('FICHERO BINARIO')
@@ -33,10 +33,18 @@ class importProductsWizard(models.TransientModel):
 
                 for valor in valores:
                     vals = {'name': '', 'detailed_type':'', 'categ_id': record.category_id.id}
-                    vals['name'] = valor[0]
-                    vals['detailed_type'] = valor[1]
-                    registros.append(vals)
-                self.env['product.template'].create(registros)
+                    if self.env['product.template'].search([('name', '=', valor[3])], limit=1):
+                        template = self.env['product.template'].search([('name', '=', valor[3])])
+                        logger.info('Existe el template: %s' % template.name)
+                        logger.info('Su id es: %s' % template.id)
+                    else:
+                        logger.info('No existe el template: %s' % valor[3])
+                        
+                    # vals['name'] = valor[0]
+                    # vals['detailed_type'] = valor[1]
+                    # registros.append(vals)
+                #template = self.env['product.template'].create(registros)
+                
                 
     
     def _read_xls(self, options):
