@@ -41,7 +41,7 @@ class importProductsWizard(models.TransientModel):
                             for atr in template.attribute_line_ids:
                                 #logger.info('ID ATRIBUTO:')
                                 #logger.info(atributo.attribute_id)
-                                atributo = self.env['product.attribute'].search([('id', '=', atr)])
+                                atributo = self.env['product.attribute'].search([('id', '=', atr.attribute_id)])
                                 logger.info('Nombre atributo:')
                                 logger.info(atributo.name)
 
