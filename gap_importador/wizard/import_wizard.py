@@ -44,6 +44,7 @@ class importProductsWizard(models.TransientModel):
                                 #logger.info('Nombre atributo:')
                                 #logger.info(atributo.name)
                                 #logger.info(valor[5])
+                                logger.info(atributo.id)
                                 if (atributo.name == valor[5]):
                                     valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                                     logger.info('VALOR ATRIBUTO:')
