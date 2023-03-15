@@ -42,44 +42,43 @@ class importProductsWizard(models.TransientModel):
                         logger.info('MOSTRANDO ATTRIBUTE LINE IDS')
                         logger.info(template.attribute_line_ids)
                         if template:
-                            for atr in template.attribute_line_ids:
-                                #logger.info('ID ATRIBUTO:')
-                                #logger.info(atr.attribute_id)
-                                atributo = self.env['product.attribute'].search([('id', '=', atr.attribute_id.id)])
-                                #logger.info('Nombre atributo:')
-                                #logger.info(atributo.name)
-                                #logger.info(valor[5])
-                                #logger.info(atributo.id)
-                                if (atributo.name == valor[5]):
-                                    valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
-                                    for valor_atributo in valor_atr:
-                                        #logger.info('VALOR ATRIBUTO: ')
-                                        #logger.info(valor_atributo.name)
-                                        if (valor_atributo.name == valor[7]):
-                                            logger.info('Para %s:' % valor[5])
-                                            logger.info('Valores de atributo 1 bien %s' % valor[7])
-                                            logger.info('Buscando los ids de los valores del atributo')
-                                            values_ids = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
-                                            logger.info('CREANDO ATTRIBUTE LINE')
-                                            attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template_id, 'value_ids': values_ids.ids})
-                                            logger.info(attribute_line)
-                                            logger.info('CREANDO PRODUCT')
-                                            attribute_line_ids = [attribute_line.id]
-                                            producto = self.env['product.product'].create({'name': valor[3], 'product_tmpl_id': template_id, 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids, 'detailed_type': 'product'})
-                                            logger.info(producto)
-                                        else:
-                                            logger.info('Valores de atributo 1 mal %s' % valor[7])
-                                elif(atributo.name == valor[6]):
-                                    valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
-                                    for valor_atributo in valor_atr:
-                                        #logger.info('VALOR ATRIBUTO: ')
-                                        #logger.info(valor_atributo.name)
-                                        if (valor_atributo.name == valor[8]):
-                                            #logger.info('Para %s:' % valor[6])
-                                            #logger.info('Valores de atributo 1 bien %s' % valor[8])
-                                            logger.info('Valores de atributo 1 bien %s' % valor[8])
-                                        else:
-                                            logger.info('Valores de atributo 1 mal %s' % valor[8])
+                            #logger.info('ID ATRIBUTO:')
+                            #logger.info(atr.attribute_id)
+                            atributo = self.env['product.attribute'].search([('name', '=', valor[5])])
+                            logger.info('Nombre atributo:')
+                            logger.info(atributo.name)
+                            #logger.info(valor[5])
+                            #logger.info(atributo.id)
+                            if (atributo.name == valor[5]):
+                                valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                                for valor_atributo in valor_atr:
+                                    #logger.info('VALOR ATRIBUTO: ')
+                                    #logger.info(valor_atributo.name)
+                                    if (valor_atributo.name == valor[7]):
+                                        logger.info('Para %s:' % valor[5])
+                                        logger.info('Valores de atributo 1 bien %s' % valor[7])
+                                        logger.info('Buscando los ids de los valores del atributo')
+                                        values_ids = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                                        logger.info('CREANDO ATTRIBUTE LINE')
+                                        attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template_id, 'value_ids': values_ids.ids})
+                                        logger.info(attribute_line)
+                                        logger.info('CREANDO PRODUCT')
+                                        attribute_line_ids = [attribute_line.id]
+                                        producto = self.env['product.product'].create({'name': valor[3], 'product_tmpl_id': template_id, 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids, 'detailed_type': 'product'})
+                                        logger.info(producto)
+                                    else:
+                                        logger.info('Valores de atributo 1 mal %s' % valor[7])
+                            elif(atributo.name == valor[6]):
+                                valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                                for valor_atributo in valor_atr:
+                                    #logger.info('VALOR ATRIBUTO: ')
+                                    #logger.info(valor_atributo.name)
+                                    if (valor_atributo.name == valor[8]):
+                                        #logger.info('Para %s:' % valor[6])
+                                        #logger.info('Valores de atributo 1 bien %s' % valor[8])
+                                        logger.info('Valores de atributo 1 bien %s' % valor[8])
+                                    else:
+                                        logger.info('Valores de atributo 1 mal %s' % valor[8])
                     else:
                         logger.info('No existe el template: %s' % valor[3])
                         
