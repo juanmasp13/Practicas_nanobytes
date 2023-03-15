@@ -51,6 +51,7 @@ class importProductsWizard(models.TransientModel):
                                         #logger.info('VALOR ATRIBUTO: ')
                                         #logger.info(valor_atributo.name)
                                         if (valor_atributo.name == valor[7]):
+                                            logger.info('Para %s:' % valor[5])
                                             logger.info('Valores de atributo 1 bien %s' % valor[7])
                                         else:
                                             logger.info('Valores de atributo 1 mal %s' % valor[7])
@@ -60,6 +61,7 @@ class importProductsWizard(models.TransientModel):
                                         #logger.info('VALOR ATRIBUTO: ')
                                         #logger.info(valor_atributo.name)
                                         if (valor_atributo.name == valor[8]):
+                                            logger.info('Para %s:' % valor[6])
                                             logger.info('Valores de atributo 1 bien %s' % valor[8])
                                         else:
                                             logger.info('Valores de atributo 1 mal %s' % valor[8])
