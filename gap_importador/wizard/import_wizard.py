@@ -78,16 +78,22 @@ class importProductsWizard(models.TransientModel):
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
 
                 for valor in valores:
-
+                    logger.info('TEMPLATE: %s' % valor[3])
                     template = self.env['product.template'].search([('name', '=', valor[3])])
                     if template:
+                        logger.info('ATRIBUTO: %s' % valor[5])
                         atributo = self.env['product.attribute'].search([('name', '=', valor[5])])
                         if (atributo.name == valor[5]):
                             ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                             for id in ids_valores_attr:
+                                logger.info('VALOR ATRIBUTO: %s' % valor[7])
                                 if id.name == valor[7]:
+                                    logger.info('SI EXISTE EL VALOR, CREANDO ATTRIBUTE LINE')
                                     lista_id = [id.id]
                                     attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
+                                else:
+                                    logger.info('NO EXISTE EL VALOR PARA EL ATRIBUTO')
+                            logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO')
                             attribute_line_ids = self.env['product.template.attribute.line'].search([('attribute_id', '=', atributo.id)])
                             producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
                         elif(atributo.name == valor[6]):
