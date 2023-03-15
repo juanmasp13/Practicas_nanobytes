@@ -35,8 +35,9 @@ class importProductsWizard(models.TransientModel):
                         template = self.env['product.template'].search([('name', '=', valor[3])])
                         template_id = template.id
                         #logger.info('ATRIBUTOS:')
-                        #logger.info(template.attribute_line_ids)
-                        if template.attribute_line_ids:
+                        logger.info('MOSTRANDO ATTRIBUTE LINE IDS')
+                        logger.info(template.attribute_line_ids)
+                        if template:
                             for atr in template.attribute_line_ids:
                                 #logger.info('ID ATRIBUTO:')
                                 #logger.info(atr.attribute_id)
