@@ -37,7 +37,7 @@ class importProductsWizard(models.TransientModel):
                             if (atributo.name == valor[5]):
                                 ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                                 logger.info('CREANDO ATTRIBUTE LINE')
-                                attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template_id, 'value_ids': ids_valores_attr.ids})
+                                attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': ids_valores_attr.ids})
                                 for valor_atributo in ids_valores_attr:
                                     if (valor_atributo.name == valor[7]):
                                         logger.info('CREANDO PRODUCT')
