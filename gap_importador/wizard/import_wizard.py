@@ -59,7 +59,8 @@ class importProductsWizard(models.TransientModel):
                                             attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template_id, 'value_ids': values_ids.ids})
                                             logger.info(attribute_line)
                                             logger.info('CREANDO PRODUCT')
-                                            producto = self.env['product.product'].create({'name': valor[3], 'product_tmpl_id': template_id, 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line.id})
+                                            attribute_line_ids = [attribute_line.id]
+                                            producto = self.env['product.product'].create({'name': valor[3], 'product_tmpl_id': template_id, 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids})
                                             logger.info(producto)
                                         else:
                                             logger.info('Valores de atributo 1 mal %s' % valor[7])
