@@ -18,7 +18,7 @@ class importProductsWizard(models.TransientModel):
     nombre_fichero = fields.Char(string="Nombre del fichero")
 
 
-    def registrar_productos(self):
+    def old_registrar_productos(self):
         for record in self:
             if record.fichero:
                 opt = {}
@@ -62,6 +62,47 @@ class importProductsWizard(models.TransientModel):
                                         logger.info('Valores de atributo 1 mal %s' % valor[8])
                     else:
                         logger.info('No existe el template: %s' % valor[3])
+                        
+                    # vals['name'] = valor[0]
+                    # vals['detailed_type'] = valor[1]
+                    # registros.append(vals)
+                #template = self.env['product.template'].create(registros)
+    
+    def registrar_productos(self):
+        for record in self:
+            if record.fichero:
+                opt = {}
+                num_filas, valores = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
+                valores.pop(0)
+                #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
+                # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
+
+                for valor in valores:
+
+                    template = self.env['product.template'].search([('name', '=', valor[3])])
+                    if template:
+                        atributo = self.env['product.attribute'].search([('name', '=', valor[5])])
+                        if (atributo.name == valor[5]):
+                            ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                            for id in ids_valores_attr:
+                                if id.name == valor[7]:
+                                    lista_id = [id.id]
+                                    attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
+                            attribute_line_ids = self.env['product.template.attribute.line'].search([('attribute_id', '=', atributo.id)])
+                            producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
+                        elif(atributo.name == valor[6]):
+                            valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                            for valor_atributo in valor_atr:
+                                #logger.info('VALOR ATRIBUTO: ')
+                                #logger.info(valor_atributo.name)
+                                if (valor_atributo.name == valor[8]):
+                                    #logger.info('Para %s:' % valor[6])
+                                    #logger.info('Valores de atributo 1 bien %s' % valor[8])
+                                    logger.info('Valores de atributo 1 bien %s' % valor[8])
+                                else:
+                                    logger.info('Valores de atributo 1 mal %s' % valor[8])
+                else:
+                    logger.info('No existe el template: %s' % valor[3])
                         
                     # vals['name'] = valor[0]
                     # vals['detailed_type'] = valor[1]
