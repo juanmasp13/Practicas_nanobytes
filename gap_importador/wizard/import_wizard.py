@@ -31,10 +31,8 @@ class importProductsWizard(models.TransientModel):
                 registros = []
 
                 for valor in valores:
-                    logger.info('VALOR 3')
+                    logger.info('TEMPLATE: ')
                     logger.info(valor[3])
-                    logger.info('LONGITUD VALOR 3')
-                    logger.info(len(valor[3]))
                     if self.env['product.template'].search([('name', '=', valor[3])], limit=1):
                         template = self.env['product.template'].search([('name', '=', valor[3])])
                         template_id = template.id
