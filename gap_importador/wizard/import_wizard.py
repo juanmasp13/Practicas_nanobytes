@@ -31,9 +31,9 @@ class importProductsWizard(models.TransientModel):
                 registros = []
 
                 for valor in valores:
-                    vals_template = {'name': '', 'detailed_type':'', 'categ_id': record.category_id.id, 'CAMBIAR NOMBRE ATRIBUTO': ''}
                     if self.env['product.template'].search([('name', '=', valor[3])], limit=1):
                         template = self.env['product.template'].search([('name', '=', valor[3])])
+                        template_id = template.id
                         #logger.info('ATRIBUTOS:')
                         #logger.info(template.attribute_line_ids)
                         if template.attribute_line_ids:
@@ -53,6 +53,9 @@ class importProductsWizard(models.TransientModel):
                                         if (valor_atributo.name == valor[7]):
                                             logger.info('Para %s:' % valor[5])
                                             logger.info('Valores de atributo 1 bien %s' % valor[7])
+                                            attribute_line = self.env['product.attribute.line'].create({'attribute_id': atributo.id, 'product_template_id': template_id})
+                                            values_line = self.env['product.template.attribute.value'].create({'attribute_line_id': attribute_line.id, 'product_attribute_value_id': valor_atributo.id})
+                                            producto = self.env['product.product'].create({'name': valor[3], 'product_tmpl_id': template_id, 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line.id})
                                         else:
                                             logger.info('Valores de atributo 1 mal %s' % valor[7])
                                 elif(atributo.name == valor[6]):
@@ -61,7 +64,8 @@ class importProductsWizard(models.TransientModel):
                                         #logger.info('VALOR ATRIBUTO: ')
                                         #logger.info(valor_atributo.name)
                                         if (valor_atributo.name == valor[8]):
-                                            logger.info('Para %s:' % valor[6])
+                                            #logger.info('Para %s:' % valor[6])
+                                            #logger.info('Valores de atributo 1 bien %s' % valor[8])
                                             logger.info('Valores de atributo 1 bien %s' % valor[8])
                                         else:
                                             logger.info('Valores de atributo 1 mal %s' % valor[8])
