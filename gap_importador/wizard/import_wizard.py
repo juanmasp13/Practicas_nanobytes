@@ -53,7 +53,7 @@ class importProductsWizard(models.TransientModel):
                                         if (valor_atributo.name == valor[7]):
                                             logger.info('Para %s:' % valor[5])
                                             logger.info('Valores de atributo 1 bien %s' % valor[7])
-                                            attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_template_id': template_id})
+                                            attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template_id})
                                             values_line = self.env['product.template.attribute.value'].create({'attribute_line_id': attribute_line.id, 'product_attribute_value_id': valor_atributo.id})
                                             producto = self.env['product.product'].create({'name': valor[3], 'product_tmpl_id': template_id, 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line.id})
                                         else:
