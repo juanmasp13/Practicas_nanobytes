@@ -48,8 +48,8 @@ class importProductsWizard(models.TransientModel):
                                 if (atributo.name == valor[5]):
                                     valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                                     for valor_atributo in valor_atr:
-                                        logger.info('VALOR ATRIBUTO:')
-                                        logger.info(valor_atributo.id.name)
+                                        logger.info('VALOR ATRIBUTO: ')
+                                        logger.info(valor_atributo.id)
 
                     else:
                         logger.info('No existe el template: %s' % valor[3])
