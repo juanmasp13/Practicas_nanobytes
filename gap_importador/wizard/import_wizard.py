@@ -95,7 +95,7 @@ class importProductsWizard(models.TransientModel):
                                     logger.info('NO EXISTE EL VALOR PARA EL ATRIBUTO')
                             logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO')
                             attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
-                            producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
+                            producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
                         elif(atributo.name == valor[6]):
                             valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                             for valor_atributo in valor_atr:
