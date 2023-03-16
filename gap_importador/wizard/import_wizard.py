@@ -78,11 +78,12 @@ class importProductsWizard(models.TransientModel):
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
                 for fila in filas:
                     logger.info('ESTAMOS EN LA FILA DE: %s' % fila[3])
-                    template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
+                     
                     atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
                     logger.info('IDS ATRIBUTOS: %s' % atributos.ids)
                     if atributos:
                         for atributo in atributos:
+                            template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                             lista_id = []
                             logger.info('Para el atributo: %s' % atributo.name)
                             logger.info('COLUMNA 5: %s' % fila[5])
