@@ -80,7 +80,6 @@ class importProductsWizard(models.TransientModel):
                     logger.info('ESTAMOS EN LA FILA DE: %s' % fila[3])
                     atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])])
                     atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) 
-                    logger.info('IDS ATRIBUTOS: %s' % atributos.ids)
                     if atributo1 and atributo2:
                         atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
                         for atributo in atributos:
