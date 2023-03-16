@@ -79,6 +79,7 @@ class importProductsWizard(models.TransientModel):
                 for fila in filas:
                     template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                     atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
+                    logger.info('IDS ATRIBUTOS: %s' % atributos.ids)
                     if atributos:
                         lista_id = []
                         for atributo in atributos:
