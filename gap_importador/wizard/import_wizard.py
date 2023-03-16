@@ -80,6 +80,7 @@ class importProductsWizard(models.TransientModel):
                     template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                     atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
                     if atributos:
+                        lista_id = []
                         for atributo in atributos:
                             if (atributo.name == fila[5]) or (atributo.name == fila[6]):
                                 ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
@@ -87,12 +88,10 @@ class importProductsWizard(models.TransientModel):
                                     if (atributo.name == fila[5]):
                                         for id in ids_valores_attr: 
                                             if id.name == fila[7]:
-                                                lista_id = []
                                                 lista_id.append(id.id)
                                     elif (atributo.name == fila[6]):
                                         for id in ids_valores_attr: 
                                             if id.name == fila[8]:
-                                                lista_id = []
                                                 lista_id.append(id.id)
                                     if template:
                                         attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
