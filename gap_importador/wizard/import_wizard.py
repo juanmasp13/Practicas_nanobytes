@@ -108,15 +108,19 @@ class importProductsWizard(models.TransientModel):
                                                 logger.info('Valores de atributo 2 bien, añadiendo a la lista')
                                                 lista_id.append(id.id)
                                     if template:
+                                        logger.info('SI EXISTE EL TEMPLATE %s' % template.name)
                                         attribute_line = self.env['product.template.attribute.line'].search([('attribute_id', '=', atributo.id)])
                                         if attribute_line:
                                             attribute_line_vals_ids = attribute_line.value_ids.ids
                                             lista_id = list(dict.fromkeys(lista_id+attribute_line_vals_ids))
+                                            logger.info('REESCRIBIENDO ATTRIBUTE LINE CON LOS VALORES DE LOS ATRIBUTOS %s' % lista_id)
                                             attribute_line.write({'value_ids': [(6, 0, lista_id)]})
                                         else:
                                             self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
                                     else:
+                                        logger.info('NO EXISTE EL TEMPLATE %s' % fila[3])
                                         producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
+                                        logger.info('CREANDO ATTRIBUTE LINE CON LOS VALORES DE LOS ATRIBUTOS %s' % lista_id)
                                         attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
                 
                 
