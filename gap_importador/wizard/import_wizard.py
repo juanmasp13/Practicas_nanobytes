@@ -79,7 +79,7 @@ class importProductsWizard(models.TransientModel):
                 for valor in valores:
                     template = self.env['product.template'].search([('name', '=', valor[3])]) #BUSCAMOS TEMPLATE
                     atributo = self.env['product.attribute'].search([('name', '=', valor[5])]) #BUSCAMOS ATRIBUTO
-                    if (atributo.name == valor[5] | atributo.name == valor[6]):
+                    if (atributo.name == valor[5]) or (atributo.name == valor[6]):
                         ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
                         if ids_valores_attr:
                             if (atributo.name == valor[5]):
