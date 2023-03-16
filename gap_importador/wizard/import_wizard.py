@@ -89,6 +89,7 @@ class importProductsWizard(models.TransientModel):
                             logger.info('VALOR ATRIBUTO: %s' % valor[7])
                             if id.name == valor[7]:
                                 logger.info('SI EXISTE EL VALOR, CREANDO ATTRIBUTE LINE')
+                                lista_id = []
                                 lista_id = lista_id.append(id.id)
                             else:
                                 logger.info('NO EXISTE EL VALOR PARA EL ATRIBUTO')
