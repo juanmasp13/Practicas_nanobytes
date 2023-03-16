@@ -87,7 +87,7 @@ class importProductsWizard(models.TransientModel):
                                     if id.name == valor[7]:
                                         lista_id = []
                                         lista_id.append(id.id)
-                            if (atributo.name == valor[6]):
+                            elif (atributo.name == valor[6]):
                                 for id in ids_valores_attr: 
                                     if id.name == valor[8]:
                                         lista_id = []
