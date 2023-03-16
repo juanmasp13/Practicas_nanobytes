@@ -108,7 +108,7 @@ class importProductsWizard(models.TransientModel):
                                                 logger.info('Valores de atributo 2 bien, añadiendo a la lista')
                                                 lista_id.append(id.id)
                                     if template:
-                                        attribute_line = self.env['product.template.attribute.line'].search({'attribute_id', '=', atributo.id})
+                                        attribute_line = self.env['product.template.attribute.line'].search([('attribute_id', '=', atributo.id)])
                                         if attribute_line:
                                             attribute_line_vals_ids = attribute_line.value_ids.ids
                                             lista_id = list(dict.fromkeys(lista_id+attribute_line_vals_ids))
