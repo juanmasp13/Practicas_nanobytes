@@ -78,27 +78,29 @@ class importProductsWizard(models.TransientModel):
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
                 for fila in filas:
                     template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
-                    atributo = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTO
-                    if (atributo.name == fila[5]) or (atributo.name == fila[6]):
-                        ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
-                        if ids_valores_attr:
-                            if (atributo.name == fila[5]):
-                                for id in ids_valores_attr: 
-                                    if id.name == fila[7]:
-                                        lista_id = []
-                                        lista_id.append(id.id)
-                            elif (atributo.name == fila[6]):
-                                for id in ids_valores_attr: 
-                                    if id.name == fila[8]:
-                                        lista_id = []
-                                        lista_id.append(id.id)
-                            if template:
-                                attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
-                                attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
-                            else:
-                                producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
-                                attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
-                                attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
+                    atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
+                    if atributos:
+                        for atributo in atributos:
+                            if (atributo.name == fila[5]) or (atributo.name == fila[6]):
+                                ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
+                                if ids_valores_attr:
+                                    if (atributo.name == fila[5]):
+                                        for id in ids_valores_attr: 
+                                            if id.name == fila[7]:
+                                                lista_id = []
+                                                lista_id.append(id.id)
+                                    elif (atributo.name == fila[6]):
+                                        for id in ids_valores_attr: 
+                                            if id.name == fila[8]:
+                                                lista_id = []
+                                                lista_id.append(id.id)
+                                    if template:
+                                        attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
+                                        attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
+                                    else:
+                                        producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
+                                        attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
+                                        attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
                 
                 
     
