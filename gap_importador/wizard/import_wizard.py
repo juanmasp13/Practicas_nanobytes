@@ -78,19 +78,19 @@ class importProductsWizard(models.TransientModel):
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
                 for fila in filas:
                     logger.info('ESTAMOS EN LA FILA DE: %s' % fila[3])
-                    atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])])
-                    atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) 
-                    if atributo1 and atributo2:
+                    atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
+                    atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
+                    if atributo1 and atributo2: #Si existe el atributo 1 y el atributo 2 hacemos el proceso
                         atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
-                        for atributo in atributos:
+                        for atributo in atributos: #Para cada atributo
                             template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
-                            lista_id = []
+                            lista_id = [] #Creamos una lista a la que le vamos a concatenar los valores de cada atributo
                             logger.info('Para el atributo: %s' % atributo.name)
                             if (atributo.name == fila[5]) or (atributo.name == fila[6]):
                                 ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
                                 logger.info('IDS VALORES ATRIBUTOS: %s' % ids_valores_attr.ids)
-                                if ids_valores_attr:
-                                    if (atributo.name == fila[5]):
+                                if ids_valores_attr: #Si existen los valores de los atributos
+                                    if (atributo.name == fila[5]): #Comprobamos que el valor está bien escrito
                                         logger.info('ESTAMOS EN EL PRIMER IF')
                                         for id in ids_valores_attr:
                                             logger.info('Tenemos el valor: %s' % id.name) 
