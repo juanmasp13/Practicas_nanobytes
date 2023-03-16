@@ -102,15 +102,15 @@ class importProductsWizard(models.TransientModel):
                                         logger.info('ESTAMOS EN EL SEGUNDO IF')
                                         for id in ids_valores_attr:
                                             logger.info('Tenemos el valor: %s' % id.name)
-                                            logger.info('Y EN EL EXCEL TENEMOS EL VALOR: %s' % fila[8]) 
-                                            if id.name == fila[8]:
+                                            logger.info('Y EN EL EXCEL TENEMOS EL VALOR: %s' % fila[9]) 
+                                            if id.name == fila[9]:
                                                 logger.info('Valores de atributo 2 bien, añadiendo a la lista')
                                                 lista_id.append(id.id)
-                                if template:
-                                    attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
-                                else:
-                                    producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
-                                    attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
+                                    if template:
+                                        attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
+                                    else:
+                                        producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
+                                        attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
                 
                 
     
