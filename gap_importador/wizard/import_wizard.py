@@ -72,31 +72,31 @@ class importProductsWizard(models.TransientModel):
         for record in self:
             if record.fichero:
                 opt = {}
-                num_filas, valores = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
-                valores.pop(0)
+                num_filas, filas = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
+                filas.pop(0)
                 #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
-                for valor in valores:
-                    template = self.env['product.template'].search([('name', '=', valor[3])]) #BUSCAMOS TEMPLATE
-                    atributo = self.env['product.attribute'].search([('name', '=', valor[5])]) #BUSCAMOS ATRIBUTO
-                    if (atributo.name == valor[5]) or (atributo.name == valor[6]):
+                for fila in filas:
+                    template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
+                    atributo = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTO
+                    if (atributo.name == fila[5]) or (atributo.name == fila[6]):
                         ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
                         if ids_valores_attr:
-                            if (atributo.name == valor[5]):
+                            if (atributo.name == fila[5]):
                                 for id in ids_valores_attr: 
-                                    if id.name == valor[7]:
+                                    if id.name == fila[7]:
                                         lista_id = []
                                         lista_id.append(id.id)
-                            elif (atributo.name == valor[6]):
+                            elif (atributo.name == fila[6]):
                                 for id in ids_valores_attr: 
-                                    if id.name == valor[8]:
+                                    if id.name == fila[8]:
                                         lista_id = []
                                         lista_id.append(id.id)
                             if template:
                                 attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
                                 attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
                             else:
-                                producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
+                                producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
                                 attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
                                 attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
                 
