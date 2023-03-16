@@ -78,10 +78,11 @@ class importProductsWizard(models.TransientModel):
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
                 for fila in filas:
                     logger.info('ESTAMOS EN LA FILA DE: %s' % fila[3])
-                     
-                    atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
+                    atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])])
+                    atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) 
                     logger.info('IDS ATRIBUTOS: %s' % atributos.ids)
-                    if atributos:
+                    if atributo1 and atributo2:
+                        atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
                         for atributo in atributos:
                             template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                             lista_id = []
@@ -105,6 +106,7 @@ class importProductsWizard(models.TransientModel):
                                             if id.name == fila[9]:
                                                 logger.info('Valores de atributo 2 bien, añadiendo a la lista')
                                                 lista_id.append(id.id)
+                                                
                                     if template:
                                         logger.info('SI EXISTE EL TEMPLATE %s' % template.name)
                                         attribute_line = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo.id)])
