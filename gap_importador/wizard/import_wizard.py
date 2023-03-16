@@ -90,6 +90,7 @@ class importProductsWizard(models.TransientModel):
                             if id.name == valor[7]:
                                 logger.info('SI EXISTE EL VALOR, CREANDO ATTRIBUTE LINE')
                                 lista_id = []
+                                logger.info(id.id)
                                 lista_id = lista_id.append(id.id)
                                 logger.info(lista_id)                            
                         logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO ')
