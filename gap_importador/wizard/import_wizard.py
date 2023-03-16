@@ -88,6 +88,7 @@ class importProductsWizard(models.TransientModel):
                             logger.info('COLUMNA 6: %s' % fila[6])
                             if (atributo.name == fila[5]) or (atributo.name == fila[6]):
                                 ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
+                                logger.info('IDS VALORES ATRIBUTOS: %s' % ids_valores_attr)
                                 if ids_valores_attr:
                                     if (atributo.name == fila[5]):
                                         logger.info('ESTAMOS EN EL PRIMER IF')
