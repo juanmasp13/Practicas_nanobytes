@@ -107,7 +107,7 @@ class importProductsWizard(models.TransientModel):
                                                 lista_id.append(id.id)
                                     if template:
                                         logger.info('SI EXISTE EL TEMPLATE %s' % template.name)
-                                        attribute_line = self.env['product.template.attribute.line'].search([('attribute_id', '=', atributo.id)])
+                                        attribute_line = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo.id)])
                                         if attribute_line:
                                             logger.info('SI EXISTE EL ATTRIBUTE LINE PARA EL ATRIBUTO %s' % atributo.name)
                                             attribute_line_vals_ids = attribute_line.value_ids.ids
