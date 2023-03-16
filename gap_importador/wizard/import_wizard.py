@@ -90,17 +90,17 @@ class importProductsWizard(models.TransientModel):
                             if id.name == valor[7]:
                                 logger.info('SI EXISTE EL VALOR, CREANDO ATTRIBUTE LINE')
                                 lista_id = []
-                                lista_id = lista_id.append(id.id)
-                            else:
-                                logger.info('NO EXISTE EL VALOR PARA EL ATRIBUTO')
-                            attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
-                            
-                        logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO ')
-                        attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
+                                lista_id = lista_id.append(id.id)                            
+                        #logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO ')
                         if template:
-                            producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
+                            attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
+                            attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
+                            producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids, 'detailed_type': 'product'})
                         else:
-                            producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
+                            producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
+                            attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
+                            attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
+                            producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids, 'detailed_type': 'product'})
                     elif(atributo.name == valor[6]):
                         valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                         for valor_atributo in valor_atr:
