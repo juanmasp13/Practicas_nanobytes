@@ -100,7 +100,8 @@ class importProductsWizard(models.TransientModel):
                                     elif (atributo.name == fila[6]):
                                         logger.info('ESTAMOS EN EL SEGUNDO IF')
                                         for id in ids_valores_attr:
-                                            logger.info('Tenemos el valor: %s' % id.name) 
+                                            logger.info('Tenemos el valor: %s' % id.name)
+                                            logger.info('Y EN EL EXCEL TENEMOS EL VALOR: %s' % fila[8]) 
                                             if id.name == fila[8]:
                                                 logger.info('Valores de atributo 2 bien, añadiendo a la lista')
                                                 lista_id.append(id.id)
