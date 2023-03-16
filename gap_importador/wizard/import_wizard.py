@@ -90,9 +90,9 @@ class importProductsWizard(models.TransientModel):
                             if id.name == valor[7]:
                                 logger.info('SI EXISTE EL VALOR, CREANDO ATTRIBUTE LINE')
                                 lista_id = []
-                                logger.info(id.id)
-                                lista_id = lista_id.append(id.id)
-                                logger.info(lista_id)                            
+                                #logger.info(id.id)
+                                lista_id.append(id.id)
+                                #logger.info(lista_id)                            
                         logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO ')
                         if template:
                             attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
