@@ -86,11 +86,9 @@ class importProductsWizard(models.TransientModel):
                             template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                             lista_id = []
                             logger.info('Para el atributo: %s' % atributo.name)
-                            logger.info('COLUMNA 5: %s' % fila[5])
-                            logger.info('COLUMNA 6: %s' % fila[6])
                             if (atributo.name == fila[5]) or (atributo.name == fila[6]):
                                 ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
-                                logger.info('IDS VALORES ATRIBUTOS: %s' % ids_valores_attr)
+                                logger.info('IDS VALORES ATRIBUTOS: %s' % ids_valores_attr.ids)
                                 if ids_valores_attr:
                                     if (atributo.name == fila[5]):
                                         logger.info('ESTAMOS EN EL PRIMER IF')
@@ -113,17 +111,20 @@ class importProductsWizard(models.TransientModel):
                                         if attribute_line:
                                             logger.info('SI EXISTE EL ATTRIBUTE LINE PARA EL ATRIBUTO %s' % atributo.name)
                                             attribute_line_vals_ids = attribute_line.value_ids.ids
+                                            logger.info('VALORES QUE TENIA EL ATTRIBUTE LINE: %s' % attribute_line_vals_ids)
                                             lista_id = list(dict.fromkeys(lista_id+attribute_line_vals_ids))
                                             logger.info('REESCRIBIENDO ATTRIBUTE LINE CON LOS VALORES DE LOS ATRIBUTOS %s' % lista_id)
                                             attribute_line.write({'value_ids': [(6, 0, lista_id)]})
                                         else:
                                             logger.info('NO EXISTE EL ATTRIBUTE LINE PARA EL ATRIBUTO %s' % atributo.name)
+                                            logger.info('CREANDO ATTRIBUTE LINE PARA EL ATRIBUTO CON LOS VALORES %s' % lista_id)
                                             self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
                                             logger.info('ATTRIBUTE LINE CREADA')
                                     else:
                                         logger.info('NO EXISTE EL TEMPLATE %s' % fila[3])
                                         producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
-                                        logger.info('CREANDO ATTRIBUTE LINE CON LOS VALORES DE LOS ATRIBUTOS %s' % lista_id)
+                                        logger.info('PARA EL ATRIBUTO %s' % atributo.name)
+                                        logger.info('CREANDO ATTRIBUTE LINE CON LOS VALORES %s' % lista_id)
                                         attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
                 
                 
