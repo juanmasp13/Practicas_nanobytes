@@ -77,6 +77,7 @@ class importProductsWizard(models.TransientModel):
                 #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
                 # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
                 for fila in filas:
+                    logger.info('ESTAMOS EN LA FILA DE: %s' % fila[3])
                     template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                     atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
                     logger.info('IDS ATRIBUTOS: %s' % atributos.ids)
