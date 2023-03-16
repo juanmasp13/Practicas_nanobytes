@@ -80,36 +80,40 @@ class importProductsWizard(models.TransientModel):
                 for valor in valores:
                     logger.info('TEMPLATE: %s' % valor[3])
                     template = self.env['product.template'].search([('name', '=', valor[3])])
-                    if template:
-                        logger.info('ATRIBUTO: %s' % valor[5])
-                        atributo = self.env['product.attribute'].search([('name', '=', valor[5])])
-                        if (atributo.name == valor[5]):
-                            ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
-                            for id in ids_valores_attr:
-                                logger.info('VALOR ATRIBUTO: %s' % valor[7])
-                                if id.name == valor[7]:
-                                    logger.info('SI EXISTE EL VALOR, CREANDO ATTRIBUTE LINE')
-                                    lista_id = [id.id]
-                                    attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
-                                else:
-                                    logger.info('NO EXISTE EL VALOR PARA EL ATRIBUTO')
-                            logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO ')
-                            attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
+                    #if template:
+                    logger.info('ATRIBUTO: %s' % valor[5])
+                    atributo = self.env['product.attribute'].search([('name', '=', valor[5])])
+                    if (atributo.name == valor[5]):
+                        ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                        for id in ids_valores_attr:
+                            logger.info('VALOR ATRIBUTO: %s' % valor[7])
+                            if id.name == valor[7]:
+                                logger.info('SI EXISTE EL VALOR, CREANDO ATTRIBUTE LINE')
+                                lista_id = lista_id.append(id.id)
+                            else:
+                                logger.info('NO EXISTE EL VALOR PARA EL ATRIBUTO')
+                            attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
+                            
+                        logger.info('CREANDO PRODUCT TEMPLATE CON LOS IDS DE ATRIBUTO ')
+                        attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
+                        if template:
                             producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
-                        elif(atributo.name == valor[6]):
-                            valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
-                            for valor_atributo in valor_atr:
-                                #logger.info('VALOR ATRIBUTO: ')
-                                #L
-                                #logger.info(valor_atributo.name)
-                                if (valor_atributo.name == valor[8]):
-                                    #logger.info('Para %s:' % valor[6])
-                                    #logger.info('Valores de atributo 1 bien %s' % valor[8])
-                                    logger.info('Valores de atributo 1 bien %s' % valor[8])
-                                else:
-                                    logger.info('Valores de atributo 1 mal %s' % valor[8])
-                else:
-                    logger.info('No existe el template: %s' % valor[3])
+                        else:
+                            producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids})
+                    elif(atributo.name == valor[6]):
+                        valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
+                        for valor_atributo in valor_atr:
+                            #logger.info('VALOR ATRIBUTO: ')
+                            #L
+                            #logger.info(valor_atributo.name)
+                            if (valor_atributo.name == valor[8]):
+                                #logger.info('Para %s:' % valor[6])
+                                #logger.info('Valores de atributo 1 bien %s' % valor[8])
+                                logger.info('Valores de atributo 1 bien %s' % valor[8])
+                            else:
+                                logger.info('Valores de atributo 1 mal %s' % valor[8])
+                #else:
+                    #logger.info('No existe el template: %s' % valor[3])
                         
                     # vals['name'] = valor[0]
                     # vals['detailed_type'] = valor[1]
