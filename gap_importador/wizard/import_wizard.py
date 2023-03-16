@@ -97,12 +97,12 @@ class importProductsWizard(models.TransientModel):
                         if template:
                             attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
                             attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
-                            producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids, 'detailed_type': 'product'})
+                            #producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids, 'detailed_type': 'product'})
                         else:
                             producto = self.env['product.template'].create({'name': valor[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
                             attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
                             attribute_line_ids = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id)])
-                            producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids, 'detailed_type': 'product'})
+                            #producto = self.env['product.template'].write({'name': valor[3], 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids.ids, 'detailed_type': 'product'})
                     elif(atributo.name == valor[6]):
                         valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
                         for valor_atributo in valor_atr:
