@@ -106,6 +106,7 @@ class importProductsWizard(models.TransientModel):
                                     else: #Si no existe el template lo creamos directamente con su línea 
                                         producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
                                         attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
+                        logger.info(self.env['product.product'].search([('product_tmpl_id', '=', 50)]).product_variant_ids.ids)
                 
                 
     
