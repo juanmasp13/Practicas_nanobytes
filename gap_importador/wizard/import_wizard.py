@@ -124,7 +124,7 @@ class importProductsWizard(models.TransientModel):
                 combinacion = self.concatenar_combinacion(ptav1, ptav2)
                 id_producto = self.env['product.product'].search([('combination_indices', '=', combinacion)]).id
                 producto = self.env['product.product'].browse([id_producto])
-                divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id
+                divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id 
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa})
 
                 
