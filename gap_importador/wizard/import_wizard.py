@@ -5,7 +5,6 @@ from openpyxl import load_workbook as lw
 import datetime
 import base64
 import xlrd
-from xlrd import xlsx
 import logging, io
 logger = logging.getLogger(__name__)
 
@@ -14,7 +13,7 @@ class importProductsWizard(models.TransientModel):
     _description = 'Import Products Wizard'
 
     category_id = fields.Many2one('product.category', string="Categoría", required=True)
-    fichero = fields.Binary(string="Documento", attachment=False)
+    fichero = fields.Binary(string="Documento", attachment=False, required=True)
     nombre_fichero = fields.Char(string="Nombre del fichero")
 
 
@@ -97,6 +96,7 @@ class importProductsWizard(models.TransientModel):
                                                 lista_id.append(id.id)                                               
                                     if template: #Si existe el template buscamos si existe algun attribute line
                                         attribute_line = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo.id)])
+                                        logger.info('ATTRIBUTE LINES %s' % attribute_line)
                                         if attribute_line: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
                                             attribute_line_vals_ids = attribute_line.value_ids.ids
                                             lista_id = list(dict.fromkeys(lista_id+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
@@ -106,10 +106,11 @@ class importProductsWizard(models.TransientModel):
                                     else: #Si no existe el template lo creamos directamente con su línea 
                                         producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
                                         attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
-                        variantes = self.env['product.template'].search([('name', '=', fila[3])]).product_variant_ids
-                        if variantes:
-                            for id in variantes:
-                                logger.info('ID DE LAS VARIANTES DENTRO DEL FOR: %s' % id.id)
+                        # variantes = self.env['product.template'].search([('name', '=', fila[3])]).product_variant_ids
+                        # if variantes:
+                        #     for id in variantes:
+                        #         variante = self.env['product.product'].browse(id.id)
+                        #         if (variante.product_template_attribute_value_ids):
 
                 
                 
