@@ -99,7 +99,6 @@ class importProductsWizard(models.TransientModel):
                                     lista_id.append(id.id)                                               
                         if template: #Si existe el template buscamos si existe algun attribute line
                             attribute_line = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo.id)])
-                            logger.info('ATTRIBUTE LINES %s' % attribute_line)
                             if attribute_line: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
                                 attribute_line_vals_ids = attribute_line.value_ids.ids
                                 lista_id = list(dict.fromkeys(lista_id+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
@@ -122,11 +121,12 @@ class importProductsWizard(models.TransientModel):
             id_valor_atr_1 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo1), ('name', '=', fila[7])]).id                            
             id_valor_atr_2 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo2), ('name', '=', fila[9])]).id
             if id_valor_atr_1 & id_valor_atr_2:
-                combinaciones = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), 
-                                                                                     '|',('attribute_id', '=', id_atributo1), ('attribute_id', '=', id_atributo2),
-                                                                                     '|',('product_attribute_value_id', '=', id_valor_atr_1), ('product_attribute_value_id', '=', id_valor_atr_2)])
-                for combinacion in combinaciones:
-                    logger.info('COMBINACIONES: %s' % combinacion)                               
+                ptal1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)])
+                ptal2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)])
+                logger.info('PARA EL TEMPLATE: %s' % template_id)
+                logger.info('ESTA DE LA COMBINACION DE: %s' % ptal1)
+                logger.info('CON: %s' % ptal2)
+                              
                 
                 
     
