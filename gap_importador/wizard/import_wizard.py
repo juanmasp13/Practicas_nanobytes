@@ -108,7 +108,6 @@ class importProductsWizard(models.TransientModel):
                             producto = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
                             attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
         return filas
-    
 
     def registrar_productos(self):
         filas = self.registrar_templates()
@@ -127,16 +126,15 @@ class importProductsWizard(models.TransientModel):
             if id_valor_atr_1 and id_valor_atr_2:
                 ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)]).id
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
-                if ptav1 > ptav2:
-                    ptav1 = str(ptav1)
-                    ptav2 = str(ptav2)
-                    combinacion = ptav1,",",ptav2
-                else:
-                    ptav1 = str(ptav1)
-                    ptav2 = str(ptav2)
-                    combinacion = str(ptav2,",",ptav1)
+                combinacion = self.concatenar_combinacion(ptav1, ptav2)
                 logger.info('COMBINACION: %s' % combinacion)
-                              
+    
+    
+    def concatenar_combinacion(num1, num2):
+        if num1 > num2:
+            return str(num1) + ',' + str(num2)
+        else:
+            return str(num2) + ',' + str(num1)               
                 
                 
     
