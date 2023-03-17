@@ -76,7 +76,7 @@ class importProductsWizard(models.TransientModel):
                 #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
                 return filas
 
-    def registrar_productos(self):
+    def registrar_templates(self):
         filas = self.leer_excel_sin_cabecera()
         # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
         for fila in filas:
@@ -107,9 +107,12 @@ class importProductsWizard(models.TransientModel):
                             else: #Si no existe el attribute line lo creamos
                                 self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
                         else: #Si no existe el template lo creamos directamente con su línea 
-                            producto = self.env['product.template'].create({'name': fila[3], 'categ_id': record.category_id.id, 'detailed_type': 'product'})
+                            producto = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
                             attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
-                                
+    
+
+    def registrar_productos(self):
+        self.registrar_templates                            
                 
                 
     
