@@ -130,7 +130,7 @@ class importProductsWizard(models.TransientModel):
                 logger.info('COMBINACION: %s' % combinacion)
     
     
-    def concatenar_combinacion(num1, num2):
+    def concatenar_combinacion(self, num1, num2):
         if num1 > num2:
             return str(num1) + ',' + str(num2)
         else:
