@@ -112,7 +112,7 @@ class importProductsWizard(models.TransientModel):
     
 
     def registrar_productos(self):
-        self.registrar_templates                            
+        self.registrar_templates()                            
                 
                 
     
