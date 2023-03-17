@@ -107,11 +107,11 @@ class importProductsWizard(models.TransientModel):
                         else: #Si no existe el template lo creamos directamente con su línea 
                             producto = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
                             attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
+        return filas
     
 
     def registrar_productos(self):
-        self.registrar_templates()
-        filas = self.leer_excel_sin_cabecera()
+        filas = self.registrar_templates()
         # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
         for fila in filas:
             template_id = self.env['product.template'].search([('name', '=', fila[3])]).id
@@ -124,7 +124,7 @@ class importProductsWizard(models.TransientModel):
             logger.info('PARA EL VALOR ATRIBUTO 1 CON ID: %s' % id_valor_atr_1)                            
             id_valor_atr_2 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo2), ('name', '=', fila[9])]).id
             logger.info('PARA EL VALOR ATRIBUTO 2 CON ID: %s' % id_valor_atr_2) 
-            if id_valor_atr_1 & id_valor_atr_2:
+            if id_valor_atr_1 and id_valor_atr_2:
                 ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)])
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)])
                 logger.info('ESTA DE LA COMBINACION DE: %s' % ptav1)
