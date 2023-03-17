@@ -132,9 +132,9 @@ class importProductsWizard(models.TransientModel):
     
     def concatenar_combinacion(self, num1, num2):
         if num1 > num2:
-            return str(num1) + ',' + str(num2)
+            return str(num2) + ',' + str(num1)
         else:
-            return str(num2) + ',' + str(num1)               
+            return str(num1) + ',' + str(num2)               
                 
                 
     
