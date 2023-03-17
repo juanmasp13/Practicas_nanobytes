@@ -108,8 +108,8 @@ class importProductsWizard(models.TransientModel):
                                         attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
                         variantes = self.env['product.template'].search([('name', '=', fila[3])]).product_variant_ids
                         if variantes:
-                            for id.id in variantes:
-                                logger.info('ID DE LAS VARIANTES DENTRO DEL FOR: %s' % id)
+                            for id in variantes:
+                                logger.info('ID DE LAS VARIANTES DENTRO DEL FOR: %s' % id.id)
 
                 
                 
