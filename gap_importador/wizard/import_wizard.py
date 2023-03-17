@@ -128,9 +128,9 @@ class importProductsWizard(models.TransientModel):
                 ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)]).id
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
                 if ptav1 > ptav2:
-                    combinacion = ptav1,",",ptav2
+                    combinacion = str(ptav1,",",ptav2)
                 else:
-                    combinacion = ptav2,",",ptav1
+                    combinacion = str(ptav2,",",ptav1)
                 logger.info('COMBINACION: %s' % combinacion)
                               
                 
