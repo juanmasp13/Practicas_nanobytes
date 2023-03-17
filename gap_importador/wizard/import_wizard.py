@@ -125,10 +125,13 @@ class importProductsWizard(models.TransientModel):
             id_valor_atr_2 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo2), ('name', '=', fila[9])]).id
             logger.info('PARA EL VALOR ATRIBUTO 2 CON ID: %s' % id_valor_atr_2) 
             if id_valor_atr_1 and id_valor_atr_2:
-                ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)])
-                ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)])
-                logger.info('ESTA DE LA COMBINACION DE: %s' % ptav1)
-                logger.info('CON: %s' % ptav2)
+                ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)]).id
+                ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
+                if ptav1 > ptav2:
+                    combinacion = ptav1,",",ptav2
+                else:
+                    combinacion = ptav2,",",ptav1
+                logger.info('COMBINACION: %s' % combinacion)
                               
                 
                 
