@@ -68,13 +68,12 @@ class importProductsWizard(models.TransientModel):
                 #template = self.env['product.template'].create(registros)
     
     def leer_excel_sin_cabecera(self):
-        for record in self:
-            if record.fichero:
-                opt = {}
-                num_filas, filas = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
-                filas.pop(0)
-                #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
-                return filas
+        if self.fichero:
+            opt = {}
+            num_filas, filas = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
+            filas.pop(0)
+            #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
+            return filas
 
     def registrar_templates(self):
         filas = self.leer_excel_sin_cabecera()
@@ -116,16 +115,20 @@ class importProductsWizard(models.TransientModel):
         # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
         for fila in filas:
             template_id = self.env['product.template'].search([('name', '=', fila[3])]).id
-            id_atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]).id                            
+            logger.info('PARA EL ID TEMPLATE %s' % template_id)
+            id_atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]).id 
+            logger.info('PARA EL ATRIBUTO 1 CON ID: %s' % id_atributo1)                           
             id_atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]).id
-            id_valor_atr_1 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo1), ('name', '=', fila[7])]).id                            
+            logger.info('PARA EL ATRIBUTO 2 CON ID: %s' % id_atributo2)
+            id_valor_atr_1 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo1), ('name', '=', fila[7])]).id
+            logger.info('PARA EL VALOR ATRIBUTO 1 CON ID: %s' % id_valor_atr_1)                            
             id_valor_atr_2 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo2), ('name', '=', fila[9])]).id
+            logger.info('PARA EL VALOR ATRIBUTO 2 CON ID: %s' % id_valor_atr_2) 
             if id_valor_atr_1 & id_valor_atr_2:
-                ptal1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)])
-                ptal2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)])
-                logger.info('PARA EL TEMPLATE: %s' % template_id)
-                logger.info('ESTA DE LA COMBINACION DE: %s' % ptal1)
-                logger.info('CON: %s' % ptal2)
+                ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)])
+                ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)])
+                logger.info('ESTA DE LA COMBINACION DE: %s' % ptav1)
+                logger.info('CON: %s' % ptav2)
                               
                 
                 
