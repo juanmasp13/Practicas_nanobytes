@@ -112,7 +112,21 @@ class importProductsWizard(models.TransientModel):
     
 
     def registrar_productos(self):
-        self.registrar_templates()                            
+        self.registrar_templates()
+        filas = self.leer_excel_sin_cabecera()
+        # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
+        for fila in filas:
+            template_id = self.env['product.template'].search([('name', '=', fila[3])]).id
+            id_atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]).id                            
+            id_atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]).id
+            id_valor_atr_1 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo1), ('name', '=', fila[7])]).id                            
+            id_valor_atr_2 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo2), ('name', '=', fila[9])]).id
+            if id_valor_atr_1 & id_valor_atr_2:
+                combinaciones = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), 
+                                                                                     '|',('attribute_id', '=', id_atributo1), ('attribute_id', '=', id_atributo2),
+                                                                                     '|',('product_attribute_value_id', '=', id_valor_atr_1), ('product_attribute_value_id', '=', id_valor_atr_2)])
+                for combinacion in combinaciones:
+                    logger.info('COMBINACIONES: %s' % combinacion)                               
                 
                 
     
