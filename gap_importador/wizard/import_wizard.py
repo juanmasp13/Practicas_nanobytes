@@ -114,20 +114,17 @@ class importProductsWizard(models.TransientModel):
         # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
         for fila in filas:
             template_id = self.env['product.template'].search([('name', '=', fila[3])]).id
-            logger.info('PARA EL ID TEMPLATE %s' % template_id)
-            id_atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]).id 
-            logger.info('PARA EL ATRIBUTO 1 CON ID: %s' % id_atributo1)                           
+            id_atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]).id                           
             id_atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]).id
-            logger.info('PARA EL ATRIBUTO 2 CON ID: %s' % id_atributo2)
-            id_valor_atr_1 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo1), ('name', '=', fila[7])]).id
-            logger.info('PARA EL VALOR ATRIBUTO 1 CON ID: %s' % id_valor_atr_1)                            
+            id_valor_atr_1 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo1), ('name', '=', fila[7])]).id                         
             id_valor_atr_2 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo2), ('name', '=', fila[9])]).id
-            logger.info('PARA EL VALOR ATRIBUTO 2 CON ID: %s' % id_valor_atr_2) 
             if id_valor_atr_1 and id_valor_atr_2:
                 ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)]).id
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
                 combinacion = self.concatenar_combinacion(ptav1, ptav2)
-                logger.info('COMBINACION: %s' % combinacion)
+                producto = self.env['product.product'].search([('combination_indices', '=', combinacion)])
+                logger.info('TENEMOS EL PRODUCTO: %s' % producto.display_name)
+                
     
     
     def concatenar_combinacion(self, num1, num2):
