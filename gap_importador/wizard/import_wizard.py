@@ -77,12 +77,12 @@ class importProductsWizard(models.TransientModel):
 
     def registrar_templates(self):
         filas = self.leer_excel_sin_cabecera()
-        # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
         for fila in filas:
             atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
             atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
             if atributo1: #Si existe el atributo 1 y el atributo 2 hacemos el proceso
                 if atributo2:
+                    logger.info("TEMPLATE: %s" % fila[3])
                     template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                     lista_id1 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 1
                     lista_id2 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 2
@@ -97,6 +97,7 @@ class importProductsWizard(models.TransientModel):
                     else:
                         logger.info("Para el atributo %s no existe el valor %s" % (atributo2.name, fila[9]))                      
                         if template: #Si existe el template buscamos si existe algun attribute line
+                            logger.info("EXISTE EL TEMPLATE %s" % template.name)
                             attribute_line1 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo1.id)])
                             attribute_line2 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo2.id)])
                             if attribute_line1: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
@@ -112,6 +113,7 @@ class importProductsWizard(models.TransientModel):
                             else: #Si no existe el attribute line lo creamos
                                 self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': lista_id2})
                         else: #Si no existe el template lo creamos directamente con sus líneas
+                            logger.info("El template %s no existe, lo creamos directamente" % fila[3])
                             producto = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
                             attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id1})
                             attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id2})
