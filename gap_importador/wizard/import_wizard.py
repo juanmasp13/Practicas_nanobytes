@@ -178,7 +178,7 @@ class importProductsWizard(models.TransientModel):
                         pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[17]})
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa_id})
         return {
-            "type": "ir.actions.do_nothing",
+            "type": "set_scrollTop",
         }
 
                 
