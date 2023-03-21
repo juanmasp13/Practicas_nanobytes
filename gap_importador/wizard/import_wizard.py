@@ -83,37 +83,38 @@ class importProductsWizard(models.TransientModel):
             atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
             if atributo1: #Si existe el atributo 1 y el atributo 2 hacemos el proceso
                 if atributo2:
-                    atributos = self.env['product.attribute'].search(['|', ('name', '=', fila[5]), ('name', '=', fila[6])]) #BUSCAMOS ATRIBUTOS
-                    for atributo in atributos: #Para cada atributo
-                        template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
-                        lista_id = [] #Creamos una lista a la que le vamos a concatenar los valores de cada atributo
-                        ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)]) #ID DE LOS VALORES DE LOS ATRIBUTOS
-                        if ids_valores_attr: #Si existen los valores de los atributos
-                            if (atributo.name == fila[5]): #Comprobamos que el atributo está bien escrito
-                                for id in ids_valores_attr:
-                                    if id.name == fila[7]: #Comprobamos que el valor del atributo está bien escrito
-                                        lista_id.append(id.id) #Si está bien escrito lo agregamos a la lista
-                                    else:
-                                        logger.info("ID NAME: %s, FILA NAME: %s" % (id.name,fila[7]))
-                                        logger.info("Para el atributo %s no existe el valor %s" % (fila[5],fila[7]))
-                            elif (atributo.name == fila[6]):
-                                for id in ids_valores_attr:
-                                    if id.name == fila[9]:
-                                        lista_id.append(id.id)
-                                    else:
-                                        logger.info("ID NAME: %s, FILA NAME: %s" % (id.name,fila[9]))
-                                        logger.info("Para el atributo %s no existe el valor %s" % (fila[6],fila[9]))                                               
-                            if template: #Si existe el template buscamos si existe algun attribute line
-                                attribute_line = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo.id)])
-                                if attribute_line: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
-                                    attribute_line_vals_ids = attribute_line.value_ids.ids
-                                    lista_id = list(dict.fromkeys(lista_id+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
-                                    attribute_line.write({'value_ids': [(6, 0, lista_id)]}) #Añadimos los valores nuevos
-                                else: #Si no existe el attribute line lo creamos
-                                    self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': lista_id})
-                            else: #Si no existe el template lo creamos directamente con su línea 
-                                producto = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
-                                attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id})
+                    template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
+                    lista_id1 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 1
+                    lista_id2 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 2
+                    valores_attr1 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo1.id), ('name', '=', fila[7])]) #ID DE LOS VALORES DE LOS ATRIBUTOS
+                    valores_attr2 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo2.id), ('name', '=', fila[9])]) #ID DE LOS VALORES DE LOS ATRIBUTOS
+                    if valores_attr1: #Si existen los valores de los atributos 
+                        lista_id1.append(valores_attr1.id) #Si está bien escrito lo agregamos a la lista
+                    else:
+                        logger.info("Para el atributo %s no existe el valor %s" % (atributo1.name, fila[7]))
+                    if valores_attr2:
+                        lista_id2.append(valores_attr2.id)
+                    else:
+                        logger.info("Para el atributo %s no existe el valor %s" % (atributo2.name, fila[9]))                      
+                        if template: #Si existe el template buscamos si existe algun attribute line
+                            attribute_line1 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo1.id)])
+                            attribute_line2 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo2.id)])
+                            if attribute_line1: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
+                                attribute_line_vals_ids = attribute_line1.value_ids.ids
+                                lista_id1 = list(dict.fromkeys(lista_id1+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
+                                attribute_line1.write({'value_ids': [(6, 0, lista_id1)]}) #Añadimos los valores nuevos
+                            else: #Si no existe el attribute line lo creamos
+                                self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': template.id, 'value_ids': lista_id1})
+                            if attribute_line2: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
+                                attribute_line_vals_ids = attribute_line2.value_ids.ids
+                                lista_id2 = list(dict.fromkeys(lista_id2+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
+                                attribute_line1.write({'value_ids': [(6, 0, lista_id2)]}) #Añadimos los valores nuevos
+                            else: #Si no existe el attribute line lo creamos
+                                self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': lista_id2})
+                        else: #Si no existe el template lo creamos directamente con sus líneas
+                            producto = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
+                            attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id1})
+                            attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id2})
                 else:
                     logger.info("El atributo %s no existe" % fila[6])
             else:
