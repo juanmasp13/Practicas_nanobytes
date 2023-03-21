@@ -125,7 +125,7 @@ class importProductsWizard(models.TransientModel):
                     registro.write({'log_importacion': registro.log_importacion + '\n' + log})
             else:
                 log = "El atributo %s no existe" % fila[5]
-                registro.write({'log_importacion': registro.log_importacion + '\n' + log})
+                registro.write({'log_importacion': registro.log_importacion + '\n' + log}) 
 
                 
         return filas
