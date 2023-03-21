@@ -142,7 +142,6 @@ class importProductsWizard(models.TransientModel):
                 producto = self.env['product.product'].search([('combination_indices', '=', combinacion)])
                 logger.info('PARA EL PRODUCTO %s' % producto.display_name)
                 divisa_id = self.env['ir.model.data'].search([('model', '=', 'res.currency'), ('module', '=', 'base'), ('name', '=', fila[13])]).res_id
-                divisa = self.env['res.currency'].search([('id', '=', divisa_id)])
                 if fila[0] != '':
                     external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])               
                     if external_id:
@@ -177,7 +176,7 @@ class importProductsWizard(models.TransientModel):
                         pricelist_item.write({'fixed_price': fila[17]})
                     else:
                         pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[17]})
-                producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa.id})
+                producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa_id})
                 logger.info('Para el product %s el id de su divisa es %s' % (producto.display_name, producto.currency_id))
 
                 
