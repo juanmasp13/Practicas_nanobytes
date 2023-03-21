@@ -143,9 +143,9 @@ class importProductsWizard(models.TransientModel):
                 divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id
                 external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])
                 if fila[0] == '':
-                    logger.info('EXTERNAL ID VACIO')
+                    logger.info('EXTERNAL ID VACIO %s' % fila[0])
                 else:
-                    logger.info('EXTERNAL ID RELLENADO')
+                    logger.info('EXTERNAL ID RELLENADO %s' % fila[0])
                 # if external_id:
                 #     producto = self.env['product.product'].browse([external_id.res_id])                     
                 # else:
