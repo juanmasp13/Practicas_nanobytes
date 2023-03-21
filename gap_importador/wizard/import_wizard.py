@@ -77,12 +77,12 @@ class importProductsWizard(models.TransientModel):
 
     def registrar_templates(self):
         filas = self.leer_excel_sin_cabecera()
+        registro = self.env['import.products.wizard'].search([('id', '=', self.id)])
         for fila in filas:
             atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
             atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
             if atributo1: #Si existe el atributo 1 y el atributo 2 hacemos el proceso
                 if atributo2:
-                    logger.info("TEMPLATE: %s" % fila[3])
                     template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
                     lista_id1 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 1
                     lista_id2 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 2
@@ -90,12 +90,14 @@ class importProductsWizard(models.TransientModel):
                     valores_attr2 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo2.id), ('name', '=', fila[9])]) #ID DE LOS VALORES DE LOS ATRIBUTOS
                     if valores_attr1: #Si existen los valores de los atributos 
                         lista_id1.append(valores_attr1.id) #Si está bien escrito lo agregamos a la lista
-                    else:
-                        logger.info("Para el atributo %s no existe el valor %s" % (atributo1.name, fila[7]))
+                    else:                       
+                        log = "Para el atributo %s no existe el valor %s" % (atributo1.name, fila[7])
+                        registro.write({'log_importacion': registro.log_importacion + '\n' + log})
                     if valores_attr2:
                         lista_id2.append(valores_attr2.id)
                     else:
-                        logger.info("Para el atributo %s no existe el valor %s" % (atributo2.name, fila[9]))                      
+                        log = "Para el atributo %s no existe el valor %s" % (atributo2.name, fila[9])
+                        registro.write({'log_importacion': registro.log_importacion + '\n' + log})                      
                     if valores_attr1 and valores_attr2: #Si existe el template buscamos si existe algun attribute line
                         if template:
                             logger.info("EXISTE EL TEMPLATE %s" % template.name)
@@ -119,9 +121,11 @@ class importProductsWizard(models.TransientModel):
                             attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id1})
                             attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id2})
                 else:
-                    logger.info("El atributo %s no existe" % fila[6])
+                    log = "El atributo %s no existe" % fila[6]
+                    registro.write({'log_importacion': registro.log_importacion + '\n' + log})
             else:
-                logger.info("El atributo %s no existe" % fila[5])
+                log = "El atributo %s no existe" % fila[5]
+                registro.write({'log_importacion': registro.log_importacion + '\n' + log})
 
                 
         return filas
