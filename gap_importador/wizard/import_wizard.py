@@ -181,7 +181,7 @@ class importProductsWizard(models.TransientModel):
         'context': self.env.context,
         'view_type': 'form',
         'view_mode': 'form',
-        'res_model': 'model_name',
+        'res_model': 'import.products.wizard',
         'res_id': self.id,
         'view_id': False,
         'type': 'ir.actions.act_window',
