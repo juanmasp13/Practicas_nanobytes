@@ -178,8 +178,15 @@ class importProductsWizard(models.TransientModel):
                         pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[17]})
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa_id})
         return {
-            "type": "set_scrollTop",
-        }
+        'context': self.env.context,
+        'view_type': 'form',
+        'view_mode': 'form',
+        'res_model': 'model_name',
+        'res_id': self.id,
+        'view_id': False,
+        'type': 'ir.actions.act_window',
+        'target': 'new',
+    }
 
                 
                 
