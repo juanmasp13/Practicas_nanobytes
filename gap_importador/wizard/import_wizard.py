@@ -139,11 +139,14 @@ class importProductsWizard(models.TransientModel):
                 ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)]).id
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
                 combinacion = self.concatenar_combinacion(ptav1, ptav2)
-                id_producto = self.env['product.product'].search([('combination_indices', '=', combinacion)]).id
-                producto = self.env['product.product'].browse([id_producto])
-                divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id 
+                producto = self.env['product.product'].search([('combination_indices', '=', combinacion)])
+                divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id
+                external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])
+                if external_id:
+                    producto = self.env['product.product'].browse([external_id.res_id])                     
+                else:
+                    external_id = self.env['ir.model.data'].create({'name': fila[0], 'module': 'stock', 'model': 'product.product', 'res_id': producto.id})
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa})
-                logger.info('ID CURRENCY DEL PRODUCTO: %s', producto.currency_id)
 
                 
                 
