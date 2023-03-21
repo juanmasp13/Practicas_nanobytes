@@ -178,6 +178,7 @@ class importProductsWizard(models.TransientModel):
                     else:
                         pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[17]})
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa.id})
+                logger.info('Para el product %s el id de su divisa es %s' % (producto.display_name, producto.currency_id))
 
                 
                 
