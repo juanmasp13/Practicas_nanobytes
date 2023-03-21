@@ -161,21 +161,21 @@ class importProductsWizard(models.TransientModel):
                     if pricelist_item:
                         pricelist_item.write({'fixed_price': fila[15]})
                     else:
-                        pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[14]})
+                        pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[15]})
                 if fila[16] != '':
                     pricelist_id = self.env['product.pricelist'].search([('name', '=', 'PVP 3')]).id
                     pricelist_item = self.env['product.pricelist.item'].search([('pricelist_id', '=', pricelist_id), ('product_id', '=', producto.id)])
                     if pricelist_item:
                         pricelist_item.write({'fixed_price': fila[16]})
                     else:
-                        pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[14]})
+                        pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[16]})
                 if fila[17] != '':
                     pricelist_id = self.env['product.pricelist'].search([('name', '=', 'PVP Final')]).id
                     pricelist_item = self.env['product.pricelist.item'].search([('pricelist_id', '=', pricelist_id), ('product_id', '=', producto.id)])
                     if pricelist_item:
                         pricelist_item.write({'fixed_price': fila[17]})
                     else:
-                        pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[14]})
+                        pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[17]})
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa})
 
                 
