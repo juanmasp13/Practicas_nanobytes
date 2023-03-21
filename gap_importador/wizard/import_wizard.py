@@ -186,7 +186,7 @@ class importProductsWizard(models.TransientModel):
         'view_id': False,
         'type': 'ir.actions.act_window',
         'target': 'new',
-    }
+    } 
 
                 
                 
