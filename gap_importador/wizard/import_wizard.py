@@ -142,12 +142,20 @@ class importProductsWizard(models.TransientModel):
                 producto = self.env['product.product'].search([('combination_indices', '=', combinacion)])
                 logger.info('PARA EL PRODUCTO %s' % producto.display_name)
                 divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id
+                #PVP 1: 14, PVP 2: 15, PVP 3: 16, PVP Final: 17
                 if fila[0] != '':
                     external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])               
                     if external_id:
                         producto = self.env['product.product'].browse([external_id.res_id])                     
                     else:
                         external_id = self.env['ir.model.data'].create({'name': fila[0], 'module': 'stock', 'model': 'product.product', 'res_id': producto.id})
+                if fila[14] != '':
+                    pricelist_id = self.env['product.pricelist'].search([('name', '=', 'PVP 1')]).id
+                    pricelist_item = self.env['product.pricelist.item'].search([('pricelist_id', '=', pricelist_id), ('product_id', '=', producto.id)])
+                    if pricelist_item:
+                        pricelist_item.write({'fixed_price': fila[14]})
+                    else:
+                        pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[14]})
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa})
 
                 
