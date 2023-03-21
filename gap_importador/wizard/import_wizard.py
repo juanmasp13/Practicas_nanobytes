@@ -108,7 +108,7 @@ class importProductsWizard(models.TransientModel):
                             if attribute_line2: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
                                 attribute_line_vals_ids = attribute_line2.value_ids.ids
                                 lista_id2 = list(dict.fromkeys(lista_id2+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
-                                attribute_line1.write({'value_ids': [(6, 0, lista_id2)]}) #Añadimos los valores nuevos
+                                attribute_line2.write({'value_ids': [(6, 0, lista_id2)]}) #Añadimos los valores nuevos
                             else: #Si no existe el attribute line lo creamos
                                 self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': lista_id2})
                         else: #Si no existe el template lo creamos directamente con sus líneas
