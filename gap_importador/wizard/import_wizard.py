@@ -126,6 +126,7 @@ class importProductsWizard(models.TransientModel):
                 producto = self.env['product.product'].browse([id_producto])
                 divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id 
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa})
+                logger.info('ID CURRENCY DEL PRODUCTO: %s', producto.currency_id)
 
                 
                 
