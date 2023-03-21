@@ -78,6 +78,7 @@ class importProductsWizard(models.TransientModel):
     def registrar_templates(self):
         filas = self.leer_excel_sin_cabecera()
         for fila in filas:
+            self.log_importacion = "hola"
             atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
             atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
             if atributo1: #Si existe el atributo 1 y el atributo 2 hacemos el proceso
