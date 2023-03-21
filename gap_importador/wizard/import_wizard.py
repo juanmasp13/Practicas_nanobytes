@@ -115,9 +115,9 @@ class importProductsWizard(models.TransientModel):
                                 self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': lista_id2})
                         else: #Si no existe el template lo creamos directamente con sus líneas
                             logger.info("El template %s no existe, lo creamos directamente" % fila[3])
-                            producto = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
-                            attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id1})
-                            attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': producto.id, 'value_ids': lista_id2})
+                            product_template = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
+                            attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id1})
+                            attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id2})
                 else:
                     logger.info("El atributo %s no existe" % fila[6])
             else:
