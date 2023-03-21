@@ -142,10 +142,14 @@ class importProductsWizard(models.TransientModel):
                 producto = self.env['product.product'].search([('combination_indices', '=', combinacion)])
                 divisa = self.env['res.currency'].search([('name', '=', fila[13])]).id
                 external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])
-                if external_id:
-                    producto = self.env['product.product'].browse([external_id.res_id])                     
+                if fila[0] == '':
+                    logger.info('EXTERNAL ID VACIO')
                 else:
-                    external_id = self.env['ir.model.data'].create({'name': fila[0], 'module': 'stock', 'model': 'product.product', 'res_id': producto.id})
+                    logger.info('EXTERNAL ID RELLENADO')
+                # if external_id:
+                #     producto = self.env['product.product'].browse([external_id.res_id])                     
+                # else:
+                #     external_id = self.env['ir.model.data'].create({'name': fila[0], 'module': 'stock', 'model': 'product.product', 'res_id': producto.id})
                 producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa})
 
                 
