@@ -94,12 +94,14 @@ class importProductsWizard(models.TransientModel):
                                     if id.name == fila[7]: #Comprobamos que el valor del atributo está bien escrito
                                         lista_id.append(id.id) #Si está bien escrito lo agregamos a la lista
                                     else:
+                                        logger.info("ID NAME: %s, FILA NAME: %s" % (id.name,fila[7]))
                                         logger.info("Para el atributo %s no existe el valor %s" % (fila[5],fila[7]))
                             elif (atributo.name == fila[6]):
                                 for id in ids_valores_attr:
                                     if id.name == fila[9]:
                                         lista_id.append(id.id)
                                     else:
+                                        logger.info("ID NAME: %s, FILA NAME: %s" % (id.name,fila[9]))
                                         logger.info("Para el atributo %s no existe el valor %s" % (fila[6],fila[9]))                                               
                             if template: #Si existe el template buscamos si existe algun attribute line
                                 attribute_line = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo.id)])
