@@ -15,7 +15,7 @@ class importProductsWizard(models.TransientModel):
     category_id = fields.Many2one('product.category', string="Categoría", required=True)
     fichero = fields.Binary(string="Documento", attachment=False, required=True)
     nombre_fichero = fields.Char(string="Nombre del fichero")
-    log_importacion = fields.Text(string="Log Importacion", readonly=True)
+    log_importacion = fields.Text(string="Log Importacion", readonly=True) 
 
 
     def old_registrar_productos(self):
