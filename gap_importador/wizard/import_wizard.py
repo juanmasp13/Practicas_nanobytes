@@ -28,6 +28,10 @@ class importProductsWizard(models.TransientModel):
     def registrar_templates(self):
         filas = self.leer_excel_sin_cabecera()
         num_fila = 1
+        if self.descatalogar:
+            productos = self.env['product.product'].search([('categ_id', '=', self.category_id)])
+            for producto in productos:
+                producto.write({'descatalogado': True})
         for fila in filas:
             if fila[3] != '' and fila[5] != '' and fila[6] != '' and fila[7] != '' and fila[9] != '':
                 atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
@@ -170,7 +174,7 @@ class importProductsWizard(models.TransientModel):
                         pricelist_item.write({'fixed_price': fila[17]})
                     else:
                         pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[17]})
-                producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa_id})
+                producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa_id, 'descatalogado': False})
         return {
         'context': self.env.context,
         'view_type': 'form',
