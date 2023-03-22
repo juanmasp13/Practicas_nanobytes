@@ -9,6 +9,7 @@
                 <group>
                     <field name="category_id"/>
                     <field name="fichero"/>
+                    <field name="descatalogar"/>
                     <field name="log_importacion"/>
                 </group>
                 <footer>
