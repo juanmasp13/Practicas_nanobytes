@@ -77,7 +77,7 @@ class importProductsWizard(models.TransientModel):
 
     def registrar_templates(self):
         filas = self.leer_excel_sin_cabecera()
-        
+        num_fila = 1
         for fila in filas:
             atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
             atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
@@ -91,7 +91,7 @@ class importProductsWizard(models.TransientModel):
                     if valores_attr1: #Si existen los valores de los atributos 
                         lista_id1.append(valores_attr1.id) #Si está bien escrito lo agregamos a la lista
                     else:                       
-                        log = "Para el atributo %s no existe el valor %s.\n" % (atributo1.name, fila[7])
+                        log = "En la fila %s: para el atributo %s no existe el valor %s.\n" % (str(num_fila), atributo1.name, fila[7])
                         if self.log_importacion:
                             self.log_importacion = self.log_importacion + log
                         else:
@@ -99,12 +99,11 @@ class importProductsWizard(models.TransientModel):
                     if valores_attr2:
                         lista_id2.append(valores_attr2.id)
                     else:
-                        log = "Para el atributo %s no existe el valor %s.\n" % (atributo2.name, fila[9])
+                        log = "En la fila %s: para el atributo %s no existe el valor %s.\n" % (str(num_fila), atributo2.name, fila[9])
                         if self.log_importacion:
                             self.log_importacion = self.log_importacion + log
                         else:
-                            self.log_importacion = log
-                        logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion)                      
+                            self.log_importacion = log                      
                     if valores_attr1 and valores_attr2: #Si existe el template buscamos si existe algun attribute line
                         if template:
                             attribute_line1 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo1.id)])
@@ -126,21 +125,19 @@ class importProductsWizard(models.TransientModel):
                             attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id1})
                             attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id2})
                 else:
-                    log = "El atributo %s no existe.\n" % fila[6]
+                    log = "En la fila %s: el atributo %s no existe.\n" % (str(num_fila), fila[6])
                     if self.log_importacion:
                         self.log_importacion = self.log_importacion + log
                     else:
                         self.log_importacion = log
-                    logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion)
             else:
-                log = "El atributo %s no existe\n" % fila[5]
+                log = "En la fila %s: el atributo %s no existe.\n" % (str(num_fila), fila[5])
                 if self.log_importacion:
                     self.log_importacion = self.log_importacion + log
                 else:
                     self.log_importacion = log
-                logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion) 
 
-                
+            fila += 1        
         return filas
 
     def registrar_productos(self):
