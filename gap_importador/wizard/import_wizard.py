@@ -8,10 +8,7 @@ import xlrd
 import logging, io
 logger = logging.getLogger(__name__)
 
-class ProductProductInherit(models.Model):
-    _inherit="product.product"
 
-    descatalogado = fields.Boolean()
 
 class importProductsWizard(models.TransientModel):
     _name = 'import.products.wizard'
