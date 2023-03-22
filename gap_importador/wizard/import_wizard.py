@@ -14,58 +14,8 @@ class importProductsWizard(models.TransientModel):
 
     category_id = fields.Many2one('product.category', string="Categoría", required=True)
     fichero = fields.Binary(string="Documento", attachment=False, required=True)
-    log_importacion = fields.Text(string="Productos no importados:", readonly=True) 
-
-
-    def old_registrar_productos(self):
-        for record in self:
-            if record.fichero:
-                opt = {}
-                num_filas, valores = self._read_xls(options=opt) #En valores guardo una lista con listas de valores
-                valores.pop(0)
-                #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
-                # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
-
-                for valor in valores:
-                    logger.info('TEMPLATE: ')
-                    logger.info(valor[3])
-                    if self.env['product.template'].search([('name', '=', valor[3])], limit=1):
-                        template = self.env['product.template'].search([('name', '=', valor[3])])
-                        if template:
-                            atributo = self.env['product.attribute'].search([('name', '=', valor[5])])
-                            if (atributo.name == valor[5]):
-                                ids_valores_attr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
-                                logger.info('CREANDO ATTRIBUTE LINE')
-                                attribute_line = self.env['product.template.attribute.line'].create({'attribute_id': atributo.id, 'product_tmpl_id': template.id, 'value_ids': ids_valores_attr.ids})
-                                for valor_atributo in ids_valores_attr:
-                                    if (valor_atributo.name == valor[7]):
-                                        logger.info('CREANDO PRODUCT CON ATRIBUTO')
-                                        logger.info(atributo.name)
-                                        logger.info('CON VALOR')
-                                        logger.info(valor_atributo.name)
-                                        attribute_line_ids = [attribute_line.id]
-                                        producto = self.env['product.product'].create({'name': valor[3], 'product_tmpl_id': template.id, 'categ_id': record.category_id.id, 'attribute_line_ids': attribute_line_ids, 'detailed_type': 'product'})
-                                        logger.info(producto)
-                                    else:
-                                        logger.info('Valores de atributo 1 mal %s' % valor[7])
-                            elif(atributo.name == valor[6]):
-                                valor_atr = self.env['product.attribute.value'].search([('attribute_id', '=', atributo.id)])
-                                for valor_atributo in valor_atr:
-                                    #logger.info('VALOR ATRIBUTO: ')
-                                    #logger.info(valor_atributo.name)
-                                    if (valor_atributo.name == valor[8]):
-                                        #logger.info('Para %s:' % valor[6])
-                                        #logger.info('Valores de atributo 1 bien %s' % valor[8])
-                                        logger.info('Valores de atributo 1 bien %s' % valor[8])
-                                    else:
-                                        logger.info('Valores de atributo 1 mal %s' % valor[8])
-                    else:
-                        logger.info('No existe el template: %s' % valor[3])
-                        
-                    # vals['name'] = valor[0]
-                    # vals['detailed_type'] = valor[1]
-                    # registros.append(vals)
-                #template = self.env['product.template'].create(registros)
+    log_importacion = fields.Text(string="Productos no importados:", readonly=True)
+    descatalogar = fields.Boolean(string="Descatalogar no encontrados") 
     
     def leer_excel_sin_cabecera(self):
         if self.fichero:
@@ -291,3 +241,7 @@ class importProductsWizard(models.TransientModel):
         # return the file length as first value
         return sheet.nrows, rows
                 
+class ProductProductInherit(models.Model):
+    _inherit="product.product"
+
+    descatalogado = fields.Boolean()
