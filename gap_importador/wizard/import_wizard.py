@@ -137,7 +137,7 @@ class importProductsWizard(models.TransientModel):
                 else:
                     self.log_importacion = log
 
-            fila += 1        
+            num_fila += 1        
         return filas
 
     def registrar_productos(self):
