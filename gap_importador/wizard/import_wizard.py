@@ -92,6 +92,7 @@ class importProductsWizard(models.TransientModel):
                         lista_id1.append(valores_attr1.id) #Si está bien escrito lo agregamos a la lista
                     else:                       
                         log = "Para el atributo %s no existe el valor %s" % (atributo1.name, fila[7])
+                        self.log_importacion = log
                         logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion)
                     if valores_attr2:
                         lista_id2.append(valores_attr2.id)
@@ -100,7 +101,6 @@ class importProductsWizard(models.TransientModel):
                         logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion)                      
                     if valores_attr1 and valores_attr2: #Si existe el template buscamos si existe algun attribute line
                         if template:
-                            logger.info("EXISTE EL TEMPLATE %s" % template.name)
                             attribute_line1 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo1.id)])
                             attribute_line2 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo2.id)])
                             if attribute_line1: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
@@ -116,7 +116,6 @@ class importProductsWizard(models.TransientModel):
                             else: #Si no existe el attribute line lo creamos
                                 self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': lista_id2})
                         else: #Si no existe el template lo creamos directamente con sus líneas
-                            logger.info("El template %s no existe, lo creamos directamente" % fila[3])
                             product_template = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
                             attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id1})
                             attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id2})
@@ -144,7 +143,6 @@ class importProductsWizard(models.TransientModel):
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
                 combinacion = self.concatenar_combinacion(ptav1, ptav2)
                 producto = self.env['product.product'].search([('combination_indices', '=', combinacion)])
-                logger.info('PARA EL PRODUCTO %s' % producto.display_name)
                 divisa_id = self.env['ir.model.data'].search([('model', '=', 'res.currency'), ('module', '=', 'base'), ('name', '=', fila[13])]).res_id
                 if fila[0] != '':
                     external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])               
