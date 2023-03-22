@@ -34,7 +34,7 @@ class importProductsWizard(models.TransientModel):
         filas = self.leer_excel_sin_cabecera()
         num_fila = 1
         if self.descatalogar:
-            productos = self.env['product.product'].search([('categ_id', '=', self.category_id)])
+            productos = self.env['product.product'].search([('categ_id', '=', self.category_id.id)])
             for producto in productos:
                 producto.write({'descatalogado': True})
         for fila in filas:
