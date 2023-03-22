@@ -91,14 +91,14 @@ class importProductsWizard(models.TransientModel):
                     if valores_attr1: #Si existen los valores de los atributos 
                         lista_id1.append(valores_attr1.id) #Si está bien escrito lo agregamos a la lista
                     else:                       
-                        log = "Para el atributo %s no existe el valor %s" % (atributo1.name, fila[7])
-                        self.log_importacion = log
+                        log = "Para el atributo %s no existe el valor %s.\n" % (atributo1.name, fila[7])
+                        self.log_importacion = self.log_importacion + log
                         logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion)
                     if valores_attr2:
                         lista_id2.append(valores_attr2.id)
                     else:
-                        log = "Para el atributo %s no existe el valor %s" % (atributo2.name, fila[9])
-                        self.log_importacion = log
+                        log = "Para el atributo %s no existe el valor %s.\n" % (atributo2.name, fila[9])
+                        self.log_importacion = self.log_importacion + log
                         logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion)                      
                     if valores_attr1 and valores_attr2: #Si existe el template buscamos si existe algun attribute line
                         if template:
@@ -121,12 +121,12 @@ class importProductsWizard(models.TransientModel):
                             attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id1})
                             attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id2})
                 else:
-                    log = "El atributo %s no existe" % fila[6]
-                    self.log_importacion = log
+                    log = "El atributo %s no existe.\n" % fila[6]
+                    self.log_importacion = self.log_importacion + log
                     logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion)
             else:
-                log = "El atributo %s no existe" % fila[5]
-                self.log_importacion = log
+                log = "El atributo %s no existe\n" % fila[5]
+                self.log_importacion = self.log_importacion + log
                 logger.info("EL CAMPO LOG INFORMACIÓN: %s" % self.log_importacion) 
 
                 
