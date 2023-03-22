@@ -14,7 +14,7 @@ class importProductsWizard(models.TransientModel):
 
     category_id = fields.Many2one('product.category', string="Categoría", required=True)
     fichero = fields.Binary(string="Documento", attachment=False, required=True)
-    log_importacion = fields.Text(string="Log Importacion", readonly=True) 
+    log_importacion = fields.Text(string="Productos no importados:", readonly=True) 
 
 
     def old_registrar_productos(self):
@@ -79,64 +79,95 @@ class importProductsWizard(models.TransientModel):
         filas = self.leer_excel_sin_cabecera()
         num_fila = 1
         for fila in filas:
-            atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
-            atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
-            if atributo1: #Si existe el atributo 1 y el atributo 2 hacemos el proceso
-                if atributo2:
-                    template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
-                    lista_id1 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 1
-                    lista_id2 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 2
-                    valores_attr1 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo1.id), ('name', '=', fila[7])]) #ID DE LOS VALORES DE LOS ATRIBUTOS
-                    valores_attr2 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo2.id), ('name', '=', fila[9])]) #ID DE LOS VALORES DE LOS ATRIBUTOS
-                    if valores_attr1: #Si existen los valores de los atributos 
-                        lista_id1.append(valores_attr1.id) #Si está bien escrito lo agregamos a la lista
-                    else:                       
-                        log = "En la fila %s: para el atributo %s no existe el valor %s.\n" % (str(num_fila), atributo1.name, fila[7])
+            if fila[3] != '' and fila[5] != '' and fila[6] != '' and fila[7] != '' and fila[9] != '':
+                atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]) #Compruebo que existe el atributo 1
+                atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]) #Compruebo que existe el atributo 2
+                if atributo1: #Si existe el atributo 1 y el atributo 2 hacemos el proceso
+                    if atributo2:
+                        template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
+                        lista_id1 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 1
+                        lista_id2 = [] #Creamos una lista a la que le vamos a concatenar los valores del atributo 2
+                        valores_attr1 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo1.id), ('name', '=', fila[7])]) #ID DE LOS VALORES DE LOS ATRIBUTOS
+                        valores_attr2 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo2.id), ('name', '=', fila[9])]) #ID DE LOS VALORES DE LOS ATRIBUTOS
+                        if valores_attr1: #Si existen los valores de los atributos 
+                            lista_id1.append(valores_attr1.id) #Si está bien escrito lo agregamos a la lista
+                        else:                       
+                            log = "En la fila %s: para el atributo %s no existe el valor %s.\n" % (str(num_fila), atributo1.name, fila[7])
+                            if self.log_importacion:
+                                self.log_importacion = self.log_importacion + log
+                            else:
+                                self.log_importacion = log
+                        if valores_attr2:
+                            lista_id2.append(valores_attr2.id)
+                        else:
+                            log = "En la fila %s: para el atributo %s no existe el valor %s.\n" % (str(num_fila), atributo2.name, fila[9])
+                            if self.log_importacion:
+                                self.log_importacion = self.log_importacion + log
+                            else:
+                                self.log_importacion = log                      
+                        if valores_attr1 and valores_attr2: #Si existe el template buscamos si existe algun attribute line
+                            if template:
+                                attribute_line1 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo1.id)])
+                                attribute_line2 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo2.id)])
+                                if attribute_line1: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
+                                    attribute_line_vals_ids = attribute_line1.value_ids.ids
+                                    lista_id1 = list(dict.fromkeys(lista_id1+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
+                                    attribute_line1.write({'value_ids': [(6, 0, lista_id1)]}) #Añadimos los valores nuevos
+                                else: #Si no existe el attribute line lo creamos
+                                    self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': template.id, 'value_ids': lista_id1})
+                                if attribute_line2: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
+                                    attribute_line_vals_ids = attribute_line2.value_ids.ids
+                                    lista_id2 = list(dict.fromkeys(lista_id2+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
+                                    attribute_line2.write({'value_ids': [(6, 0, lista_id2)]}) #Añadimos los valores nuevos
+                                else: #Si no existe el attribute line lo creamos
+                                    self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': lista_id2})
+                            else: #Si no existe el template lo creamos directamente con sus líneas
+                                product_template = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
+                                attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id1})
+                                attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id2})
+                    else:
+                        log = "En la fila %s: el atributo %s no existe.\n" % (str(num_fila), fila[6])
                         if self.log_importacion:
                             self.log_importacion = self.log_importacion + log
                         else:
                             self.log_importacion = log
-                    if valores_attr2:
-                        lista_id2.append(valores_attr2.id)
-                    else:
-                        log = "En la fila %s: para el atributo %s no existe el valor %s.\n" % (str(num_fila), atributo2.name, fila[9])
-                        if self.log_importacion:
-                            self.log_importacion = self.log_importacion + log
-                        else:
-                            self.log_importacion = log                      
-                    if valores_attr1 and valores_attr2: #Si existe el template buscamos si existe algun attribute line
-                        if template:
-                            attribute_line1 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo1.id)])
-                            attribute_line2 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo2.id)])
-                            if attribute_line1: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
-                                attribute_line_vals_ids = attribute_line1.value_ids.ids
-                                lista_id1 = list(dict.fromkeys(lista_id1+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
-                                attribute_line1.write({'value_ids': [(6, 0, lista_id1)]}) #Añadimos los valores nuevos
-                            else: #Si no existe el attribute line lo creamos
-                                self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': template.id, 'value_ids': lista_id1})
-                            if attribute_line2: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
-                                attribute_line_vals_ids = attribute_line2.value_ids.ids
-                                lista_id2 = list(dict.fromkeys(lista_id2+attribute_line_vals_ids)) #Elimino los valores de los atributos repetidos en la concatenación de los valores de los atributos
-                                attribute_line2.write({'value_ids': [(6, 0, lista_id2)]}) #Añadimos los valores nuevos
-                            else: #Si no existe el attribute line lo creamos
-                                self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': lista_id2})
-                        else: #Si no existe el template lo creamos directamente con sus líneas
-                            product_template = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
-                            attribute_line1 = self.env['product.template.attribute.line'].create({'attribute_id': atributo1.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id1})
-                            attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': product_template.id, 'value_ids': lista_id2})
                 else:
-                    log = "En la fila %s: el atributo %s no existe.\n" % (str(num_fila), fila[6])
+                    log = "En la fila %s: el atributo %s no existe.\n" % (str(num_fila), fila[5])
                     if self.log_importacion:
                         self.log_importacion = self.log_importacion + log
                     else:
                         self.log_importacion = log
             else:
-                log = "En la fila %s: el atributo %s no existe.\n" % (str(num_fila), fila[5])
-                if self.log_importacion:
-                    self.log_importacion = self.log_importacion + log
-                else:
-                    self.log_importacion = log
-
+                if fila[3] == '':
+                    log = "En la fila %s: el campo 'Nombre' está vacío.\n" % str(num_fila)
+                    if self.log_importacion:
+                        self.log_importacion = self.log_importacion + log
+                    else:
+                        self.log_importacion = log
+                if fila[5] == '':
+                    log = "En la fila %s: el campo 'Atributo 1' está vacío.\n" % str(num_fila)
+                    if self.log_importacion:
+                        self.log_importacion = self.log_importacion + log
+                    else:
+                        self.log_importacion = log
+                if fila[6] == '':
+                    log = "En la fila %s: el campo 'Atributo 2' está vacío.\n" % str(num_fila)
+                    if self.log_importacion:
+                        self.log_importacion = self.log_importacion + log
+                    else:
+                        self.log_importacion = log
+                if fila[7] == '':
+                    log = "En la fila %s: el campo 'Valores 1' está vacío.\n" % str(num_fila)
+                    if self.log_importacion:
+                        self.log_importacion = self.log_importacion + log
+                    else:
+                        self.log_importacion = log
+                if fila[9] == '':
+                    log = "En la fila %s: el campo 'Valores 2' está vacío.\n" % str(num_fila)
+                    if self.log_importacion:
+                        self.log_importacion = self.log_importacion + log
+                    else:
+                        self.log_importacion = log
             num_fila += 1        
         return filas
 
