@@ -8,6 +8,11 @@ import xlrd
 import logging, io
 logger = logging.getLogger(__name__)
 
+class ProductProductInherit(models.Model):
+    _inherit="product.product"
+
+    descatalogado = fields.Boolean()
+
 class importProductsWizard(models.TransientModel):
     _name = 'import.products.wizard'
     _description = 'Import Products Wizard'
@@ -245,7 +250,3 @@ class importProductsWizard(models.TransientModel):
         # return the file length as first value
         return sheet.nrows, rows
                 
-class ProductProductInherit(models.Model):
-    _inherit="product.product"
-
-    descatalogado = fields.Boolean()
