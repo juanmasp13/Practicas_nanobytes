@@ -34,6 +34,7 @@ class importProductsWizard(models.TransientModel):
         filas = self.leer_excel_sin_cabecera()
         num_fila = 1
         ids_no_descatalogados = []
+        self.log_importacion = ''
         for fila in filas:
             campos = {3:'Nombre', 5:'Atributo 1', 6:'Atributo 2', 7:'Valores 1', 9:'Valores 2',}
             fallo = False
