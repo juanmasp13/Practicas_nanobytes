@@ -101,7 +101,7 @@ class importProductsWizard(models.TransientModel):
                 attribute_line2 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo2.id)])
                 if attribute_line2: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
                     if valores_attr2.id not in attribute_line2.value_ids.ids:
-                        attribute_line2.write({'value_ids': [(4, valores_attr1.id)]}) #Añadimos los valores nuevos
+                        attribute_line2.write({'value_ids': [(4, valores_attr2.id)]}) #Añadimos los valores nuevos
                 else: #Si no existe el attribute line lo creamos
                     attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr2.id,]})
                 attribute_lines = [attribute_line1.id, attribute_line2.id]
