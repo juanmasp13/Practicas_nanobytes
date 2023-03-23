@@ -1,0 +1,1 @@
+from . import stock_product_lot_inherit
