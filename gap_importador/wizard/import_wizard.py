@@ -56,6 +56,7 @@ class importProductsWizard(models.TransientModel):
                 fallo = True
 
             if fallo:
+                num_fila += 1
                 continue
 
                        
@@ -69,6 +70,7 @@ class importProductsWizard(models.TransientModel):
                 fallo = True
 
             if fallo:
+                num_fila += 1
                 continue
 
             valores_attr2 = self.env['product.attribute.value'].search([('attribute_id', '=', atributo2.id), ('name', '=', fila[9])]) #ID DE LOS VALORES DEL ATRIBUTO 2
@@ -81,6 +83,7 @@ class importProductsWizard(models.TransientModel):
                 fallo = True
 
             if fallo:
+                num_fila += 1
                 continue
             
             template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
