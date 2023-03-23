@@ -131,18 +131,17 @@ class importProductsWizard(models.TransientModel):
 
     def registrar_productos(self):
         filas = self.registrar_templates()
-        # campos requeridos en product.template: categ_id, detailed_type, name, product_variant_id, tracking, uom_id, uom_po_id
         for fila in filas:
+            template_id = self.env['product.template'].search([('name', '=', fila[3])]).id
             id_atributo1 = self.env['product.attribute'].search([('name', '=', fila[5])]).id                           
             id_atributo2 = self.env['product.attribute'].search([('name', '=', fila[6])]).id
             id_valor_atr_1 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo1), ('name', '=', fila[7])]).id                         
             id_valor_atr_2 = self.env['product.attribute.value'].search([('attribute_id', '=', id_atributo2), ('name', '=', fila[9])]).id
             if id_valor_atr_1 and id_valor_atr_2:
-                template_id = self.env['product.template'].search([('name', '=', fila[3])]).id
                 ptav1 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo1), ('product_attribute_value_id', '=', id_valor_atr_1)]).id
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
                 combinacion = self.concatenar_combinacion(ptav1, ptav2)
-                producto = self.env['product.product'].search([('combination_indices', '=', combinacion)])
+                producto = self.env['product.product'].search([('product_tmpl_id', '=', template_id),('combination_indices', '=', combinacion)])
                 divisa_id = self.env['ir.model.data'].search([('model', '=', 'res.currency'), ('module', '=', 'base'), ('name', '=', fila[13])]).res_id
                 if fila[0]:
                     external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])               
