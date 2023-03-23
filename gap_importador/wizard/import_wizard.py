@@ -115,6 +115,7 @@ class importProductsWizard(models.TransientModel):
 
             ids_combinacion = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template.id), ('attribute_line_id', 'in', attribute_lines)]).ids
             sorted(ids_combinacion)
+            logger.info('IDS COMBINACION %s ' % ids_combinacion)
             ids_no_descatalogados.append(self.env['product.product'].search([('combination_indices', '=', ids_combinacion)]).id)
             num_fila += 1        
 
