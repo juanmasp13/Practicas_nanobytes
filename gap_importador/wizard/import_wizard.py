@@ -168,7 +168,7 @@ class importProductsWizard(models.TransientModel):
                         pricelist_item.write({'fixed_price': fila[17]})
                     else:
                         pricelist_item = self.env['product.pricelist.item'].create({'pricelist_id': pricelist_id, 'product_id': producto.id, 'fixed_price': fila[17]})
-                producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa_id, 'descatalogado': False})
+                producto.write({'barcode': fila[1], 'default_code': fila[2], 'description': fila[11], 'standard_price': fila[12], 'currency_id': divisa_id})
         return {
         'context': self.env.context,
         'view_type': 'form',
