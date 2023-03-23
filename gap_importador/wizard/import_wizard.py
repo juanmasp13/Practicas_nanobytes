@@ -90,7 +90,7 @@ class importProductsWizard(models.TransientModel):
             template = self.env['product.template'].search([('name', '=', fila[3])]) #BUSCAMOS TEMPLATE
 
             if template:
-
+                logger.info('Para el template %s con el atributo %s y %s con el valor %s y %s' % (fila[3], fila[5], fila[6], fila[7], fila[9]))
                 attribute_line1 = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', template.id), ('attribute_id', '=', atributo1.id)])
                 if attribute_line1: #Si existe el attribute line cogemos los valores de los atributos que tenía y lo agregamos a la lista
                     if valores_attr1.id not in attribute_line1.value_ids.ids:
@@ -106,6 +106,7 @@ class importProductsWizard(models.TransientModel):
                     attribute_line2 = self.env['product.template.attribute.line'].create({'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr2.id,]})
                 attribute_lines = [attribute_line1.id, attribute_line2.id]
             else: #Si no existe el template lo creamos directamente con sus líneas
+                logger.info('CREANDO el template %s con el atributo %s y %s con el valor %s y %s' % (fila[3], fila[5], fila[6], fila[7], fila[9]))
                 template = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
                 attribute_lines = self.env['product.template.attribute.line'].create(
                     [{'attribute_id': atributo1.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr1.id,]},
