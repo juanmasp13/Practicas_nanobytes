@@ -117,14 +117,14 @@ class importProductsWizard(models.TransientModel):
                 [('product_tmpl_id', '=', template.id), ('attribute_line_id', 'in', attribute_lines), ('attribute_id', 'in', [atributo1.id, atributo2.id]), ('product_attribute_value_id', 'in', [valores_attr1.id, valores_attr2.id])]
                 ).ids
             ids_combinacion = sorted(ids_combinacion)
-            ids_combinacion =  ', '.join(str(num) for num in ids_combinacion)
-            logger.info('IDS COMBINACION %s ' % type(ids_combinacion))
+            ids_combinacion =  ','.join(str(num) for num in ids_combinacion)
+            logger.info('IDS COMBINACION %s ' % ids_combinacion)
             logger.info('IDS A AGREGAR A LA LISTA DE NO DESCATALOGADOS: %s' % self.env['product.product'].search([('product_tmpl_id', '=', template.id),('combination_indices', '=', ids_combinacion)]).id)
             ids_no_descatalogados.append(self.env['product.product'].search([('combination_indices', '=', ids_combinacion)]).id)
             num_fila += 1        
 
         if self.descatalogar: #Si la casilla de descatalogar está marcada le asignamos a todos los productos con esa categoría que están descatalogados
-            productos_a_descatalogar = self.env['product.product'].search([('categ_id', '=', self.category_id.id),('id','not in',ids_no_descatalogados)])            #for producto in productos:
+            productos_a_descatalogar = self.env['product.product'].search([('categ_id', '=', self.category_id.id),('id','not in',ids_no_descatalogados)])
             productos_a_descatalogar.write({'descatalogado': True})
         
         return filas
