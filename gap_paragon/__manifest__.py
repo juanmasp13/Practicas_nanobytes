@@ -4,7 +4,9 @@
     'summary': 'Gap de paragon',
     'description': """Gap de paragon""",
     'depends': ['base_setup','stock','stock_barcode'],
-    'data': [],
+    'data': [
+        'views/stock_production_lot_form_inherit.xml',
+            ],
     'auto_install': False,
     'application': True
 }
