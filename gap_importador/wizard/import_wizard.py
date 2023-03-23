@@ -104,8 +104,8 @@ class importProductsWizard(models.TransientModel):
             else: #Si no existe el template lo creamos directamente con sus líneas
                 template = self.env['product.template'].create({'name': fila[3], 'categ_id': self.category_id.id, 'detailed_type': 'product'})
                 attribute_lines = self.env['product.template.attribute.line'].create(
-                    {'attribute_id': atributo1.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr1.id,]},
-                    {'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr2.id,]}
+                    [{'attribute_id': atributo1.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr1.id,]},
+                    {'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr2.id,]}]
                     ).ids
 
             ids_combinacion = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template.id), ('attribute_line_id', '=', attribute_lines)]).ids
