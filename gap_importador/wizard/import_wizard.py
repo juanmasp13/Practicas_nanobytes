@@ -113,7 +113,9 @@ class importProductsWizard(models.TransientModel):
                     {'attribute_id': atributo2.id, 'product_tmpl_id': template.id, 'value_ids': [valores_attr2.id,]}]
                     ).ids
 
-            ids_combinacion = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template.id), ('attribute_line_id', 'in', attribute_lines)]).ids
+            ids_combinacion = self.env['product.template.attribute.value'].search(
+                [('product_tmpl_id', '=', template.id), ('attribute_line_id', 'in', attribute_lines), ('attribute_id', 'in', [atributo1.id, atributo2.id]), ('product_attribute_value_id', 'in', [valores_attr1.id, valores_attr2.id])]
+                ).ids
             sorted(ids_combinacion)
             logger.info('IDS COMBINACION %s ' % ids_combinacion)
             ids_no_descatalogados.append(self.env['product.product'].search([('combination_indices', '=', ids_combinacion)]).id)
