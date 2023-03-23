@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="stock.view_production_lot_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="after">
-                <sheet>
+
                     <group>
                         <field name="pallet_no"/>
                         <field name="pmax"/>
@@ -16,7 +16,7 @@
                         <field name="vpm"/>
                         <field name="ipm"/>
                     </group>
-                </sheet>
+
             </xpath>
             
         </field>
