@@ -142,6 +142,7 @@ class importProductsWizard(models.TransientModel):
                 ptav2 = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', template_id), ('attribute_id', '=', id_atributo2), ('product_attribute_value_id', '=', id_valor_atr_2)]).id
                 combinacion = self.concatenar_combinacion(ptav1, ptav2)
                 producto = self.env['product.product'].search([('product_tmpl_id', '=', template_id),('combination_indices', '=', combinacion)])
+                logger.info('PRODUCTO ID PARA EL PVP: %s' % producto.id)
                 divisa_id = self.env['ir.model.data'].search([('model', '=', 'res.currency'), ('module', '=', 'base'), ('name', '=', fila[13])]).res_id
                 if fila[0]:
                     external_id = self.env['ir.model.data'].search([('name', '=', fila[0])])               
