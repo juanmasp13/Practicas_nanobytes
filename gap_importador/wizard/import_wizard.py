@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class ProductsProductsInheritance(models.Model):
     _inherit="product.product"
 
-    descatalogado = fields.Boolean()
+    descatalogado = fields.Boolean(default=False)
 
 class importProductsWizard(models.TransientModel):
     _name = 'import.products.wizard'
