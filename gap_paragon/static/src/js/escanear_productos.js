@@ -28,6 +28,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
 
         console.log(productos);
-    }
-    
+    },
+
 });
