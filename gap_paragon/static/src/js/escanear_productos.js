@@ -27,6 +27,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         }, { shadow: true });
 
 
-        console.log(productos)
-    },
+        console.log(productos);
+    }
+    
 });
