@@ -2,6 +2,7 @@
 
 import { patch } from 'web.utils';
 import BarcodeModel from '@stock_barcode/models/barcode_model';
+import { _t } from 'web.core';
 
 patch(BarcodeModel.prototype, 'escanear_productos', {
     
