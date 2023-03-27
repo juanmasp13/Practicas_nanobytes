@@ -19,7 +19,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         let codigo = barcodeData.barcode
 
-        const productos = await this.messaging.rpc({
+        const productos = await this.rpc({
             model: 'product.product',
             method: 'search',
             args: [[['id', '=', 5]]],
