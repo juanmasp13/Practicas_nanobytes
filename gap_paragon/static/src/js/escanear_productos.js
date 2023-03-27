@@ -7,6 +7,8 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
     
     async _processBarcode(barcode) {
 
+        let barcodeData = {};
+
         const filters = {};
 
         console.log("Holaaaa");
