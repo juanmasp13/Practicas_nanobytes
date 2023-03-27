@@ -5,7 +5,7 @@ import BarcodeModel from '@stock_barcode/models/barcode_model';
 
 patch(BarcodeModel.prototype, 'escanear_productos', {
     
-    
+     
 
     async _processBarcode(barcode) {
 
