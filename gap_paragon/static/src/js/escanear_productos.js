@@ -94,7 +94,9 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 }
             }
         }
+        console.log(barcodeData);
         const {product} = barcodeData;
+        console.log(product);
         if (!product) { // Product is mandatory, if no product, raises a warning.
             if (!barcodeData.error) {
                 if (this.groups.group_tracking_lot) {
