@@ -1,3 +1,5 @@
+/** @odoo-module **/
+
 import { patch } from "@web/core/utils/patch";
 import BarcodeModel from '@stock_barcode/barcode_model';
 
