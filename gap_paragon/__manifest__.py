@@ -10,7 +10,7 @@
     'auto_install': False,
     'assets': {
         'web.assets_backend': [
-            
+             
         ],
     },
     'application': True
