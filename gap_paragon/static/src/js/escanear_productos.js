@@ -108,6 +108,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             if (productos){
                 console.log("SI HAY PRODUCTOS CON EL NOMBRE DE PALLET:");
                 console.log(barcodeData.barcode);
+                console.log(productos);
             }else{
                 console.log("NO HAY PRODUCTOS")
                 if (!barcodeData.error) {
