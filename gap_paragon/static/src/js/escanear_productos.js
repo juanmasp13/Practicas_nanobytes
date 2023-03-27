@@ -1,7 +1,7 @@
 import BarcodeModel from stock.BarcodeModel
 import { patch } from 'web.utils';
 
-patch(BarcodeModel, 'escanear_productos', {
+patch(BarcodeModel.prototype, 'escanear_productos', {
 
     async _processBarcode(barcode) {
         
