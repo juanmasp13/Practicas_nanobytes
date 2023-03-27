@@ -8,5 +8,10 @@
         'views/stock_production_lot_form_inherit.xml',
             ],
     'auto_install': False,
+    'assets': {
+        'web.assets_backend': [
+            'gap_paragon/static/src/js/escanear_productos.js',
+        ],
+    },
     'application': True
 }
