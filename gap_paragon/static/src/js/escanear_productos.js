@@ -99,18 +99,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         const {product} = barcodeData;
         if (!product) { // Product is mandatory, if no product, raises a warning.
-            const productos = await rpc.query({
-                model: 'stock.production.lot',
-                method: 'search_read',
-                args: [[['pallet_no', '=', barcodeData.barcode]]],
-                fields: ['name','product_id']
-            });
-            if (productos){
-                console.log("SI HAY PRODUCTOS CON EL NOMBRE DE PALLET:");
-                console.log(barcodeData.barcode);
-                console.log(productos);
-            }else{
-                console.log("NO HAY PRODUCTOS")
                 if (!barcodeData.error) {
                     if (this.groups.group_tracking_lot) {
                         barcodeData.error = _t("You are expected to scan one or more products or a package available at the picking location");
@@ -119,7 +107,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     }
                 }
                 return this.notification.add(barcodeData.error, { type: 'danger' });
-            }
             
         } else if (barcodeData.lot && barcodeData.lot.product_id !== product.id) {
             delete barcodeData.lot; // The product was scanned alongside another product's lot.
