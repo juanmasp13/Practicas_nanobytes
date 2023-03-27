@@ -11,7 +11,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         let barcodeData = {};
         const filters = {};
-        this.messaging = new instance.web.Messaging();
+        let messaging = new instance.web.Messaging();
 
         console.log("Holaaaa");
         barcodeData = await this._parseBarcode(barcode, filters);
