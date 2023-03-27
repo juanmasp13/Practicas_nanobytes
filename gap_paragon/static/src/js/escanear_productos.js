@@ -95,8 +95,8 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             }
         }
 
-        var rpc = require('web.rpc');
-
+        //var rpc = require('web.rpc'); ESTO ES NECESARIO PARA BUSCAR
+        
         const {product} = barcodeData;
         if (!product) { // Product is mandatory, if no product, raises a warning.
                 if (!barcodeData.error) {
