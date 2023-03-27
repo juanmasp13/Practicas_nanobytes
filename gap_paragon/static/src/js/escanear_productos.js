@@ -11,12 +11,13 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         let barcodeData = {};
         const filters = {};
+        this.messaging = new instance.web.Messaging();
 
         console.log("Holaaaa");
         barcodeData = await this._parseBarcode(barcode, filters);
         console.log(barcodeData);
         let codigo = barcodeData.barcode
-
+        
         const productos = await this.messaging.rpc({
             model: 'product.product',
             method: 'search',
