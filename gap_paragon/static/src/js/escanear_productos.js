@@ -7,7 +7,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
     
      
     async _processBarcode(barcode) {
-        
+
         let barcodeData = {};
         let currentLine = false;
         // Creates a filter if needed, which can help to get the right record
@@ -226,5 +226,9 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         // console.log(productos);
     },
+
+    _checkBarcode(barcodeData) {
+        return true;
+    }
 
 });
