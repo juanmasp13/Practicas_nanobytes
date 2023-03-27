@@ -1,11 +1,13 @@
-import BarcodeModel from stock.BarcodeModel
-import { patch } from 'web.utils';
+import BarcodeModel from '@stock_barcode/models/barcode_model';
 
-patch(BarcodeModel, 'escanear_productos', {
+export default class BarcodePickingModel extends BarcodeModel {
 
     async _processBarcode(barcode) {
         
         console.log("hola");
 
-    },
-});
+    }
+
+
+
+}
