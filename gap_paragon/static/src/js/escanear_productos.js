@@ -8,7 +8,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
     
      
     async _processBarcode(barcode) {
-        console.info("CÓDIGO DE BARRAS: ", barcode)
+        console.info("CÓDIGO DE BARRAS: ", barcode);
         let barcodeData = {};
         let currentLine = false;
         // Creates a filter if needed, which can help to get the right record
@@ -85,8 +85,10 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 // anything else, we assume it's a new lot/serial number.
                 if (previousProduct.tracking !== 'none' &&
                     !barcodeData.match && this.canCreateNewLot) {
+                    console.log("Estoy en el lotname = barcode");
                     barcodeData.lotName = barcode;
                     barcodeData.product = previousProduct;
+                    console.log("BarcodeData.product: ", barcodeData.product);
                 }
                 if (barcodeData.lot || barcodeData.lotName ||
                     barcodeData.quantity) {
