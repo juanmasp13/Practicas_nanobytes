@@ -21,6 +21,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 args: [[['pallet_no', '=', barcode]]],
                 fields: ['name','product_id']
             });
+            console.log("PRODUCTOS: ",products);
             if (products) {
                 console.log("SOY UN PRODUCTO NO EL NUMERO DEL PALLET: ", barcode);
                 for (let product of products) {
@@ -37,7 +38,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 !this.canCreateNewLot && this.useExistingLots) {
                 // Retry to parse the barcode without filters in case it matches an existing
                 // record that can't be found because of the filters
-                console.log("ESTOY AQUI 2");
                 const lot = await this.cache.getRecordByBarcode(barcode, 'stock.production.lot');
                 if (lot) {
                     Object.assign(barcodeData, { lot, match: true });
@@ -56,13 +56,10 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             barcodeData.product = this.cache.getRecord('product.product', barcodeData.packaging.product_id);
             barcodeData.quantity = barcodeData.packaging.qty;
             barcodeData.uom = this.cache.getRecord('uom.uom', barcodeData.product.uom_id);
-            console.log("ESTOY AQUI 3");
         }
 
         if (barcodeData.lot && !barcodeData.product) {
             barcodeData.product = this.cache.getRecord('product.product', barcodeData.lot.product_id);
-            console.log("ESTOY AQUI 4");
-            console.log(barcodeData.product);
         }
 
         await this._processLocation(barcodeData);
@@ -79,7 +76,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         // If no product found, take the one from last scanned line if possible.
         if (!barcodeData.product) {
-            console.log("ESTOY AQUI 5");
             if (barcodeData.quantity) {
                 currentLine = this.selectedLine || this.lastScannedLine;
             } else if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
@@ -93,16 +89,12 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 // anything else, we assume it's a new lot/serial number.
                 if (previousProduct.tracking !== 'none' &&
                     !barcodeData.match && this.canCreateNewLot) {
-                        console.log("ESTOY AQUI 6");
                     barcodeData.lotName = barcode;
                     barcodeData.product = previousProduct;
-                    console.log(barcodeData);
                 }
                 if (barcodeData.lot || barcodeData.lotName ||
                     barcodeData.quantity) {
-                    console.log("ESTOY AQUI 7");
                     barcodeData.product = previousProduct;
-                    console.log(barcodeData);
                 }
             }
         }
@@ -125,9 +117,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         // Searches and selects a line if needed.
         if (!currentLine || this._shouldSearchForAnotherLine(currentLine, barcodeData)) {
-            console.log("ESTOY AQUI 8");
             currentLine = this._findLine(barcodeData);
-            console.log(currentLine);
         }
 
         // Default quantity set to 1 by default if the product is untracked or
@@ -183,7 +173,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         // Updates or creates a line based on barcode data.
         if (currentLine) { // If line found, can it be incremented ?
-            console.log("ESTOY AQUI 9");
             let exceedingQuantity = 0;
             if (product.tracking !== 'serial' && barcodeData.uom && barcodeData.uom.category_id == currentLine.product_uom_id.category_id) {
                 // convert to current line's uom
