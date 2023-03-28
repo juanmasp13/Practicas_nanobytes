@@ -8,7 +8,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
     
      
     async _processBarcode(barcode) {
-        console.info("CÓDIGO DE BARRAS: ", barcode);
         let barcodeData = {};
         let currentLine = false;
         // Creates a filter if needed, which can help to get the right record
@@ -70,10 +69,22 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             barcodeData.quantity = barcodeData.weight.value;
         }
 
-        let pallet = false;
         // If no product found, take the one from last scanned line if possible.
         if (!barcodeData.product) {
-            console.log("NO HAY PRODUCTO CON ESE CÓDIGO");
+
+            var rpc = require('web.rpc');
+            const products = await rpc.query({
+                model: 'stock.production.lot',
+                method: 'search_read',
+                args: [[['pallet_no', '=', barcode]]],
+                fields: ['name','product_id']
+            });
+            if (products) {
+                for (let product of products) {
+                    _processBarcode(product.name);
+                }
+            }
+
             if (barcodeData.quantity) {
                 currentLine = this.selectedLine || this.lastScannedLine;
             } else if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
@@ -100,7 +111,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             }
         }
 
-        //var rpc = require('web.rpc'); ESTO ES NECESARIO PARA BUSCAR
+        
         
         const {product} = barcodeData;
         if (!product) { // Product is mandatory, if no product, raises a warning.
