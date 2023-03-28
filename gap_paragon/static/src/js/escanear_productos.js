@@ -14,7 +14,18 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         // when multiple records have the same model and barcode.
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
-            console.log("ESTOY AQUI 1");
+            var rpc = require('web.rpc');
+            const products = await rpc.query({
+                model: 'stock.production.lot',
+                method: 'search_read',
+                args: [[['pallet_no', '=', barcode]]],
+                fields: ['name','product_id']
+            });
+            if (products) {
+                for (let product of products) {
+                    _processBarcode(product.name);
+                }
+            }
             filters['stock.production.lot'] = {
                 product_id: this.selectedLine.product_id.id,
             };
