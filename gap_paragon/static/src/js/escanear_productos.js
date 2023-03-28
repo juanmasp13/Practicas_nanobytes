@@ -11,7 +11,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         let barcodeData = {};
         let currentLine = false;
         // Creates a filter if needed, which can help to get the right record
-        // when multiple records have the same model and barcode.
+        // when multiple records have the same model and  barcode.
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
             var rpc = require('web.rpc');
