@@ -70,6 +70,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             barcodeData.quantity = barcodeData.weight.value;
         }
 
+        let pallet = false;
         // If no product found, take the one from last scanned line if possible.
         if (!barcodeData.product) {
             console.log("NO HAY PRODUCTO CON ESE CÓDIGO");
@@ -80,6 +81,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             } else if (this.lastScannedLine && this.lastScannedLine.product_id.tracking !== 'none') {
                 currentLine = this.lastScannedLine;
             }
+            console.log("EL CURRENT LINE: ", currentLine);
             if (currentLine) { // If we can, get the product from the previous line.
                 const previousProduct = currentLine.product_id;
                 // If the current product is tracked and the barcode doesn't fit
