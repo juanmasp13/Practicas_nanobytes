@@ -14,17 +14,17 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         // when multiple records have the same model and barcode.
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
-            filters['stock.lot'] = {
+            filters['stock.production.lot'] = {
                 product_id: this.selectedLine.product_id.id,
             };
         }
         try {
             barcodeData = await this._parseBarcode(barcode, filters);
-            if (!barcodeData.match && filters['stock.lot'] &&
+            if (!barcodeData.match && filters['stock.production.lot'] &&
                 !this.canCreateNewLot && this.useExistingLots) {
                 // Retry to parse the barcode without filters in case it matches an existing
                 // record that can't be found because of the filters
-                const lot = await this.cache.getRecordByBarcode(barcode, 'stock.lot');
+                const lot = await this.cache.getRecordByBarcode(barcode, 'stock.production.lot');
                 if (lot) {
                     Object.assign(barcodeData, { lot, match: true });
                 }
@@ -37,20 +37,11 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         if (barcodeData.action) { // As action is always a single data, call it and do nothing else.
             return await barcodeData.action();
         }
-        // Depending of the configuration, the user can be forced to scan a specific barcode type.
-        const check = this._checkBarcode(barcodeData);
-        if (check.error) {
-            return this.notification.add(check.message, { title: check.title, type: "danger" });
-        }
 
         if (barcodeData.packaging) {
             barcodeData.product = this.cache.getRecord('product.product', barcodeData.packaging.product_id);
-            barcodeData.quantity = ("quantity" in barcodeData ? barcodeData.quantity : 1) * barcodeData.packaging.qty;
+            barcodeData.quantity = barcodeData.packaging.qty;
             barcodeData.uom = this.cache.getRecord('uom.uom', barcodeData.product.uom_id);
-        } 
-
-        if (barcodeData.product) { // Remembers the product if a (packaging) product was scanned.
-            this.lastScanned.product = barcodeData.product;
         }
 
         if (barcodeData.lot && !barcodeData.product) {
@@ -71,21 +62,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         // If no product found, take the one from last scanned line if possible.
         if (!barcodeData.product) {
-
-            var rpc = require('web.rpc');
-            const products = await rpc.query({
-                model: 'stock.production.lot',
-                method: 'search_read',
-                args: [[['pallet_no', '=', barcode]]],
-                fields: ['name','product_id']
-            });
-            if (products) {
-                for (let product of products) {
-                    //_processBarcode(product.name);
-                    console.log("NOMBRE LOTE: ", product.name);
-                }
-            }
-
             if (barcodeData.quantity) {
                 currentLine = this.selectedLine || this.lastScannedLine;
             } else if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
@@ -93,17 +69,14 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             } else if (this.lastScannedLine && this.lastScannedLine.product_id.tracking !== 'none') {
                 currentLine = this.lastScannedLine;
             }
-            console.log("EL CURRENT LINE: ", currentLine);
             if (currentLine) { // If we can, get the product from the previous line.
                 const previousProduct = currentLine.product_id;
                 // If the current product is tracked and the barcode doesn't fit
                 // anything else, we assume it's a new lot/serial number.
                 if (previousProduct.tracking !== 'none' &&
                     !barcodeData.match && this.canCreateNewLot) {
-                    console.log("Estoy en el lotname = barcode");
                     barcodeData.lotName = barcode;
                     barcodeData.product = previousProduct;
-                    console.log("BarcodeData.product: ", barcodeData.product);
                 }
                 if (barcodeData.lot || barcodeData.lotName ||
                     barcodeData.quantity) {
@@ -111,20 +84,16 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 }
             }
         }
-
-        
-        
         const {product} = barcodeData;
         if (!product) { // Product is mandatory, if no product, raises a warning.
-                if (!barcodeData.error) {
-                    if (this.groups.group_tracking_lot) {
-                        barcodeData.error = _t("You are expected to scan one or more products or a package available at the picking location");
-                    } else {
-                        barcodeData.error = _t("You are expected to scan one or more products.");
-                    }
+            if (!barcodeData.error) {
+                if (this.groups.group_tracking_lot) {
+                    barcodeData.error = _t("You are expected to scan one or more products or a package available at the picking location");
+                } else {
+                    barcodeData.error = _t("You are expected to scan one or more products.");
                 }
-                return this.notification.add(barcodeData.error, { type: 'danger' });
-            
+            }
+            return this.notification.add(barcodeData.error, { type: 'danger' });
         } else if (barcodeData.lot && barcodeData.lot.product_id !== product.id) {
             delete barcodeData.lot; // The product was scanned alongside another product's lot.
         }
@@ -196,26 +165,40 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 barcodeData.quantity = (barcodeData.quantity / barcodeData.uom.factor) * currentLine.product_uom_id.factor;
                 barcodeData.uom = currentLine.product_uom_id;
             }
-            // Checks the quantity doesn't exceed the line's remaining quantity.
-            if (currentLine.reserved_uom_qty && product.tracking === 'none') {
-                const remainingQty = currentLine.reserved_uom_qty - currentLine.qty_done;
-                if (barcodeData.quantity > remainingQty) {
-                    // In this case, lowers the increment quantity and keeps
-                    // the excess quantity to create a new line.
-                    exceedingQuantity = barcodeData.quantity - remainingQty;
-                    barcodeData.quantity = remainingQty;
+            if (this.canCreateNewLine) {
+                // Checks the quantity doesn't exceed the line's remaining quantity.
+                if (currentLine.product_uom_qty && product.tracking === 'none') {
+                    const remainingQty = currentLine.product_uom_qty - currentLine.qty_done;
+                    if (barcodeData.quantity > remainingQty) {
+                        // In this case, lowers the increment quantity and keeps
+                        // the excess quantity to create a new line.
+                        exceedingQuantity = barcodeData.quantity - remainingQty;
+                        barcodeData.quantity = remainingQty;
+                    }
                 }
             }
             if (barcodeData.quantity > 0 || barcodeData.lot || barcodeData.lotName) {
-                const fieldsParams = this._convertDataToFieldsParams(barcodeData);
+                const fieldsParams = this._convertDataToFieldsParams({
+                    qty: barcodeData.quantity,
+                    lotName: barcodeData.lotName,
+                    lot: barcodeData.lot,
+                    package: barcodeData.package,
+                    owner: barcodeData.owner,
+                });
                 if (barcodeData.uom) {
                     fieldsParams.uom = barcodeData.uom;
                 }
                 await this.updateLine(currentLine, fieldsParams);
             }
             if (exceedingQuantity) { // Creates a new line for the excess quantity.
-                barcodeData.quantity = exceedingQuantity;
-                const fieldsParams = this._convertDataToFieldsParams(barcodeData);
+                const fieldsParams = this._convertDataToFieldsParams({
+                    product,
+                    qty: exceedingQuantity,
+                    lotName: barcodeData.lotName,
+                    lot: barcodeData.lot,
+                    package: barcodeData.package,
+                    owner: barcodeData.owner,
+                });
                 if (barcodeData.uom) {
                     fieldsParams.uom = barcodeData.uom;
                 }
@@ -224,24 +207,26 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     fieldsParams,
                 });
             }
-        } else { // No line found, so creates a new one.
-            const fieldsParams = this._convertDataToFieldsParams(barcodeData);
+        } else if (this.canCreateNewLine) { // No line found. If it's possible, creates a new line.
+            const fieldsParams = this._convertDataToFieldsParams({
+                product,
+                qty: barcodeData.quantity,
+                lotName: barcodeData.lotName,
+                lot: barcodeData.lot,
+                package: barcodeData.package,
+                owner: barcodeData.owner,
+            });
             if (barcodeData.uom) {
                 fieldsParams.uom = barcodeData.uom;
             }
-            currentLine = await this.createNewLine({fieldsParams});
+            currentLine = await this._createNewLine({fieldsParams});
         }
 
         // And finally, if the scanned barcode modified a line, selects this line.
         if (currentLine) {
-            this._selectLine(currentLine);
+            this.selectLine(currentLine);
         }
         this.trigger('update');
-        
-    },
-
-    _checkBarcode(barcodeData) {
-        return true;
     }
 
 });
