@@ -72,6 +72,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
         // If no product found, take the one from last scanned line if possible.
         if (!barcodeData.product) {
+            console.log("NO HAY PRODUCTO CON ESE CÓDIGO");
             if (barcodeData.quantity) {
                 currentLine = this.selectedLine || this.lastScannedLine;
             } else if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
