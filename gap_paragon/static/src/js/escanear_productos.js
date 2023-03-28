@@ -25,7 +25,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 for (let product of products) {
                     this._processBarcode(product.name);
                 }
-                return;
             }
             filters['stock.production.lot'] = {
                 product_id: this.selectedLine.product_id.id,
