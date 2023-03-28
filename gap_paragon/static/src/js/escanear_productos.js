@@ -81,7 +81,8 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             });
             if (products) {
                 for (let product of products) {
-                    _processBarcode(product.name);
+                    //_processBarcode(product.name);
+                    console.log("NOMBRE LOTE: ", product.name);
                 }
             }
 
