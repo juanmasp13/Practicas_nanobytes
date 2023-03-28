@@ -8,7 +8,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
     
      
     async _processBarcode(barcode) {
-
+        console.info("CÓDIGO DE BARRAS: ", barcode)
         let barcodeData = {};
         let currentLine = false;
         // Creates a filter if needed, which can help to get the right record
@@ -48,7 +48,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             barcodeData.product = this.cache.getRecord('product.product', barcodeData.packaging.product_id);
             barcodeData.quantity = ("quantity" in barcodeData ? barcodeData.quantity : 1) * barcodeData.packaging.qty;
             barcodeData.uom = this.cache.getRecord('uom.uom', barcodeData.product.uom_id);
-        }
+        } 
 
         if (barcodeData.product) { // Remembers the product if a (packaging) product was scanned.
             this.lastScanned.product = barcodeData.product;
