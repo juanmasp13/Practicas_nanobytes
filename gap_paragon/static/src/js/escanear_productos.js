@@ -21,8 +21,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 args: [[['pallet_no', '=', barcode]]],
                 fields: ['name','product_id']
             });
-            if (products.length) {
-                console.info("PRODUCTS LENGTH: ", products.length, "\n PARA ", barcode);
+            if (products.length > 0) {
                 for (let product of products) {
                     this._processBarcode(product.name);
                 }
