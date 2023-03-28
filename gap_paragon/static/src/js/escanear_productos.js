@@ -15,6 +15,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
             var rpc = require('web.rpc');
+            let salir = false;
             const products = await rpc.query({
                 model: 'stock.production.lot',
                 method: 'search_read',
@@ -22,8 +23,12 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 fields: ['name','product_id']
             });
             if (products) {
+                salir = true;
                 for (let product of products) {
                     this._processBarcode(product.name);
+                }
+                if (salir){
+                    return;
                 }
             }
             filters['stock.production.lot'] = {
