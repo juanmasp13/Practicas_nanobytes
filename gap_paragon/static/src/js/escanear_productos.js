@@ -23,7 +23,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             });
             if (products) {
                 for (let product of products) {
-                    _processBarcode(product.name);
+                    this._processBarcode(product.name);
                 }
             }
             filters['stock.production.lot'] = {
