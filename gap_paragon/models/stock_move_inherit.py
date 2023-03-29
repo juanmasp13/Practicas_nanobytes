@@ -9,3 +9,9 @@ class stockMoveInherit(models.Model):
 
     def registrar_num_serie(self):
         logger.info("Hola")
+
+class PartnerRiskExceededWizInherit(models.Model):
+    _inherit = "partner.risk.exceeded.wiz"
+
+    def mostrar_context(self):
+        logger.info(self._context.get())
