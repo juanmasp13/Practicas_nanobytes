@@ -7,6 +7,7 @@
     'data': [
         'views/stock_production_lot_form_inherit.xml',
         'views/partner_risk_exceeded_view_inherit.xml',
+        'models/view_stock_move_operations_inherit.xml'
             ],
     'auto_install': False,
     'assets': {
