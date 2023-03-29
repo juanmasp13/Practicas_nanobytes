@@ -6,6 +6,7 @@
     'depends': ['base','stock','stock_barcode','web'],
     'data': [
         'views/stock_production_lot_form_inherit.xml',
+        'views/partner_risk_exceeded_view_inherit.xml',
             ],
     'auto_install': False,
     'assets': {
