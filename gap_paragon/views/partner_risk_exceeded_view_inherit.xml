@@ -9,7 +9,6 @@
                 <button
                     string="Continue"
                     class="btn-primary"
-                    name="button_continue"
                     type="object"
                 />
             </xpath>
