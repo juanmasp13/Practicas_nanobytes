@@ -6,23 +6,12 @@
         <field name="inherit_id" ref="account_financial_risk.partner_risk_exceeded_wizard"/>
         <field name="arch" type="xml">
             <xpath expr="//footer/button[@class='btn-primary']" position="replace">
-                <t t-if="context.get('active_model') == 'sale.order'">
-                    <button
-                        string="Continue Sale Order"
-                        class="btn-primary"
-                        name="button_continue"
-                        type="object"
-                    />
-                </t>
-                <t t-elif="context.get('active_model') != 'sale.order'">
-                    <button
-                        string="Continue sin sale order"
-                        class="btn-primary"
-                        name="button_continue"
-                        type="object"
-                        groups="account_financial_risk.group_overpass_partner_risk_exception"
-                    />
-                </t>
+                <button
+                    string="Continue Sale Order"
+                    class="btn-primary"
+                    name="button_continue"
+                    type="object"
+                />
             </xpath>
         </field>
     </record>
