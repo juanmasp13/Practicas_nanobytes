@@ -14,7 +14,7 @@
                         type="object"
                     />
                 </t>
-                <t t-else="">
+                <t t-elif="context.get('active_model') != 'sale.order'">
                     <button
                         string="Continue sin sale order"
                         class="btn-primary"
