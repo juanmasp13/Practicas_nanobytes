@@ -14,4 +14,4 @@ class PartnerRiskExceededWizInherit(models.TransientModel):
     _inherit = "partner.risk.exceeded.wiz"
 
     def mostrar_context(self):
-        logger.info(self._context.get())
+        logger.info(self._context.get('active_model'))
