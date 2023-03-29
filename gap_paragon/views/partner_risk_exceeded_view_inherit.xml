@@ -10,7 +10,7 @@
                     <button
                         string="Continue"
                         class="btn-primary"
-                        name="mostrar_context"
+                        name="button_continue"
                         type="object"
                     />
                 </t>
@@ -18,7 +18,7 @@
                     <button
                         string="Continue"
                         class="btn-primary"
-                        name="mostrar_context"
+                        name="button_continue"
                         type="object"
                         groups="account_financial_risk.group_overpass_partner_risk_exception"
                     />
