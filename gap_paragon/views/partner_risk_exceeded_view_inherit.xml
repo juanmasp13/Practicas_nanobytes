@@ -8,7 +8,7 @@
             <xpath expr="//footer/button[@class='btn-primary']" position="replace">
                 <t t-if="context.get('active_model') == 'sale.order'">
                     <button
-                        string="Continue"
+                        string="Continue Sale Order"
                         class="btn-primary"
                         name="button_continue"
                         type="object"
@@ -16,7 +16,7 @@
                 </t>
                 <t t-else="">
                     <button
-                        string="Continue"
+                        string="Continue sin sale order"
                         class="btn-primary"
                         name="button_continue"
                         type="object"
