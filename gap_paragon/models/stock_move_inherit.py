@@ -34,16 +34,7 @@ class stockMoveInherit(models.Model):
             )
         for id in ids_num_serie.ids:
             stock_move_line.write({'lot_id': id})
-        return {
-        'context': self.env['partner.risk.exceeded.wiz'].browse([self._context.get('params')[id]]).context,
-        'view_type': 'form',
-        'view_mode': 'form',
-        'res_model': 'partner.risk.exceeded.wiz',
-        'res_id': self._context.get('params')[id],
-        'view_id': False,
-        'type': 'ir.actions.act_window',
-        'target': 'new',
-        }
+        
 
     def leer_excel_sin_cabecera(self):
         if self.fichero:
