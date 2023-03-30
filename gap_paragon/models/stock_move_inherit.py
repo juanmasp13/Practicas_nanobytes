@@ -13,8 +13,7 @@ class stockMoveInherit(models.Model):
 
     fichero = fields.Binary(string="Subir report")
 
-    def registrar_num_serie(self):
-        id_albaran = self._context.get('params')['id']
+    def registrar_num_serie(self):       
         logger.info(self.product_qty)
         num_serie = []
         filas = self.leer_excel_sin_cabecera()
@@ -31,7 +30,11 @@ class stockMoveInherit(models.Model):
                 break
             cont += 1
         ids_num_serie = self.env['stock.production.lot'].create(num_serie)
-        logger.info(ids_num_serie)
+        stock_move_line = self.env['stock_move_line'].search(
+            [('picking_id', '=', self._context.get('params')['id']), ('move_id', '=', self.id), ('product_id', '=', self.product_id.id)]
+            )
+        for id in ids_num_serie.ids:
+            stock_move_line.write({'lot_id': id})
 
     def leer_excel_sin_cabecera(self):
         if self.fichero:
