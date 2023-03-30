@@ -15,7 +15,7 @@ class PartnerRiskExceededWizInherit(models.TransientModel):
 
     mostrar_boton = fields.Boolean(string="mostrar boton", default=False)
 
-    def _mostrar_boton(self):
+    def _compute_mostrar_boton(self):
         for record in self:
             group_ids = self.env['res.users'].browse([self.env.user.id]).groups_id
             record.mostrar_boton = self._context.get('active_model') == 'sale.order' or group_ids in self.env.ref('account_financial_risk.group_overpass_partner_risk_exception').id
