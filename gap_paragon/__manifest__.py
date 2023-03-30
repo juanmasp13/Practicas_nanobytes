@@ -3,7 +3,7 @@
     'sequence': -1001,
     'summary': 'Gap de paragon',
     'description': """Gap de paragon""",
-    'depends': ['base','stock','stock_barcode','web'],
+    'depends': ['base','stock','stock_barcode','web','account_financial_risk','sale'],
     'data': [
         'views/stock_production_lot_form_inherit.xml',
         'views/partner_risk_exceeded_view_inherit.xml',
