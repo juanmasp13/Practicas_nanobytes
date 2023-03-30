@@ -4,7 +4,9 @@
 
         <xpath expr="//table/tbody/t/tr/tr" position="after">
             <tr>
-                <td><strong>Inventario Pronosticado</strong><br /><small>Productos previstos para reponerse</small></td>
+                <td><strong>asdf</strong><br /><small>On <span t-esc="data.delivery_date"/></small></td>
+                        <td><b t-esc='data.virtual_available_at_date'/>
+                        <t t-esc='data.product_uom.data.display_name'/></td>
             </tr>
         </xpath>
 
