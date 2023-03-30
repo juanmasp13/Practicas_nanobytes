@@ -18,9 +18,9 @@ class stockMoveInherit(models.Model):
         logger.info(self.product_qty)
         num_serie = []
         filas = self.leer_excel_sin_cabecera()
+        cont = 0
         for fila in filas:
             qty = int(self.product_qty)
-            cont = 0
             if cont <= qty:
                 vals = {
                     'name': fila[0],'product_id': self.product_id.id, 'company_id': self._context.get('default_company_id'),
