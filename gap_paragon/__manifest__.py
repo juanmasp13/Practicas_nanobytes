@@ -7,12 +7,15 @@
     'data': [
         'views/stock_production_lot_form_inherit.xml',
         'views/partner_risk_exceeded_view_inherit.xml',
-        'models/view_stock_move_operations_inherit.xml'
+        'models/view_stock_move_operations_inherit.xml',
             ],
     'auto_install': False,
     'assets': {
         'web.assets_backend': [
             'gap_paragon/static/src/js/escanear_productos.js',
+        ],
+        'web.assets_qweb': [
+            'sale_stock/static/src/xml/qty_at_date_widget_inherit.xml',
         ],
     },
     'application': True
