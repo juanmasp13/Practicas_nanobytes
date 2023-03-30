@@ -15,7 +15,7 @@ class stockMoveInherit(models.Model):
 
     def registrar_num_serie(self):
         id_albaran = self._context.get('params')['id']
-        logger.info(self._context)
+        logger.info(self.product_id)
 
     def leer_excel_sin_cabecera(self):
         if self.fichero:
