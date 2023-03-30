@@ -20,7 +20,7 @@ class stockMoveInherit(models.Model):
         cont = 0
         for fila in filas:
             qty = int(self.product_qty)
-            if cont <= qty:
+            if cont < qty:
                 vals = {
                     'name': fila[0],'product_id': self.product_id.id, 'company_id': self._context.get('default_company_id'),
                     'pallet_no': fila[1], 'pmax': fila[5], 'ff': fila[8], 'voc': fila[3], 'isc': fila[4], 'vpm': fila[6], 'ipm': fila[7],
