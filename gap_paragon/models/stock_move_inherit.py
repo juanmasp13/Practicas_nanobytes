@@ -13,7 +13,7 @@ class stockMoveInherit(models.Model):
 class PartnerRiskExceededWizInherit(models.TransientModel):
     _inherit = "partner.risk.exceeded.wiz"
 
-    mostrar_boton = fields.Boolean(string="mostrar boton", default=False)
+    mostrar_boton = fields.Boolean(string="mostrar boton", compute="_compute_mostrar_boton")
 
     def _compute_mostrar_boton(self):
         for record in self:

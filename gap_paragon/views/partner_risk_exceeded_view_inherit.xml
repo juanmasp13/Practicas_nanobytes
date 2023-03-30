@@ -7,13 +7,13 @@
         <field name="arch" type="xml">
             <xpath expr="//footer/button[@class='btn-primary']" position="replace">
                 <field name="mostrar_boton" invisible="1"/>
-                <!-- <button
+                <button
                     string="Continue"
                     class="btn-primary"
                     name="button_continue"
                     type="object"
-                    invisible="mostrar_boton"
-                />  -->
+                    attrs="{'invisible': ['mostrar_boton', '!=', True]}"
+                />
             </xpath>
         </field>
     </record>
