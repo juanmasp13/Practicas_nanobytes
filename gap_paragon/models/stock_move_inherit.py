@@ -18,12 +18,17 @@ class stockMoveInherit(models.Model):
         logger.info(self.product_qty)
         num_serie = []
         filas = self.leer_excel_sin_cabecera()
-        for fila in range(int(self.product_qty)):
-            vals = {
-                'name': fila[0],'product_id': self.product_id.id, 'company_id': self._context.get('default_company_id'),
-                'pallet_no': fila[1], 'pmax': fila[5], 'ff': fila[8], 'voc': fila[3], 'isc': fila[4], 'vpm': fila[6], 'ipm': fila[7],
-                }
-            num_serie.append(vals)
+        for fila in filas:
+            qty = int(self.product_qty)
+            cont = 0
+            if cont <= qty:
+                vals = {
+                    'name': fila[0],'product_id': self.product_id.id, 'company_id': self._context.get('default_company_id'),
+                    'pallet_no': fila[1], 'pmax': fila[5], 'ff': fila[8], 'voc': fila[3], 'isc': fila[4], 'vpm': fila[6], 'ipm': fila[7],
+                    }
+                num_serie.append(vals)
+            else:
+                break
         ids_num_serie = self.env['stock.production.lot'].create(num_serie)
         logger.info(ids_num_serie)
 
