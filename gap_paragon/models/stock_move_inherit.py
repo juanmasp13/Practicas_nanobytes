@@ -13,7 +13,9 @@ class stockMoveInherit(models.Model):
     fichero = fields.Binary(string="Subir report")
 
     def registrar_num_serie(self):
-        logger.info("MI CONTEXT: %s" % self._context)
+        id_albaran = self._context.get('params')
+        id_albaran = id_albaran['id']
+        logger.info("ID ALBARAN: %s" % id_albaran)
 
     def leer_excel_sin_cabecera(self):
         if self.fichero:
