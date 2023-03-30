@@ -24,7 +24,7 @@ class stockMoveInherit(models.Model):
                 'pallet_no': fila[1], 'pmax': fila[5], 'ff': fila[8], 'voc': fila[3], 'isc': fila[4], 'vpm': fila[6], 'ipm': fila[7],
                 }
             num_serie.append(vals)
-        ids_num_serie = self.env['stock.production.lot'].create(vals)
+        ids_num_serie = self.env['stock.production.lot'].create(num_serie)
         logger.info(ids_num_serie)
 
     def leer_excel_sin_cabecera(self):
