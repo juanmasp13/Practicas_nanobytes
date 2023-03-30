@@ -15,7 +15,7 @@
             'gap_paragon/static/src/js/escanear_productos.js',
         ],
         'web.assets_qweb': [
-            'sale_stock/static/src/xml/qty_at_date_widget_inherit.xml',
+            'gap_paragon/static/src/xml/qty_at_date_widget_inherit.xml',
         ],
     },
     'application': True
