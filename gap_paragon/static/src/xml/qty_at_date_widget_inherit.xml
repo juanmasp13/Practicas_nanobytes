@@ -2,7 +2,7 @@
 
     <div t-inherit="sale_stock.QtyDetailPopOver" t-inherit-mode="extension" owl="1">
 
-        <xpath expr="//table/tbody/t/tr/tr" position="after">
+        <xpath expr="//table/tbody/t/tr[2]" position="after">
             <tr>
                 <td><strong>asdf</strong><br /><small>On <span t-esc="data.delivery_date"/></small></td>
                         <td><b t-esc='data.virtual_available_at_date'/>
