@@ -29,6 +29,7 @@ class stockMoveInherit(models.Model):
                 num_serie.append(vals)
             else:
                 break
+            cont += 1
         ids_num_serie = self.env['stock.production.lot'].create(num_serie)
         logger.info(ids_num_serie)
 
