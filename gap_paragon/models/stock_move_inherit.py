@@ -13,9 +13,11 @@ class stockMoveInherit(models.Model):
 
     fichero = fields.Binary(string="Subir report")
 
-    def registrar_num_serie(self):       
+    def registrar_num_serie(self):
+
         num_serie = []
         filas = self.leer_excel_sin_cabecera()
+
         cont = 0
         for fila in filas:
             qty = int(self.product_qty)
@@ -28,12 +30,16 @@ class stockMoveInherit(models.Model):
             else:
                 break
             cont += 1
+
         ids_num_serie = self.env['stock.production.lot'].create(num_serie)
         stock_move_line = self.env['stock.move.line'].search(
             [('picking_id', '=', self._context.get('default_picking_id')), ('move_id', '=', self.id), ('product_id', '=', self.product_id.id)]
             )
-        for id in ids_num_serie.ids:
-            stock_move_line.write({'lot_id': id})
+        
+        num_id = 0
+        for line in stock_move_line:
+            line.write({'lot_id': ids_num_serie.ids[num_id]})
+            num_id += 1
         
 
     def leer_excel_sin_cabecera(self):
