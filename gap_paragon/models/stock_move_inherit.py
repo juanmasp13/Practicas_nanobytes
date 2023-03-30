@@ -1,6 +1,7 @@
 from odoo import fields, models
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.translate import _
+from odoo.exceptions import UserError
 import logging, io
 import base64
 import datetime
@@ -14,7 +15,7 @@ class stockMoveInherit(models.Model):
 
     def registrar_num_serie(self):
         id_albaran = self._context.get('params')['id']
-        logger.info("ID ALBARAN: %s" % id_albaran)
+        logger.info(self._context)
 
     def leer_excel_sin_cabecera(self):
         if self.fichero:
@@ -23,6 +24,8 @@ class stockMoveInherit(models.Model):
             filas.pop(0)
             #Aquí estan todos los valores excluyendo la cabecera gracias al método pop()
             return filas
+        else:
+            raise UserError("¡ERROR! Debes seleccionar un fichero excel para realizar la importación.")
 
     def _read_xls(self, options):
         book = xlrd.open_workbook(file_contents=base64.b64decode(self.fichero) or b'') # IMPORTANTE EL base64.b64decode, es necesario hacerselo al campo para poder leerlo
