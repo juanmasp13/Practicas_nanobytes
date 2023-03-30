@@ -1,0 +1,13 @@
+<templates>
+
+    <div t-inherit="sale_stock.QtyDetailPopOver" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//table/tbody/t/tr/tr" position="after">
+            <tr>
+                <td><strong>Inventario Pronosticado</strong><br /><small>Productos previstos para reponerse</small></td>
+            </tr>
+        </xpath>
+
+    </div>
+
+</templates>
