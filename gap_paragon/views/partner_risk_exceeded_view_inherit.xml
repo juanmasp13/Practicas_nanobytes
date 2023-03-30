@@ -6,14 +6,14 @@
         <field name="inherit_id" ref="account_financial_risk.partner_risk_exceeded_wizard"/>
         <field name="arch" type="xml">
             <xpath expr="//footer/button[@class='btn-primary']" position="replace">
-                <field name="mostrar_boton" invisible="1"/>
+                <!-- <field name="mostrar_boton" invisible="1"/>
                 <button
                     string="Continue"
                     class="btn-primary"
                     name="button_continue"
                     type="object"
                     invisible="mostrar_boton"
-                />
+                /> -->
             </xpath>
         </field>
     </record>
