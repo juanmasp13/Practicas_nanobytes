@@ -12,7 +12,7 @@
                     class="btn-primary"
                     name="button_continue"
                     type="object"
-                    attrs="{'invisible': ['mostrar_boton', '!=', True]}"
+                    attrs="{'invisible': [('mostrar_boton', '!=', True)]}"
                 />
             </xpath>
         </field>
