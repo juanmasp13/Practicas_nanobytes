@@ -31,10 +31,20 @@ class stockMoveInherit(models.Model):
             cont += 1
         ids_num_serie = self.env['stock.production.lot'].create(num_serie)
         stock_move_line = self.env['stock_move_line'].search(
-            [('picking_id', '=', self._context.get('params')['id']), ('move_id', '=', self.id), ('product_id', '=', self.product_id.id)]
+            [('picking_id', '=', self._context.get('default_picking_id')), ('move_id', '=', self.id), ('product_id', '=', self.product_id.id)]
             )
         for id in ids_num_serie.ids:
             stock_move_line.write({'lot_id': id})
+        return {
+        'context': self.env['partner.risk.exceeded.wiz'].context,
+        'view_type': 'form',
+        'view_mode': 'form',
+        'res_model': 'import.products.wizard',
+        'res_id': self.env['partner.risk.exceeded.wiz'].context.get('params')[id],
+        'view_id': False,
+        'type': 'ir.actions.act_window',
+        'target': 'new',
+        }
 
     def leer_excel_sin_cabecera(self):
         if self.fichero:
