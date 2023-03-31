@@ -7,5 +7,5 @@ class StockPickingInherit(models.Model):
 
 
     def button_validate(self):        
-        super(StockPickingInherit, self).button_validate()
         raise UserError(self.move_line_ids_without_package)
+        super(StockPickingInherit, self).button_validate()
