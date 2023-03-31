@@ -3,7 +3,7 @@
     <record id="sale.order.line.tree.inherit" model="ir.ui.view">
         <field name="name">sale.order.line.tree.inherit</field>
         <field name="model">sale.order.line</field>
-        <field name="inherit_id" ref="	sale.view_order_line_tree"/>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="before">
                 <field name="virtual_available" invisible="1"/>
