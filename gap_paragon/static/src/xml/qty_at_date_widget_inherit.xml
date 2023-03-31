@@ -5,7 +5,7 @@
         <xpath expr="//table/tbody/t/tr[2]" position="after">
             <tr>
                 <td><strong>Inventario pronosticado</strong><br /></td>
-                        <td><b t-esc='fields'/>
+                        <td><b t-esc='data.content'/>
                         <t t-esc='data.product_uom.data.display_name'/></td>
             </tr>
         </xpath>
