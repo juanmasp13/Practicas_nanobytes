@@ -9,7 +9,7 @@
                 <attribute name="attrs">draft,confirmed,assigned,aprobacion,done</attribute>
             </xpath>
             <xpath expr="//header/field[@name='state']" position="attributes">
-                <attribute name="attrs">{'invisible': [('picking_type_code', '=', 'outgoing'), ('state', '=', 'aprobacion')]}</attribute>
+                <attribute name="attrs">{'invisible': [('picking_type_code', '!=', 'outgoing'), ('state', '=', 'aprobacion')]}</attribute>
             </xpath>
         </field>
     </record>
