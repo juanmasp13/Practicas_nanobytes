@@ -11,9 +11,9 @@ class StockPickingInherit(models.Model):
             selection = [('aprobacion', 'Aprobación'), ('assigned',)]
         
         return selection
+    
 
-    campos = _compute_selection()
-    state = fields.Selection(selection_add=campos) 
+    state = fields.Selection(selection_add='_compute_selection(self)') 
 
     def button_validate(self):
         if self.move_line_ids.qty_done > self.move_line_ids.product_id.qty_available and self.picking_type_code == 'outgoing':
