@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 from odoo.exceptions import UserError
 import logging
 logger = logging.getLogger(__name__)
@@ -43,6 +43,16 @@ class StockPickingInherit(models.Model):
              " * Done: The transfer has been processed.\n"
              " * Aprobación: Un administrador debe validar el albarán.\n"
              " * Cancelled: The transfer has been cancelled.") 
+
+    @api.depends('state')
+    def _compute_show_validate(self):
+        for picking in self:
+            if not (picking.immediate_transfer) and picking.state == 'draft':
+                picking.show_validate = False
+            elif picking.state not in ('draft', 'waiting', 'confirmed', 'assigned', 'aprobacion'):
+                picking.show_validate = False
+            else:
+                picking.show_validate = True
 
     def button_validate(self):
         if self.move_line_ids.qty_done > self.move_line_ids.product_id.qty_available and self.picking_type_code == 'outgoing':

@@ -9,7 +9,7 @@
                 <attribute name="statusbar_visible">draft,confirmed,assigned,aprobacion,done</attribute>
             </xpath>
             <xpath expr="//header/button[@name='button_validate']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('state', 'in', ('waiting','confirmed')), ('show_validate', '=', False), '|', ('state', '!=', 'aprobacion')]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('state', 'in', ('waiting','confirmed')), ('show_validate', '=', False)]}</attribute>
             </xpath>
         </field>
     </record>
