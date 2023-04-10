@@ -7,30 +7,30 @@ class StockPickingInherit(models.Model):
     _inherit = "stock.picking"
     
     def _compute_selection(self):
-        logger.info("PASO %s " % self.picking_type_code)
-        logger.info("%s " % self.picking_type_id)
-        logger.info("SOY %s " % self)
-        logger.info("SOY %s " % self.picking_type_id.code)
-
-        if self.picking_type_code == 'outgoing':
-            selection = [
-            ('draft', 'Draft'),
-            ('waiting', 'Waiting Another Operation'),
-            ('confirmed', 'Waiting'),
-            ('assigned', 'Ready'),
-            ('aprobacion', 'Aprobación'),
-            ('done', 'Done'),
-            ('cancel', 'Cancelled'),
-        ]
-        else:
-            selection = [
-            ('draft', 'Draft'),
-            ('waiting', 'Waiting Another Operation'),
-            ('confirmed', 'Waiting'),
-            ('assigned', 'Ready'),
-            ('done', 'Done'),
-            ('cancel', 'Cancelled'),
-        ]
+        for record in self:
+            logger.info("PASO %s " % record.picking_type_code)
+            logger.info("%s " % record.picking_type_id)
+            logger.info("SOY %s " % record)
+            logger.info("SOY %s " % record.env)
+            if record.picking_type_code == 'outgoing':
+                selection = [
+                ('draft', 'Draft'),
+                ('waiting', 'Waiting Another Operation'),
+                ('confirmed', 'Waiting'),
+                ('assigned', 'Ready'),
+                ('aprobacion', 'Aprobación'),
+                ('done', 'Done'),
+                ('cancel', 'Cancelled'),
+            ]
+            else:
+                selection = [
+                ('draft', 'Draft'),
+                ('waiting', 'Waiting Another Operation'),
+                ('confirmed', 'Waiting'),
+                ('assigned', 'Ready'),
+                ('done', 'Done'),
+                ('cancel', 'Cancelled'),
+            ]
         
         return selection
     
