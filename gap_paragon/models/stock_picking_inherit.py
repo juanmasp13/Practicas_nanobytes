@@ -10,7 +10,8 @@ class StockPickingInherit(models.Model):
         logger.info("PASO %s " % self.picking_type_code)
         logger.info("%s " % self.picking_type_id)
         logger.info("SOY %s " % self)
-        logger.info(self.env)
+        logger.info(self._context)
+        logger.info(self.env.context)
         if self.picking_type_code == 'outgoing':
             selection = [
             ('draft', 'Draft'),
