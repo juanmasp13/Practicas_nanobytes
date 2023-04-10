@@ -4,8 +4,15 @@ from odoo.exceptions import UserError
 
 class StockPickingInherit(models.Model):
     _inherit = "stock.picking"
-
-    state = fields.Selection(selection_add=[('aprobacion', 'Aprobación'), ('assigned',)])
+    
+    def _compute_selection(self):
+        selection = [()]
+        if self.picking_type_code == 'outgoing':
+            selection = [('aprobacion', 'Aprobación'), ('assigned',)]
+        
+        return selection
+    
+    state = fields.Selection(selection_add=_compute_selection) 
 
     def button_validate(self):
         if self.move_line_ids.qty_done > self.move_line_ids.product_id.qty_available and self.picking_type_code == 'outgoing':
@@ -13,5 +20,4 @@ class StockPickingInherit(models.Model):
         
 
         return super(StockPickingInherit, self).button_validate()
-    
     
