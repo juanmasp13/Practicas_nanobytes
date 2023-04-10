@@ -5,12 +5,17 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//header/field[@name='state']" position="attributes">
-                <attribute name="statusbar_visible">draft,confirmed,assigned,aprobacion,done</attribute>
-            </xpath>
-            <xpath expr="//header/field[@name='state']" position="attributes">
-                <attribute name="attrs">{'invisible': [('picking_type_code', '!=', 'outgoing'), ('state', '=', 'aprobacion')]}</attribute>
-            </xpath>
+            <field t-if="picking_type_code === 'outgoing'">
+                <xpath expr="//header/field[@name='state']" position="attributes">
+                    <attribute name="statusbar_visible">draft,confirmed,assigned,aprobacion,done</attribute>
+                </xpath>
+            </field>
+            <field t-else="">
+                <xpath expr="//header/field[@name='state']" position="attributes">
+                    <attribute name="statusbar_visible">draft,confirmed,assigned,done</attribute>
+                </xpath>
+            </field>
+
         </field>
     </record>
 </odoo>
