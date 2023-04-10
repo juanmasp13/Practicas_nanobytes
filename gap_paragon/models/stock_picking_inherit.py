@@ -7,37 +7,31 @@ class StockPickingInherit(models.Model):
     _inherit = "stock.picking"
     
     def _compute_selection(self):
-        # logger.info("PASO %s " % self.picking_type_code)
-        # logger.info("%s " % self.picking_type_id)
-        # logger.info("SOY %s " % self)
+        selection = [()]
         params = self._context.get('params')
         if params:
-            #id_picking = self.env['stock.picking'].browse(params[id])
-            logger.info(params)
-            logger.info("id picking es %s" % params.get('id'))
-        # logger.info(self.env.context.get('params')['id'])
-        # id = self.env.context.get('params')['id']
-        # registro = self.env['stock.picking'].browse(id).picking_type_code
-        # logger.info(registro)
-        if self.picking_type_code == 'outgoing':
-            selection = [
-            ('draft', 'Draft'),
-            ('waiting', 'Waiting Another Operation'),
-            ('confirmed', 'Waiting'),
-            ('assigned', 'Ready'),
-            ('aprobacion', 'Aprobación'),
-            ('done', 'Done'),
-            ('cancel', 'Cancelled'),
-        ]
-        else:
-            selection = [
-            ('draft', 'Draft'),
-            ('waiting', 'Waiting Another Operation'),
-            ('confirmed', 'Waiting'),
-            ('assigned', 'Ready'),
-            ('done', 'Done'),
-            ('cancel', 'Cancelled'),
-        ]
+            id_picking = params.get('id')
+            if id_picking:
+                tipo_mov = self.env['stock.picking'].browse(id_picking).picking_type_code
+                if tipo_mov == 'outgoing':
+                    selection = [
+                    ('draft', 'Draft'),
+                    ('waiting', 'Waiting Another Operation'),
+                    ('confirmed', 'Waiting'),
+                    ('assigned', 'Ready'),
+                    ('aprobacion', 'Aprobación'),
+                    ('done', 'Done'),
+                    ('cancel', 'Cancelled'),
+                ]
+                else:
+                    selection = [
+                    ('draft', 'Draft'),
+                    ('waiting', 'Waiting Another Operation'),
+                    ('confirmed', 'Waiting'),
+                    ('assigned', 'Ready'),
+                    ('done', 'Done'),
+                    ('cancel', 'Cancelled'),
+                ]
         
         return selection
     
