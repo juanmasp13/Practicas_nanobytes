@@ -7,15 +7,15 @@ class StockPickingInherit(models.Model):
     _inherit = "stock.picking"
     
     def _compute_selection(self):
-        logger.info("PASO %s " % self.picking_type_code)
-        logger.info("%s " % self.picking_type_id)
-        logger.info("SOY %s " % self)
+        # logger.info("PASO %s " % self.picking_type_code)
+        # logger.info("%s " % self.picking_type_id)
+        # logger.info("SOY %s " % self)
         logger.info(self._context)
-        logger.info(self.env.context.get('params')['id'])
-        id = self.env.context.get('params')['id']
-        registro = self.env['stock.picking'].browse(id).picking_type_code
-        logger.info(registro)
-        if registro == 'outgoing':
+        # logger.info(self.env.context.get('params')['id'])
+        # id = self.env.context.get('params')['id']
+        # registro = self.env['stock.picking'].browse(id).picking_type_code
+        # logger.info(registro)
+        if self.picking_type_code == 'outgoing':
             selection = [
             ('draft', 'Draft'),
             ('waiting', 'Waiting Another Operation'),
