@@ -36,7 +36,7 @@ class StockPickingInherit(models.Model):
              " * Waiting: The transfer is waiting for the availability of some products.\n(a) The shipping policy is \"As soon as possible\": no product could be reserved.\n(b) The shipping policy is \"When all products are ready\": not all the products could be reserved.\n"
              " * Ready: The transfer is ready to be processed.\n(a) The shipping policy is \"As soon as possible\": at least one product has been reserved.\n(b) The shipping policy is \"When all products are ready\": all product have been reserved.\n"
              " * Done: The transfer has been processed.\n"
-             " * Aprobación: Un administrador debe aprobar validar el albarán.\n"
+             " * Aprobación: Un administrador debe validar el albarán.\n"
              " * Cancelled: The transfer has been cancelled.") 
 
     def button_validate(self):
