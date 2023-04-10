@@ -114,7 +114,7 @@ class PartnerRiskExceededWizInherit(models.TransientModel):
     def button_continue(self):
         group_ids = self.env['res.users'].browse([self.env.user.id]).groups_id
         if self.env.ref('account_financial_risk.group_overpass_partner_risk_exception').id not in group_ids.ids:
-            self.env['stock.picking'].browse(self._context.get('active_model')).write({'state':'aprobacion'})
+            self.env['stock.picking'].browse(self._context.get('active_id')).write({'state':'aprobacion'})
             return
         else:
             return super(PartnerRiskExceededWizInherit, self).button_continue()
