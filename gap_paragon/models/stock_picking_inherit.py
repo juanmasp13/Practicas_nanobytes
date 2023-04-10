@@ -11,7 +11,9 @@ class StockPickingInherit(models.Model):
         logger.info("%s " % self.picking_type_id)
         logger.info("SOY %s " % self)
         logger.info(self._context)
-        logger.info(self.env.context)
+        logger.info(self.env.context.get('params')['id'])
+        id = self.env.context.get('params')['id']
+        registro = self.env['stock.picking'].browse(id).picking_type_code
         if self.picking_type_code == 'outgoing':
             selection = [
             ('draft', 'Draft'),
