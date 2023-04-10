@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header/field[@name='state']" position="attributes">
-                <attribute name="statusbar_visible">draft,confirmed,assigned,aprobacion,done</attribute>
+                <attribute name="statusbar_visible">draft,confirmed,assigned,asdasd,aprobacion,done</attribute>
             </xpath>
         </field>
     </record>
