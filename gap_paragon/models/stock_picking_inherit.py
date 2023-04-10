@@ -10,7 +10,10 @@ class StockPickingInherit(models.Model):
         # logger.info("PASO %s " % self.picking_type_code)
         # logger.info("%s " % self.picking_type_id)
         # logger.info("SOY %s " % self)
-        logger.info(self._context)
+        params = self._context.get('params')
+        if params:
+            logger.info("Hay parametros")
+            logger.info(params)
         # logger.info(self.env.context.get('params')['id'])
         # id = self.env.context.get('params')['id']
         # registro = self.env['stock.picking'].browse(id).picking_type_code
