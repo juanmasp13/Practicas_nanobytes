@@ -2,11 +2,11 @@ from odoo import fields, models
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.translate import _
 from odoo.exceptions import UserError
-import logging, io
+import logging
+logger = logging.getLogger(__name__)
 import base64
 import datetime
 import xlrd
-logger = logging.getLogger(__name__)
 
 class stockMoveInherit(models.Model):
     _inherit = "stock.move"

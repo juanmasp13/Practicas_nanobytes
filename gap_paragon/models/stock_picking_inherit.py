@@ -8,6 +8,10 @@ class StockPickingInherit(models.Model):
     
     def _compute_selection(self):
         logger.info("PASO %s " % self.picking_type_code)
+        logger.info("%s " % self.picking_type_id)
+        logger.info("SOY %s " % self)
+        logger.info("SOY %s " % self.picking_type_id.code)
+
         if self.picking_type_code == 'outgoing':
             selection = [
             ('draft', 'Draft'),
