@@ -6,7 +6,7 @@ class StockPickingInherit(models.Model):
     _inherit = "stock.picking"
     
     def _compute_selection(self):
-        selection = [()]
+        selection = [('',),]
         if self.picking_type_code == 'outgoing':
             selection = [('aprobacion', 'Aprobación'), ('assigned',)]
         
