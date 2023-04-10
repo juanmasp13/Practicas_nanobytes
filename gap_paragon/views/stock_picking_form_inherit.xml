@@ -8,9 +8,6 @@
             <xpath expr="//header/field[@name='state']" position="attributes">
                 <attribute name="statusbar_visible">draft,confirmed,assigned,aprobacion,done</attribute>
             </xpath>
-            <xpath expr="//header/button[@name='do_print_picking']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('state', '!=', 'assigned'),('state', '!=', 'aprobacion')]}</attribute>
-            </xpath>
         </field>
     </record>
 </odoo>
