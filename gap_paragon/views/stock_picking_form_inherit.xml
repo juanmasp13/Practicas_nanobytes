@@ -5,16 +5,16 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
-            <field t-if="picking_type_code === 'outgoing'">
+            <div t-if="picking_type_code === 'outgoing'">
                 <xpath expr="//header/field[@name='state']" position="attributes">
                     <attribute name="statusbar_visible">draft,confirmed,assigned,aprobacion,done</attribute>
                 </xpath>
-            </field>
-            <field t-else="">
+            </div>
+            <div t-else="">
                 <xpath expr="//header/field[@name='state']" position="attributes">
                     <attribute name="statusbar_visible">draft,confirmed,assigned,done</attribute>
                 </xpath>
-            </field>
+            </div>
 
         </field>
     </record>
