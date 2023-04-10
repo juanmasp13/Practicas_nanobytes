@@ -1,11 +1,13 @@
 from odoo import fields, models
 from odoo.exceptions import UserError
-
+import logging
+logger = logging.getLogger(__name__)
 
 class StockPickingInherit(models.Model):
     _inherit = "stock.picking"
     
     def _compute_selection(self):
+        logger.info("PASO %s " % self.picking_type_code)
         if self.picking_type_code == 'outgoing':
             selection = [
             ('draft', 'Draft'),
