@@ -9,6 +9,7 @@
         'views/partner_risk_exceeded_view_inherit.xml',
         'views/sale_order_line_tree_inherit.xml',
         'models/view_stock_move_operations_inherit.xml',
+        'views/stock_picking_form_inherit.xml',
             ],
     'auto_install': False,
     'assets': {
