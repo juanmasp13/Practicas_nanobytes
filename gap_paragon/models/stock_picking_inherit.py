@@ -7,7 +7,14 @@ class StockPickingInherit(models.Model):
     _inherit = "stock.picking"
     
     def _compute_selection(self):
-        selection = [()]
+        selection = selection = [
+                    ('draft', 'Draft'),
+                    ('waiting', 'Waiting Another Operation'),
+                    ('confirmed', 'Waiting'),
+                    ('assigned', 'Ready'),
+                    ('done', 'Done'),
+                    ('cancel', 'Cancelled'),
+                ]
         params = self._context.get('params')
         if params:
             id_picking = params.get('id')
@@ -22,16 +29,7 @@ class StockPickingInherit(models.Model):
                     ('aprobacion', 'Aprobación'),
                     ('done', 'Done'),
                     ('cancel', 'Cancelled'),
-                ]
-                else:
-                    selection = [
-                    ('draft', 'Draft'),
-                    ('waiting', 'Waiting Another Operation'),
-                    ('confirmed', 'Waiting'),
-                    ('assigned', 'Ready'),
-                    ('done', 'Done'),
-                    ('cancel', 'Cancelled'),
-                ]
+                ]                   
         
         return selection
     
