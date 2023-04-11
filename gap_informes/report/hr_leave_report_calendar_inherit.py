@@ -83,6 +83,7 @@ class LeaveReportCalendar(models.Model):
             name_field = self._fields['name_type']
             for record in self.with_user(SUPERUSER_ID):
                 if isinstance(record.name_type, dict):
+                    logger.info("TRUEEEE")
                     self.env.cache.set(record, name_field, list(record.name_type.values())[0])
         return res
 
