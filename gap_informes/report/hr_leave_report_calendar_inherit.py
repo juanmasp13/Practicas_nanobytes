@@ -1,6 +1,6 @@
 from odoo import models, tools, fields, SUPERUSER_ID, _
 
-class LeaveReportCalendarInherit(models.Model):
+class LeaveReportCalendar(models.Model):
     _inherit = "hr.leave.report.calendar"
 
     def init(self):
@@ -46,7 +46,7 @@ class LeaveReportCalendarInherit(models.Model):
         """)
 
     def _read(self, fields):
-        res = super(LeaveReportCalendarInherit, self)._read(fields)
+        res = super(LeaveReportCalendar, self)._read(fields)
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
             name_field = self._fields['name']
             for record in self.with_user(SUPERUSER_ID):
