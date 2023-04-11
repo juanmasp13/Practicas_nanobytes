@@ -4,7 +4,7 @@
     'summary': 'Informe sobre todas las ausencias',
     'description': """Informe sobre todas las ausencias""",
     'depends': ['hr_holidays'],
-    'data': ['views/hr_leave_report_calendar_inherit.xml'],
+    'data': ['report/hr_leave_report_calendar_inherit.xml'],
     'auto_install': False,
     'application': True
 }
