@@ -81,12 +81,8 @@ class LeaveReportCalendar(models.Model):
         res = super()._read(fields)
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
             name_field = self._fields['name']
-            logger.info("MOSTRANDO CAMPOS")
-            logger.info(name_field)
             for record in self.with_user(SUPERUSER_ID):
                 self.env.cache.set(record, name_field, list(record.name.values())[0])
-                self.name_type = record.name_type.split(':')[-1].strip()
-                logger.info(record.name_type) 
         return res
 
     @api.model
