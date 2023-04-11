@@ -84,7 +84,7 @@ class LeaveReportCalendar(models.Model):
             logger.info("MOSTRANDO CAMPOS")
             logger.info(name_field)
             for record in self.with_user(SUPERUSER_ID):
-                self.env.cache.set(record, name_field, list(record.name_type)[1])
+                self.env.cache.set(record, name_field, list(record.name_type))
             logger.info(list(record.name_type))
         return res
 
