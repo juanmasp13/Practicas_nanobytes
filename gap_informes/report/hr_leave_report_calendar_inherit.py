@@ -40,7 +40,7 @@ class LeaveReportCalendar(models.Model):
         self._cr.execute("""CREATE OR REPLACE VIEW hr_leave_report_calendar AS
         (SELECT 
             hl.id AS id,
-            CONCAT(em.name, ': ', hl.duration_display) AS name,
+            CONCAT(em.name, ': ', hl.duration_display) AS name_type,
             hl.date_from AS start_datetime,
             hl.date_to AS stop_datetime,
             hl.employee_id AS employee_id,
@@ -48,7 +48,7 @@ class LeaveReportCalendar(models.Model):
             hl.department_id AS department_id,
             hl.number_of_days AS duration,
             em.company_id AS company_id,
-            lt.name AS name_type, -- Nuevo campo agregado
+            lt.name AS name, -- Nuevo campo agregado
             em.job_id AS job_id,
             COALESCE(
                 CASE WHEN hl.holiday_type = 'employee' THEN COALESCE(rr.tz, rc.tz) END,
@@ -80,10 +80,9 @@ class LeaveReportCalendar(models.Model):
     def _read(self, fields):
         res = super()._read(fields)
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
-            name_field = self._fields['name_type']
+            name_field = self._fields['name']
             for record in self.with_user(SUPERUSER_ID):
-                if isinstance(record.name_type, dict):
-                    self.env.cache.set(record, name_field, list(record.name_type.values())[0])
+                self.env.cache.set(record, name_field, list(record.name.values())[0])
         return res
 
     @api.model
