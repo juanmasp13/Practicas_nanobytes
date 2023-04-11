@@ -4,7 +4,8 @@
 from odoo import api, fields, models, tools, SUPERUSER_ID
 
 from odoo.addons.base.models.res_partner import _tz_get
-
+import logging
+logger = logging.getLogger(__name__)
 
 class LeaveReportCalendar(models.Model):
     _name = "hr.leave.report.calendar"
@@ -80,8 +81,11 @@ class LeaveReportCalendar(models.Model):
         res = super()._read(fields)
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
             name_field = self._fields['name']
+            logger.info("MOSTRANDO CAMPOS")
+            logger.info(name_field)
             for record in self.with_user(SUPERUSER_ID):
                 self.env.cache.set(record, name_field, list(record.name.values())[0])
+            logger.info(record.name)
         return res
 
     @api.model
