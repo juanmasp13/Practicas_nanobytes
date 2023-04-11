@@ -1,7 +1,37 @@
-from odoo import models, tools, fields, SUPERUSER_ID, _
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from odoo import api, fields, models, tools, SUPERUSER_ID
+
+from odoo.addons.base.models.res_partner import _tz_get
+
 
 class LeaveReportCalendar(models.Model):
-    _inherit = "hr.leave.report.calendar"
+    _name = "hr.leave.report.calendar"
+    _description = 'Time Off Calendar'
+    _auto = False
+    _order = "start_datetime DESC, employee_id"
+
+    name = fields.Char(string='Name', readonly=True)
+    start_datetime = fields.Datetime(string='From', readonly=True)
+    stop_datetime = fields.Datetime(string='To', readonly=True)
+    tz = fields.Selection(_tz_get, string="Timezone", readonly=True)
+    duration = fields.Float(string='Duration', readonly=True)
+    employee_id = fields.Many2one('hr.employee', readonly=True)
+    department_id = fields.Many2one('hr.department', readonly=True)
+    job_id = fields.Many2one('hr.job', readonly=True)
+    company_id = fields.Many2one('res.company', readonly=True)
+    state = fields.Selection([
+        ('draft', 'To Submit'),
+        ('cancel', 'Cancelled'),  # YTI This state seems to be unused. To remove
+        ('confirm', 'To Approve'),
+        ('refuse', 'Refused'),
+        ('validate1', 'Second Approval'),
+        ('validate', 'Approved')
+    ], readonly=True)
+
+    is_hatched = fields.Boolean('Hatched', readonly=True)
+    is_striked = fields.Boolean('Striked', readonly=True)
 
     def init(self):
         tools.drop_view_if_exists(self._cr, 'hr_leave_report_calendar')
@@ -51,3 +81,14 @@ class LeaveReportCalendar(models.Model):
             name_field = self._fields['name']
             for record in self.with_user(SUPERUSER_ID):
                 self.env.cache.set(record, name_field, record.name)
+        return res
+
+    @api.model
+    def get_unusual_days(self, date_from, date_to=None):
+        return self.env.user.employee_id._get_unusual_days(date_from, date_to)
+
+
+
+
+
+        
