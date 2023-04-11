@@ -3,8 +3,6 @@ from odoo import models, tools, fields, SUPERUSER_ID, _
 class LeaveReportCalendarInherit(models.Model):
     _inherit = "hr.leave.report.calendar"
 
-    leave_type_name = fields.Char(string="Tipo de ausencia", readonly=True)
-
     def init(self):
         tools.drop_view_if_exists(self._cr, 'hr_leave_report_calendar')
         self._cr.execute("""CREATE OR REPLACE VIEW hr_leave_report_calendar AS
