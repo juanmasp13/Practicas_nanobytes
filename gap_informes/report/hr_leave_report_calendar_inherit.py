@@ -1,10 +1,9 @@
-from odoo import api, fields, models, tools, SUPERUSER_ID
-
-from odoo.addons.base.models.res_partner import _tz_get
-
+from odoo import models, tools, fields, SUPERUSER_ID, _
 
 class LeaveReportCalendarInherit(models.Model):
     _inherit = "hr.leave.report.calendar"
+
+    leave_type_name = fields.Char(string="Tipo de ausencia", readonly=True)
 
     def init(self):
         tools.drop_view_if_exists(self._cr, 'hr_leave_report_calendar')
@@ -47,4 +46,12 @@ class LeaveReportCalendarInherit(models.Model):
                 AND hl.active IS TRUE
         );
         """)
+
+    def _read(self, fields):
+        res = super()._read(fields)
+        if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
+            name_field = self._fields['leave_type_name']
+            for record in self.with_user(SUPERUSER_ID):
+                self.env.cache.set(record, name_field)
+        return res
 
