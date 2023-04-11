@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="hr_holidays.hr_leave_report_calendar_view_search"/>
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='my_team']" position="attributes">
-                <attribute name="string">Hola</attribute>
+                <attribute name="context">{}</attribute>
             </xpath>
         </field>
     </record>
