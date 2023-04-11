@@ -46,7 +46,7 @@ class LeaveReportCalendar(models.Model):
         """)
 
     def _read(self, fields):
-        res = super()._read(fields)
+        res = super(LeaveReportCalendar, self)._read(fields)
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
             name_field = self._fields['name']
             for record in self.with_user(SUPERUSER_ID):
