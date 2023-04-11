@@ -18,7 +18,7 @@ class LeaveReportCalendarInherit(models.Model):
             hl.department_id AS department_id,
             hl.number_of_days AS duration,
             em.company_id AS company_id,
-            lt.name AS leave_type_name,
+            lt.name AS leave_type_name, -- Nuevo campo agregado
             em.job_id AS job_id,
             COALESCE(
                 CASE WHEN hl.holiday_type = 'employee' THEN COALESCE(rr.tz, rc.tz) END,
@@ -52,6 +52,6 @@ class LeaveReportCalendarInherit(models.Model):
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
             name_field = self._fields['leave_type_name']
             for record in self.with_user(SUPERUSER_ID):
-                self.env.cache.set(record, name_field, record.name.split(':')[-1].strip())
+                self.env.cache.set(record, name_field, "")
         return res
 
