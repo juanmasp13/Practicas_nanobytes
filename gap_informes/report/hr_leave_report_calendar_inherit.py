@@ -52,6 +52,6 @@ class LeaveReportCalendarInherit(models.Model):
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
             name_field = self._fields['leave_type_name']
             for record in self.with_user(SUPERUSER_ID):
-                self.env.cache.set(record, name_field)
+                self.env.cache.set(record, name_field, record.name.split(':')[-1].strip())
         return res
 
