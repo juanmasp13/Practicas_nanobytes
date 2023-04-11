@@ -83,6 +83,7 @@ class LeaveReportCalendar(models.Model):
             name_field = self._fields['name']
             for record in self.with_user(SUPERUSER_ID):
                 self.env.cache.set(record, name_field, list(record.name.values())[0])
+                self.env.cache.set(record, self._fields['name_type'], record.name_type.split(':')[-1].strip())
         return res
 
     @api.model
