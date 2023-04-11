@@ -4,8 +4,7 @@
 from odoo import api, fields, models, tools, SUPERUSER_ID
 
 from odoo.addons.base.models.res_partner import _tz_get
-import logging
-logger = logging.getLogger(__name__)
+
 
 class LeaveReportCalendar(models.Model):
     _name = "hr.leave.report.calendar"
