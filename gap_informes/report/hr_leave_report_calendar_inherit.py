@@ -14,7 +14,6 @@ class LeaveReportCalendar(models.Model):
     _order = "start_datetime DESC, employee_id"
 
     name = fields.Char(string='Name', readonly=True)
-    name_type = fields.Char(string='Name', readonly=True)
     start_datetime = fields.Datetime(string='From', readonly=True)
     stop_datetime = fields.Datetime(string='To', readonly=True)
     tz = fields.Selection(_tz_get, string="Timezone", readonly=True)
@@ -40,7 +39,7 @@ class LeaveReportCalendar(models.Model):
         self._cr.execute("""CREATE OR REPLACE VIEW hr_leave_report_calendar AS
         (SELECT 
             hl.id AS id,
-            CONCAT(em.name, ': ', hl.duration_display) AS name_type,
+            CONCAT(em.name, ': ', hl.duration_display) AS duration_and_name,
             hl.date_from AS start_datetime,
             hl.date_to AS stop_datetime,
             hl.employee_id AS employee_id,
