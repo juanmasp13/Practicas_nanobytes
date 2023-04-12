@@ -14,7 +14,7 @@ class LeaveReportCalendar(models.Model):
     _order = "start_datetime DESC, employee_id"
 
     name = fields.Char(string='Name', readonly=True)
-    timeoff_type = fields.Char(string='Time Off Type', readonly=True)
+    timeoff_type = fields.Char(string="Time Off Type", readonly=True)
     start_datetime = fields.Datetime(string='From', readonly=True)
     stop_datetime = fields.Datetime(string='To', readonly=True)
     tz = fields.Selection(_tz_get, string="Timezone", readonly=True)
