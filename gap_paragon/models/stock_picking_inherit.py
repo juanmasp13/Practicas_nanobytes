@@ -55,7 +55,7 @@ class StockPickingInherit(models.Model):
                 picking.show_validate = True
 
     def button_validate(self):
-        if self.picking_type_code == 'outgoing'and self.move_line_ids.qty_done > self.move_line_ids.product_id.qty_available:
+        if self.picking_type_code == 'outgoing' and self.move_line_ids.qty_done > self.move_line_ids.product_id.qty_available:
             raise UserError("La cantidad de salida (%s) es mayor que la cantidad de stock disponible (%s)" % (self.move_line_ids_without_package.qty_done,self.move_line_ids_without_package.product_id.qty_available))
         
 
