@@ -14,7 +14,7 @@ class LeaveReportCalendar(models.Model):
     _order = "start_datetime DESC, employee_id"
 
     name = fields.Char(string='Name', readonly=True)
-    name_type = fields.Char(string='Name', readonly=True)
+    timeoff_type = fields.Char(string='Time Off Type', readonly=True)
     start_datetime = fields.Datetime(string='From', readonly=True)
     stop_datetime = fields.Datetime(string='To', readonly=True)
     tz = fields.Selection(_tz_get, string="Timezone", readonly=True)
@@ -48,7 +48,7 @@ class LeaveReportCalendar(models.Model):
             hl.department_id AS department_id,
             hl.number_of_days AS duration,
             em.company_id AS company_id,
-            lt.name AS name, -- Nuevo campo agregado
+            lt.name AS timeoff_type, -- Nuevo campo agregado
             em.job_id AS job_id,
             COALESCE(
                 CASE WHEN hl.holiday_type = 'employee' THEN COALESCE(rr.tz, rc.tz) END,
@@ -80,9 +80,9 @@ class LeaveReportCalendar(models.Model):
     def _read(self, fields):
         res = super()._read(fields)
         if self.env.context.get('hide_employee_name') and 'employee_id' in self.env.context.get('group_by', []):
-            name_field = self._fields['name']
+            name_field = self._fields['timeoff_type']
             for record in self.with_user(SUPERUSER_ID):
-                self.env.cache.set(record, name_field, list(record.name.values())[0])
+                self.env.cache.set(record, name_field, list(record.timeoff_type.values())[0])
         return res
 
     @api.model
