@@ -40,7 +40,7 @@ class LeaveReportCalendar(models.Model):
         self._cr.execute("""CREATE OR REPLACE VIEW hr_leave_report_calendar AS
         (SELECT 
             hl.id AS id,
-            CONCAT(em.name, ': ', hl.duration_display) AS name_type,
+            CONCAT(em.name, ': ', hl.duration_display) AS name,
             hl.date_from AS start_datetime,
             hl.date_to AS stop_datetime,
             hl.employee_id AS employee_id,
