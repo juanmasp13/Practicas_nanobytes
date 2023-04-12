@@ -21,6 +21,8 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 args: [[['pallet_no', '=', barcode]]],
                 fields: ['name','product_id']
             });
+            console.log("NUMEROS DE SERIE A REGISTRAR");
+            console.log(products.length);
             if (products.length > 0) {
                 for (let product of products) {
                     this._processBarcode(product.name);
