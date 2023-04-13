@@ -23,7 +23,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             if (serials_no.length > 0) {
                 //let move_lines_to_create = [];
                 for (let serial_no of serials_no)
-                console.log(serial_no);
+                console.log(serial_no.product_id);
                 return;
             }
         }
