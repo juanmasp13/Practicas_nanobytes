@@ -12,21 +12,20 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         let currentLine = false;
         // Creates a filter if needed, which can help to get the right record
         // when multiple records have the same model and barcode.
-        // var rpc = require('web.rpc');
-        // const products = await rpc.query({
-        //     model: 'stock.production.lot',
-        //     method: 'search_read',
-        //     args: [[['pallet_no', '=', barcode]]],
-        //     fields: ['name','product_id']
-        // });
-        // if (products.length > 0) {
-        //     for (let product of products) {
-        //         this._processBarcode(product.name);
-        //     }
-        //     return;
-        // }
-        console.log(this.record.picking_type_code === 'incoming');
-        return;
+        if (this.record.picking_type_code !== 'incoming'){
+            var rpc = require('web.rpc');
+            const serials_no = await rpc.query({
+                model: 'stock.production.lot',
+                method: 'search_read',
+                args: [[['pallet_no', '=', barcode]]],
+                fields: ['name','product_id']
+            });
+            if (serials_no.length > 0) {
+                let move_lines_to_create = [];
+                console.log(serials_no.product_id);
+                return;
+            }
+        }
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
             filters['stock.production.lot'] = {
