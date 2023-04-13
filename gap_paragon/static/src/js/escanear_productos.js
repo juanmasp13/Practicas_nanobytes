@@ -12,23 +12,21 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         let currentLine = false;
         // Creates a filter if needed, which can help to get the right record
         // when multiple records have the same model and barcode.
+        // var rpc = require('web.rpc');
+        // const products = await rpc.query({
+        //     model: 'stock.production.lot',
+        //     method: 'search_read',
+        //     args: [[['pallet_no', '=', barcode]]],
+        //     fields: ['name','product_id']
+        // });
+        // if (products.length > 0) {
+        //     for (let product of products) {
+        //         this._processBarcode(product.name);
+        //     }
+        //     return;
+        // }
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
-            var rpc = require('web.rpc');
-            const products = await rpc.query({
-                model: 'stock.production.lot',
-                method: 'search_read',
-                args: [[['pallet_no', '=', barcode]]],
-                fields: ['name','product_id']
-            });
-            console.log("NUMEROS DE SERIE A REGISTRAR");
-            console.log(products.length);
-            if (products.length > 0) {
-                for (let product of products) {
-                    this._processBarcode(product.name);
-                }
-                return;
-            }
             filters['stock.production.lot'] = {
                 product_id: this.selectedLine.product_id.id,
             };
