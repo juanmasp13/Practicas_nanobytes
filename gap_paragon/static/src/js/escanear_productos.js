@@ -22,7 +22,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             });
             if (serials_no.length > 0) {
                 let move_lines_to_create = [];
-                console.log(serials_no.product_id[0]);
+                console.log(serials_no.product_id);
                 return;
             }
         }
