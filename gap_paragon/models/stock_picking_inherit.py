@@ -56,13 +56,18 @@ class StockPickingInherit(models.Model):
 
     def button_validate(self):
         if self.picking_type_code == 'outgoing':
+            
+            product_ids = []
+            for move_id in self.move_line_ids:
+                if id.product_id not in product_ids:
+                    product_ids.append(move_id.product_id)
             qty = 0
-            logger.info("MOSTRANDO LOS MOVE LINES")
-            logger.info(self.move_line_ids)
-            for id in self.move_line_ids:
-                qty += 1
-            if qty > id.product_id.qty_available:
-                raise UserError("La cantidad de salida (%s) es mayor que la cantidad de stock disponible (%s)" % (self.move_line_ids_without_package.qty_done,self.move_line_ids_without_package.product_id.qty_available))
+            for id in product_ids:
+                move_lines = self.env['stock.move.line'].search([('id', '=', self.id), ('product_id', '=', id)])
+                for line in move_lines:
+                    qty += 1
+                if qty > id.product_id.qty_available:
+                    raise UserError("La cantidad de salida (%s) es mayor que la cantidad de stock disponible (%s)" % (self.move_line_ids_without_package.qty_done,self.move_line_ids_without_package.product_id.qty_available))
         
 
         return super(StockPickingInherit, self).button_validate()
