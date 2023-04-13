@@ -58,7 +58,7 @@ class StockPickingInherit(models.Model):
         if self.picking_type_code == 'outgoing':          
             product_ids = []
             for move_id in self.move_line_ids:
-                if id.product_id not in product_ids:
+                if move_id.product_id not in product_ids:
                     product_ids.append(move_id.product_id)
             qty = 0
             for id in product_ids:
