@@ -28,6 +28,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 let unrepeated_products_id = [...new Set(repeated_products_id)];
                 console.log(unrepeated_products_id)
                 return;
+                //CREAR STOCK.MOVE.LINE DIRECTAMENTE
             }
         }
         const filters = {};
