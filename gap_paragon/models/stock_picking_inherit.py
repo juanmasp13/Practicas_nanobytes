@@ -62,11 +62,10 @@ class StockPickingInherit(models.Model):
                     product_ids.append(move_id.product_id)
             qty = 0
             for id in product_ids:
-                move_lines = self.env['stock.move.line'].search([('id', '=', self.id), ('product_id', '=', id)])
+                move_lines = self.env['stock.move.line'].search([('id', '=', self.id), ('product_id', '=', id.id)])
                 for line in move_lines:
                     qty += 1
-                product = self.env['product.product'].browse(id)
-                if qty > product.qty_available:
+                if qty > id.qty_available:
                     raise UserError("La cantidad de salida (%s) es mayor que la cantidad de stock disponible (%s)" % (self.move_line_ids_without_package.qty_done,self.move_line_ids_without_package.product_id.qty_available))
         
 
