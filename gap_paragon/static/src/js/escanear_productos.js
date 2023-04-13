@@ -21,8 +21,9 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 fields: ['name','product_id']
             });
             if (serials_no.length > 0) {
-                let move_lines_to_create = [];
-                console.log(serials_no.name);
+                //let move_lines_to_create = [];
+                for (let serial_no in serials_no)
+                console.log(serial_no.product_id[0]);
                 return;
             }
         }
