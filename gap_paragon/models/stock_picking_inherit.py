@@ -64,6 +64,6 @@ class StockPickingInherit(models.Model):
                 move_lines = self.env['stock.move.line'].search([('picking_id', '=', self.id), ('product_id', '=', id.id)])
                 qty = len(move_lines)
                 if qty > int(id.qty_available):
-                    raise UserError("La cantidad de %s salida (%s) es mayor que la cantidad de stock disponible (%s)" % (id.name,qty,id.qty_available))
+                    raise UserError("La cantidad de %s de salida (%s) es mayor que la cantidad de stock disponible (%s)" % (id.name,qty,id.qty_available))
         return super(StockPickingInherit, self).button_validate()
     
