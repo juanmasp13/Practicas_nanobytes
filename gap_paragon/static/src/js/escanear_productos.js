@@ -25,7 +25,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         //     }
         //     return;
         // }
-        console.log(this);
+        console.log(this.record.picking_type_code);
         return;
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
