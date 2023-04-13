@@ -38,7 +38,7 @@ class stockMoveInherit(models.Model):
         
         num_id = 0
         for line in stock_move_line:
-            line.write({'lot_id': ids_num_serie.ids[num_id], 'qty_done': 1})
+            line.write({'lot_id': ids_num_serie.ids[num_id], 'qty_done': 1, 'lot_name': ids_num_serie.ids[num_id].name})
             num_id += 1
         
 
