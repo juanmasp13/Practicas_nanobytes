@@ -55,8 +55,7 @@ class StockPickingInherit(models.Model):
                 picking.show_validate = True
 
     def button_validate(self):
-        if self.picking_type_code == 'outgoing':
-            
+        if self.picking_type_code == 'outgoing':          
             product_ids = []
             for move_id in self.move_line_ids:
                 if id.product_id not in product_ids:
