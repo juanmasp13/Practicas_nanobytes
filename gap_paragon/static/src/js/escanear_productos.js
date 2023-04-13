@@ -22,8 +22,11 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
             });
             if (serials_no.length > 0) {
                 //let move_lines_to_create = [];
+                let repeated_products_id = []
                 for (let serial_no of serials_no)
-                console.log(serial_no.product_id[0]);
+                    repeated_products_id.push(serial_no.product_id[0]);
+                let unrepeated_products_id = [...new Set(listaConDuplicados)];
+                console.log(unrepeated_products_id)
                 return;
             }
         }
