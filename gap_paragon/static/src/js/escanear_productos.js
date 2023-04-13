@@ -25,6 +25,8 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
         //     }
         //     return;
         // }
+        console.log(this);
+        return;
         const filters = {};
         if (this.selectedLine && this.selectedLine.product_id.tracking !== 'none') {
             filters['stock.production.lot'] = {
