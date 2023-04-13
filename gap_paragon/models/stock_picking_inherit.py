@@ -62,7 +62,7 @@ class StockPickingInherit(models.Model):
                     product_ids.append(move_id.product_id)
             qty = 0
             for id in product_ids:
-                move_lines = self.env['stock.move.line'].search([('id', '=', self.id), ('product_id', '=', id.id)])
+                move_lines = self.env['stock.move.line'].search([('picking_id', '=', self.id), ('product_id', '=', id.id)])
                 qty = len(move_lines)
                 logger.info("CANTIDAD DEL PRODUCTO A EXPORTAR")
                 logger.info(qty)
