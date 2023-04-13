@@ -25,7 +25,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 let repeated_products_id = []
                 for (let serial_no of serials_no)
                     repeated_products_id.push(serial_no.product_id[0]);
-                let unrepeated_products_id = [...new Set(listaConDuplicados)];
+                let unrepeated_products_id = [...new Set(repeated_products_id)];
                 console.log(unrepeated_products_id)
                 return;
             }
