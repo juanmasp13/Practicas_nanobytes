@@ -36,7 +36,8 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     };
                     move_lines_to_create.push(move_line);
                 }
-                return this._rpc({
+                console.log(move_lines_to_create)
+                return rpc.query({
                     model: 'stock.move.line',
                     method: 'create',
                     args: [move_lines_to_create],
