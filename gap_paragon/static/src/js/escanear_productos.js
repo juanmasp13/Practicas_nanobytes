@@ -18,22 +18,29 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 model: 'stock.production.lot',
                 method: 'search_read',
                 args: [[['pallet_no', '=', barcode]]],
-                fields: ['name','product_id']
+                fields: ['name','product_id','product_qty']
             });
             console.log(this)
             if (serials_no.length > 0) {
-                //let move_lines_to_create = [];
-                // for (let serial_no of serials_no){
-                //     const serials_no = await rpc.query({
-                //         model: 'stock.production.lot',
-                //         method: 'create',
-                //         args: [[['pallet_no', '=', barcode]]],
-                //         fields: ['name','product_id']
-                //     });
-                // }
-
+                let move_lines_to_create = [];
+                for (let serial_no of serials_no){
+                    let move_line = {
+                        picking_id: this.params.id, 
+                        product_id: serial_no.product_id[0],
+                        product_uom_id: 1,
+                        product_qty: serial_no.product_qty,
+                        qty_done: 1,
+                        lot_id: serial_no.id,
+                        location_dest_id: this.record.location_dest_id,
+                        location_id: this.record.location_id};
+                    move_lines_to_create.push(move_line);
+                }
+                const move_lines = await rpc.query({
+                    model: 'stock.move.line',
+                    method: 'create',
+                    args: [move_lines_to_create],
+                });
                 return;
-                //CREAR STOCK.MOVE.LINE DIRECTAMENTE
             }
         }
         const filters = {};
