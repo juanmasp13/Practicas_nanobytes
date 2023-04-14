@@ -35,7 +35,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                         location_id: this.record.location_id};
                     move_lines_to_create.push(move_line);
                 }
-                const move_lines = await rpc.query({
+                return rpc.query({
                     model: 'stock.move.line',
                     method: 'create',
                     args: [move_lines_to_create],
@@ -43,7 +43,6 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     console.log("LOS MOVE LINES CREADOS")
                     console.log(result)
                 });
-                return;
             }
         }
         const filters = {};
