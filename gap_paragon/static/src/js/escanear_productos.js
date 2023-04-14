@@ -29,7 +29,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                         product_id: serial_no.product_id[0],
                         product_uom_id: 1,
                         product_qty: serial_no.product_qty,
-                        qty_done: 1,
+                        qty_done: 0,
                         lot_id: serial_no.id,
                         location_dest_id: this.record.location_dest_id,
                         location_id: this.record.location_id
