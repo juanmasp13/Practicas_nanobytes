@@ -42,12 +42,16 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     method: 'create',
                     args: [move_lines_to_create],
                 }).then(function(result){
-                    this.record.move_line_ids = result;
+                    let move_lines_ids = [];
+                    for (let id of result){
+                        move_lines_ids.push(id);
+                    }
+                    console.log('result:', result);
                 }).catch(function(error) {
                     console.log('Error al crear los registros:', error);
                 });
 
-                console.log(move_lines);
+                console.log(move_lines_ids);
                 // this.record.move_line_ids = move_lines;
                 this.trigger('update');
                 console.log(barcodeData);
