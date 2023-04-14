@@ -53,7 +53,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
 
 
                 this.record.move_line_ids = move_lines_ids;
-                move_lines = []
+                let move_lines = []
                 for (id of move_lines_ids){
                     move_lines.push(this.cache.getRecord('stock.move.line', move_lines_ids));
                 }
