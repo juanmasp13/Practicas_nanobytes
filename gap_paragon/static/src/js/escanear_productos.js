@@ -20,13 +20,18 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 args: [[['pallet_no', '=', barcode]]],
                 fields: ['name','product_id']
             });
+            console.log(this)
             if (serials_no.length > 0) {
                 //let move_lines_to_create = [];
-                let repeated_products_id = []
-                for (let serial_no of serials_no)
-                    repeated_products_id.push(serial_no.product_id[0]);
-                let unrepeated_products_id = [...new Set(repeated_products_id)];
-                console.log(unrepeated_products_id)
+                // for (let serial_no of serials_no){
+                //     const serials_no = await rpc.query({
+                //         model: 'stock.production.lot',
+                //         method: 'create',
+                //         args: [[['pallet_no', '=', barcode]]],
+                //         fields: ['name','product_id']
+                //     });
+                // }
+
                 return;
                 //CREAR STOCK.MOVE.LINE DIRECTAMENTE
             }
