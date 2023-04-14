@@ -52,7 +52,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 });
 
                 console.log(move_lines_ids);
-                // this.record.move_line_ids = move_lines;
+                this.record.move_line_ids = move_lines_ids;
                 this.trigger('update');
                 console.log(barcodeData);
                 console.log(this);
