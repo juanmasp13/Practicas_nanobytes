@@ -32,10 +32,11 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                         qty_done: 1,
                         lot_id: serial_no.id,
                         location_dest_id: this.record.location_dest_id,
-                        location_id: this.record.location_id};
+                        location_id: this.record.location_id
+                    };
                     move_lines_to_create.push(move_line);
                 }
-                return rpc.query({
+                return this._rpc({
                     model: 'stock.move.line',
                     method: 'create',
                     args: [move_lines_to_create],
