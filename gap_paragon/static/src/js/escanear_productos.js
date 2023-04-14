@@ -37,15 +37,15 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     move_lines_to_create.push(move_line);
                 }
                 console.log(move_lines_to_create)
-                // const serials_no = await rpc.query({
-                //     model: 'stock.move.line',
-                //     method: 'create',
-                //     args: [move_lines_to_create],
-                // }).then(function(result){
-                //     console.log('result:', result);
-                // }).catch(function(error) {
-                //     console.log('Error al crear los registros:', error);
-                // });
+                const serials_no = await rpc.query({
+                    model: 'stock.move.line',
+                    method: 'create',
+                    args: [move_lines_to_create],
+                }).then(function(result){
+                    console.log('result:', result);
+                }).catch(function(error) {
+                    console.log('Error al crear los registros:', error);
+                });
 
                 // this.trigger('update');
                 console.log(barcodeData);
