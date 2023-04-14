@@ -51,12 +51,19 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     console.log('Error al crear los registros:', error);
                 });
 
-                this.record.move_line_ids = move_lines_ids;
-                this.trigger('update');
-                let move_lines = this.cache.getRecord('stock.move.line', move_lines_ids);
-                console.log(move_lines);
 
+                this.record.move_line_ids = move_lines_ids;
+                move_lines = []
+                for (id of move_lines_ids){
+                    move_lines.push(this.cache.getRecord('stock.move.line', move_lines_ids));
+                }
+                
+                console.log(move_lines);
                 console.log(this);
+
+
+
+                this.trigger('update');
                 return;
             }
         }
