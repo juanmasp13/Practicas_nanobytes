@@ -39,6 +39,9 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     model: 'stock.move.line',
                     method: 'create',
                     args: [move_lines_to_create],
+                }).then(function(result){
+                    console.log("LOS MOVE LINES CREADOS")
+                    console.log(result)
                 });
                 return;
             }
