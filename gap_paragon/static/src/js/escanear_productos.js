@@ -37,24 +37,24 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     move_lines_to_create.push(move_line);
                 }
                 console.log(move_lines_to_create)
-                // let move_lines_ids = [];
-                // const move_lines = await rpc.query({
-                //     model: 'stock.move.line',
-                //     method: 'create',
-                //     args: [move_lines_to_create],
-                // }).then(function(result){
-                //     for (let id of result){
-                //         move_lines_ids.push(id);
-                //     }
-                //     console.log('result:', result);
-                // }).catch(function(error) {
-                //     console.log('Error al crear los registros:', error);
-                // });
+                let move_lines_ids = [];
+                rpc.query({
+                    model: 'stock.move.line',
+                    method: 'create',
+                    args: [move_lines_to_create],
+                }).then(function(result){
+                    for (let id of result){
+                        move_lines_ids.push(id);
+                    }
+                    console.log('result:', result);
+                }).catch(function(error) {
+                    console.log('Error al crear los registros:', error);
+                });
 
-                // console.log(move_lines_ids);
-                // this.linesToSave = move_lines_ids;
-                // this.trigger('update');
-                // console.log(barcodeData);
+                console.log(move_lines_ids);
+                this.record.move_line_ids = move_lines_ids;
+                this.trigger('update');
+                console.log(barcodeData);
                 console.log(this);
                 return;
             }
