@@ -17,7 +17,7 @@
         <field name="model">res.users</field>
         <field name="inherit_id" ref="auth_totp.view_totp_field"/>
         <field name="arch" type="xml">
-            <xpath expr="//group/div/div" position="attributes">
+            <xpath expr="//group/div" position="attributes">
                 <attribute name="groups">base.group_system</attribute>
             </xpath>
         </field>
