@@ -18,10 +18,10 @@
         <field name="inherit_id" ref="auth_totp.view_totp_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='security']/group/div/div/div/button[1]" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
+                <attribute name="aria-label">asdasdasd</attribute>
             </xpath>
             <xpath expr="//page[@name='security']/group/div/div/div/button[2]" position="attributes">
-                <attribute name="groups">base.group_system</attribute>
+                <attribute name="aria-label">asdasdasd</attribute>
             </xpath>
         </field>
     </record>
