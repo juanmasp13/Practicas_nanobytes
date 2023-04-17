@@ -36,7 +36,7 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                     };
                     move_lines_to_create.push(move_line);
                 }
-                console.log(move_lines_to_create)
+
                 let move_lines_ids = [];
                 rpc.query({
                     model: 'stock.move.line',
@@ -55,14 +55,16 @@ patch(BarcodeModel.prototype, 'escanear_productos', {
                 this.record.move_line_ids = move_lines_ids;
                 let move_lines = []
                 for (id of move_lines_ids){
+                    console.log("IDS");
                     console.log(id);
                     move_lines.push(this.cache.getRecord('stock.move.line', id));
                 }
                 
+                console.log("ARRAY MOVE LINES");
                 console.log(move_lines);
+
+                console.log("MOSTRANDO THIS");
                 console.log(this);
-
-
 
                 this.trigger('update');
                 return;
