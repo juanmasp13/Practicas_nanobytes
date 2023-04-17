@@ -3,8 +3,8 @@
     'sequence': -1006,
     'summary': 'Ocultar campos perfil',
     'description': """Ocultar campos perfil""",
-    'depends': ['base'],
-    'data': [],
+    'depends': ['base','hr'],
+    'data': ['views/res_users_view_form_pantoja.xml'],
     'auto_install': False,
     'application': True
 }
