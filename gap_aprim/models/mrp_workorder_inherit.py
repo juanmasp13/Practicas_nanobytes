@@ -10,15 +10,7 @@ class MrpProductionWorkcenterLine(models.Model):
 
     def do_finish(self):
         for id in self.check_ids:
-            logger.info("Component id:")
-            logger.info(id.component_id)
-            logger.info("QTY DONE:")
-            logger.info(id.qty_done)
-            logger.info("Cantidad disponible del producto:")
-            logger.info(id.component_id.qty_available)
-            logger.info("Cantidad resultante:")
-            logger.info(id.component_id.qty_available - id.qty_done)
-
-            component = self.env['product.product'].browse(id.component_id.id)
-            logger.info("COMPONENTE:")
-            logger.info(component)
+            qty_result = id.component_id.qty_available - id.qty_done
+            id.component_id.qty_available = qty_result
+        return super(MrpProductionWorkcenterLine, self).do_finish()
+            
