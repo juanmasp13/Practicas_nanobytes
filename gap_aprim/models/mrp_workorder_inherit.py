@@ -18,3 +18,7 @@ class MrpProductionWorkcenterLine(models.Model):
             logger.info(id.component_id.qty_available)
             logger.info("Cantidad resultante:")
             logger.info(id.component_id.qty_available - id.qty_done)
+
+            component = self.env['product.product'].browse(id.component_id.id)
+            logger.info("COMPONENTE:")
+            logger.info(component)
