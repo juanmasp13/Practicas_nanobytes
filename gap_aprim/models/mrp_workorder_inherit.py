@@ -9,4 +9,4 @@ class MrpProductionWorkcenterLine(models.Model):
     _inherit = "mrp.workorder"
 
     def do_finish(self):
-        raise UserError(self._context)
+        logger.info(self._context)
