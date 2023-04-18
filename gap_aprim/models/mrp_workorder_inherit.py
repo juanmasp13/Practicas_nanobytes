@@ -20,6 +20,8 @@ class MrpProductionWorkcenterLine(models.Model):
             logger.info(qty_result)
             logger.info("EL WRITE")
             logger.info(new_qty)
+            logger.info(id.move_id)
+            logger.info(id.move_line_id)
             if not new_qty:
                 raise UserError("No se ha podido actualizar la cantidad de %s" % id.component_id.name)
         #return super(MrpProductionWorkcenterLine, self).do_finish()
