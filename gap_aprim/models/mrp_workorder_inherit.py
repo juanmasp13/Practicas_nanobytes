@@ -33,5 +33,6 @@ class MrpProductionWorkcenterLine(models.Model):
             logger.info(id.move_id.reserved_availability)
             logger.info("product_virtual_available")
             logger.info(id.move_id.product_virtual_available)
+            logger.info("---------------")
         #return super(MrpProductionWorkcenterLine, self).do_finish()
             
