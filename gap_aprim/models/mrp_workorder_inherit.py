@@ -9,5 +9,7 @@ class MrpProductionWorkcenterLine(models.Model):
     _inherit = "mrp.workorder"
 
     def do_finish(self):
+        logger.info("Check ids:")
+        logger.info(self.check_ids)
+        logger.info("Component id:")
         logger.info(self.check_ids.component_id)
-        logger.info(self.finished_product_check_ids)
