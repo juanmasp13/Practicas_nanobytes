@@ -9,8 +9,10 @@ class MrpProductionWorkcenterLine(models.Model):
     _inherit = "mrp.workorder"
 
     def do_finish(self):
-        logger.info("Check ids:")
-        logger.info(self.check_ids)
         for id in self.check_ids:
             logger.info("Component id:")
             logger.info(id.component_id)
+            logger.info("QTY DONE:")
+            logger.info(id.qty_done)
+            logger.info("QTY LINE:")
+            logger.info(id.qty_line)
