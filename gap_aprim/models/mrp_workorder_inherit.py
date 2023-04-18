@@ -11,5 +11,6 @@ class MrpProductionWorkcenterLine(models.Model):
     def do_finish(self):
         logger.info("Check ids:")
         logger.info(self.check_ids)
-        logger.info("Component id:")
-        logger.info(self.check_ids.component_id)
+        for id in self.check_ids:
+            logger.info("Component id:")
+            logger.info(id.component_id)
