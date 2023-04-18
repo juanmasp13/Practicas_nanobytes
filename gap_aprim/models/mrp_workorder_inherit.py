@@ -11,6 +11,8 @@ class MrpProductionWorkcenterLine(models.Model):
     def do_finish(self):
         for id in self.check_ids:
             qty_result = id.component_id.qty_available - id.qty_done
-            id.component_id.qty_available = qty_result
+            new_qty = id.component_id.write({'qty_available': qty_result})
+            if not new_qty:
+                raise UserError("No se ha podido actualizar la cantidad de %s" % id.component_id.name)
         return super(MrpProductionWorkcenterLine, self).do_finish()
             
