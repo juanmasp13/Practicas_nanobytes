@@ -27,5 +27,7 @@ class MrpProductionWorkcenterLine(models.Model):
             logger.info(id.move_id.quantity_done)
             logger.info("product_qty")
             logger.info(id.move_id.product_qty)
+            logger.info("should_consume_qty")
+            logger.info(id.move_id.should_consume_qty)
         #return super(MrpProductionWorkcenterLine, self).do_finish()
             
