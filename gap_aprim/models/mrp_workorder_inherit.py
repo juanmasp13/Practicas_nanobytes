@@ -29,5 +29,9 @@ class MrpProductionWorkcenterLine(models.Model):
             logger.info(id.move_id.product_qty)
             logger.info("should_consume_qty")
             logger.info(id.move_id.should_consume_qty)
+            logger.info("reserved_availability")
+            logger.info(id.move_id.reserved_availability)
+            logger.info("product_virtual_available")
+            logger.info(id.move_id.product_virtual_available)
         #return super(MrpProductionWorkcenterLine, self).do_finish()
             
