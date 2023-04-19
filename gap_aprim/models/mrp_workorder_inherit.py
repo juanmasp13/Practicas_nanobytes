@@ -17,5 +17,5 @@ class MrpProduction(models.Model):
     def button_mark_done(self):
         logger.info("SACANDO CONTEXT")
         for move in self.move_raw_ids:
-            logger.info(move)
+            logger.info(move.product_id.qty_available)
             
