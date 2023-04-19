@@ -20,19 +20,11 @@ class MrpProduction(models.Model):
     def button_mark_done(self):
         self._button_mark_done_sanity_checks()
 
-        logger.info("LOG 1")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
-
         if not self.env.context.get('button_mark_done_production_ids'):
             self = self.with_context(button_mark_done_production_ids=self.ids)
         res = self._pre_button_mark_done()
         if res is not True:
             return res
-
-        logger.info("LOG 2")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
 
         if self.env.context.get('mo_ids_to_backorder'):
             productions_to_backorder = self.browse(self.env.context['mo_ids_to_backorder'])
@@ -43,31 +35,24 @@ class MrpProduction(models.Model):
             productions_to_backorder = self.env['mrp.production']
             close_mo = True
 
-        logger.info("LOG 3")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
-
         self.workorder_ids.button_finish()
 
-        logger.info("LOG 4")
+        backorders = productions_to_backorder._generate_backorder_productions(close_mo=close_mo)
+        logger.info("LOG 1")
         for move in self.move_raw_ids:
             logger.info(move.product_id.qty_available)
-
-        backorders = productions_to_backorder._generate_backorder_productions(close_mo=close_mo)
         productions_not_to_backorder._post_inventory(cancel_backorder=True)
+        logger.info("LOG 2")
+        for move in self.move_raw_ids:
+            logger.info(move.product_id.qty_available)
         productions_to_backorder._post_inventory(cancel_backorder=True)
-
-        logger.info("LOG 5")
+        logger.info("LOG 3")
         for move in self.move_raw_ids:
             logger.info(move.product_id.qty_available)
 
         # if completed products make other confirmed/partially_available moves available, assign them
         done_move_finished_ids = (productions_to_backorder.move_finished_ids | productions_not_to_backorder.move_finished_ids).filtered(lambda m: m.state == 'done')
         done_move_finished_ids._trigger_assign()
-
-        logger.info("LOG 6")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
 
         # Moves without quantity done are not posted => set them as done instead of canceling. In
         # case the user edits the MO later on and sets some consumed quantity on those, we do not
@@ -77,10 +62,6 @@ class MrpProduction(models.Model):
             'product_uom_qty': 0.0,
         })
 
-        logger.info("LOG 7")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
-
         for production in self:
             production.write({
                 'date_finished': fields.Datetime.now(),
@@ -89,10 +70,6 @@ class MrpProduction(models.Model):
                 'is_locked': True,
                 'state': 'done',
             })
-
-        logger.info("LOG 8")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
 
         for workorder in self.workorder_ids.filtered(lambda w: w.state not in ('done', 'cancel')):
             workorder.duration_expected = workorder._get_duration_expected()
@@ -107,10 +84,6 @@ class MrpProduction(models.Model):
                     'target': 'main',
                 }
             return True
-        
-        logger.info("LOG 9")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
 
         context = self.env.context.copy()
         context = {k: v for k, v in context.items() if not k.startswith('default_')}
@@ -123,10 +96,6 @@ class MrpProduction(models.Model):
             'context': dict(context, mo_ids_to_backorder=None, button_mark_done_production_ids=None)
         }
 
-        logger.info("LOG 10")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
-
         if len(backorders) == 1:
             action.update({
                 'view_mode': 'form',
@@ -138,10 +107,6 @@ class MrpProduction(models.Model):
                 'domain': [('id', 'in', backorders.ids)],
                 'view_mode': 'tree,form',
             })
-
-        logger.info("LOG 11")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
 
         return action
         
