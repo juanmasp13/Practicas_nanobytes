@@ -17,4 +17,5 @@ class MrpProductionWorkcenterLine(models.Model):
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
 
-    
+    #EMPEZAR CON EL STOCK.MOVE, PROBAR ACTION CANCEL, Y VER SI ME DEVUELVE STOCK Y UTILIZAR EL MÉTODO _GENERATE_BACKORDER
+
