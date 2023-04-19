@@ -10,23 +10,9 @@ class MrpProductionWorkcenterLine(models.Model):
     def do_finish(self):
         res = super(MrpProductionWorkcenterLine, self).do_finish()
         for id in self.check_ids:
-            qty_result = id.component_id.qty_available - id.qty_done
-            logger.info("CANTIDAD ANTERIOR")
-            logger.info(id.component_id.qty_available)
-            logger.info("CANTIDAD A RESTAR")
-            logger.info(id.qty_done)
-            logger.info("NUEVA CANTIDAD")
-            logger.info(qty_result)
-            logger.info(id.move_id)
-            logger.info(id.move_line_id.qty_done)
-            logger.info(id.move_line_id.product_qty)
-            logger.info(id.move_line_id.product_uom_qty)
-
             if id.component_id and id.component_id.type == 'product':
-                logger.info("el producto es %s" % id.component_id.name)
-                logger.info(id.move_id)
                 id.move_id._action_done()
-
+        return res
     
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
