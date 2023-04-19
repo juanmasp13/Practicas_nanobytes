@@ -9,5 +9,6 @@ class MrpProductionWorkcenterLine(models.Model):
     _inherit = "mrp.workorder"
 
     def do_finish(self):
-        return super(MrpProductionWorkcenterLine, self).button_finish()
+        self.workorder_ids.button_finish()
+        return super(MrpProductionWorkcenterLine, self).do_finish()
             
