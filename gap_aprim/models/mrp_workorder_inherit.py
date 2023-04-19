@@ -16,5 +16,5 @@ class MrpProduction(models.Model):
 
     def button_mark_done(self):
         logger.info("SACANDO CONTEXT")
-        logger.info(self._context)
+        logger.info(self.workorder_ids)
             
