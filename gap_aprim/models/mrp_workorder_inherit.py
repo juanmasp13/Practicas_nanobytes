@@ -11,4 +11,11 @@ class MrpProductionWorkcenterLine(models.Model):
     def do_finish(self):
         self.button_finish()
         return super(MrpProductionWorkcenterLine, self).do_finish()
+    
+class MrpProduction(models.Model):
+    _inherit = "mrp.production"
+
+    def button_mark_done(self):
+        logger.info("SACANDO CONTEXT")
+        logger.info(self._context)
             
