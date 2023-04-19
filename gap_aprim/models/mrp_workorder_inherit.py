@@ -35,20 +35,16 @@ class MrpProduction(models.Model):
             productions_to_backorder = self.env['mrp.production']
             close_mo = True
 
+        logger.info(productions_to_backorder)
+        logger.info(productions_not_to_backorder)
+        logger.info(self.move_raw_ids)
+        logger.info(self.move_line_raw_ids)
+        return
         self.workorder_ids.button_finish()
 
         backorders = productions_to_backorder._generate_backorder_productions(close_mo=close_mo)
-        logger.info("LOG 1")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
         productions_not_to_backorder._post_inventory(cancel_backorder=True)
-        logger.info("LOG 2")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
         productions_to_backorder._post_inventory(cancel_backorder=True)
-        logger.info("LOG 3")
-        for move in self.move_raw_ids:
-            logger.info(move.product_id.qty_available)
 
         # if completed products make other confirmed/partially_available moves available, assign them
         done_move_finished_ids = (productions_to_backorder.move_finished_ids | productions_not_to_backorder.move_finished_ids).filtered(lambda m: m.state == 'done')
