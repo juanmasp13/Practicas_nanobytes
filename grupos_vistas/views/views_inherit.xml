@@ -4,6 +4,7 @@
         <field name="name">Vista con grupo</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="groups_id" eval="[(4, ref('base.group_multi_currency'))]"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='customer_signature']" position="after">
                 <page name="grupos" string="PAGINA GRUPOS">
