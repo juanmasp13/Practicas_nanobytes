@@ -9,7 +9,7 @@
         grupos
     """,
     'category': 'Accounting/Accounting',
-    'depends' : ['base_setup'],
+    'depends' : ['base_setup','sale','sale_management'],
     'data': [
         'views/views_inherit.xml',
     ],

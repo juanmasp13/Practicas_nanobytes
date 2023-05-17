@@ -3,14 +3,14 @@
     <record id="view_users_form_with_group" model="ir.ui.view">
         <field name="name">Vista con grupo</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='customer_signature']" position="after">
-                <page name="grupos" string="PAGINA GRUPOS">
-                    <t groups="base.group_multi_currency">
+                <t groups="base.group_multi_currency">
+                    <page name="grupos" string="PAGINA GRUPOS">
                         <field name="activity_ids" />
-                    </t>
-                </page>
+                    </page>
+                </t>
             </xpath>
         </field>
     </record>
