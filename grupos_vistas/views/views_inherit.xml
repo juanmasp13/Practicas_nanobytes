@@ -5,13 +5,9 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='customer_signature']" position="after">
+            <xpath expr="//field[@name='partner_id']" position="after">
                 <t groups="base.group_multi_currency">
-                    <notebook>
-                        <page name="grupos" string="PAGINA GRUPOS">
-                            <field name="activity_ids" />
-                        </page>
-                    </notebook>
+                    <field name="activity_ids" />
                 </t>
             </xpath>
         </field>
