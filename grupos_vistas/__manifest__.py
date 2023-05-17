@@ -10,7 +10,9 @@
     """,
     'category': 'Accounting/Accounting',
     'depends' : ['base_setup'],
-    'data': [],
+    'data': [
+        'views/views_inherit.xml',
+    ],
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
